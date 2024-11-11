@@ -2,11 +2,7 @@
   "hosting": {
     "site": "morkovka",
     "public": "dist/apps/carrotsHub/browser",
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
-    ],
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "rewrites": [
       {
         "source": "**",
