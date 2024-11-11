@@ -1,0 +1,89 @@
+{
+  "name": "carrotsHub",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "prefix": "app",
+  "sourceRoot": "apps/carrotsHub/src",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:application",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/carrotsHub",
+        "index": "apps/carrotsHub/src/index.html",
+        "browser": "apps/carrotsHub/src/main.ts",
+        "polyfills": ["zone.js"],
+        "tsConfig": "apps/carrotsHub/tsconfig.app.json",
+        "inlineStyleLanguage": "less",
+        "assets": [
+          {
+            "glob": "**/*",
+            "input": "apps/carrotsHub/public"
+          }
+        ],
+        "styles": ["apps/carrotsHub/src/styles.less"],
+        "scripts": []
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "500kb",
+              "maximumError": "1mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "2kb",
+              "maximumError": "4kb"
+            }
+          ],
+          "outputHashing": "all"
+        },
+        "development": {
+          "optimization": false,
+          "extractLicenses": false,
+          "sourceMap": true
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "configurations": {
+        "production": {
+          "buildTarget": "carrotsHub:build:production"
+        },
+        "development": {
+          "buildTarget": "carrotsHub:build:development"
+        }
+      },
+      "defaultConfiguration": "development"
+    },
+    "extract-i18n": {
+      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "options": {
+        "buildTarget": "carrotsHub:build"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps/carrotsHub/jest.config.ts"
+      }
+    },
+    "serve-static": {
+      "executor": "@nx/web:file-server",
+      "options": {
+        "buildTarget": "carrotsHub:build",
+        "staticFilePath": "dist/apps/carrotsHub/browser",
+        "spa": true
+      }
+    }
+  }
+}
