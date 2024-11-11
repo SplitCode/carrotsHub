@@ -1,0 +1,6 @@
+const angularConfig = async () => {
+  const module = await import("@tinkoff/prettier-config/angular");
+  return module.default;
+};
+
+module.exports = angularConfig();
