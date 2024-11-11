@@ -4,13 +4,15 @@
   "license": "MIT",
   "scripts": {
     "start": "nx serve carrotsHub",
-    "build": "nx build carrotsHub",
+    "build": "nx build carrotsHub --configuration=production",
     "test": "nx test carrotsHub",
     "typecheck": "tsc --noEmit --project apps/carrotsHub/tsconfig.app.json",
     "lint": "nx lint carrotsHub",
     "lint:fix": "nx lint carrotsHub --fix",
-    "prettier": "prettier --write .",
-    "stylelint": "stylelint --fix 'apps/carrotsHub/src/**/*.less'"
+    "format:check": "prettier --check .",
+    "format:write": "prettier --write .",
+    "stylelint": "stylelint 'apps/carrotsHub/src/**/*.less'",
+    "stylelint:fix": "stylelint --fix 'apps/carrotsHub/src/**/*.less'"
   },
   "private": true,
   "dependencies": {
