@@ -20,7 +20,7 @@
       "parserOptions": {
         "project": ["./tsconfig.base.json"]
       },
-     "rules": {
+      "rules": {
         "import/extensions": [
           "error",
           "ignorePackages",
