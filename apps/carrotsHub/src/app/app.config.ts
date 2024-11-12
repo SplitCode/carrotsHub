@@ -3,13 +3,14 @@ import { TuiRootModule } from "@taiga-ui/core";
 import type { ApplicationConfig } from "@angular/core";
 import { provideZoneChangeDetection, importProvidersFrom } from "@angular/core";
 import { provideRouter } from "@angular/router";
-// import { provideFirebaseApp, initializeApp } from "@angular/fire/app";
-// import { provideAnalytics, getAnalytics } from "@angular/fire/analytics";
-// import { provideAuth, getAuth } from "@angular/fire/auth";
-// import { provideFirestore, getFirestore } from "@angular/fire/firestore";
+import { provideFirebaseApp, initializeApp } from "@angular/fire/app";
+import { provideAuth, getAuth } from "@angular/fire/auth";
+import { provideFirestore, getFirestore } from "@angular/fire/firestore";
+import { FIREBASE_OPTIONS } from "@angular/fire/compat";
 import { appRoutes } from "./app.routes";
+// import { provideAnalytics, getAnalytics } from "@angular/fire/analytics";
 
-// import { environment } from "../environments/environment";
+import { environment } from "../environments/environment";
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -17,9 +18,10 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(appRoutes),
     importProvidersFrom(TuiRootModule),
-    // provideFirebaseApp(() => initializeApp(environment.firebase)),
-    // provideAuth(() => getAuth()),
-    // provideFirestore(() => getFirestore()),
+    provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideAuth(() => getAuth()),
+    provideFirestore(() => getFirestore()),
+    { provide: FIREBASE_OPTIONS, useValue: environment.firebase },
     // provideAnalytics(() => getAnalytics()),
   ],
 };

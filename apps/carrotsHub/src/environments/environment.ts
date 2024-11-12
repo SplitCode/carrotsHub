@@ -9,4 +9,5 @@ export const environment = {
     appId: "1:1047568718956:web:1bfe235de170648b72cc49",
     measurementId: "G-TDNSFVL3YL",
   },
+  // backendUrl: "http://localhost:3000",
 };
