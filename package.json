@@ -5,6 +5,8 @@
   "license": "MIT",
   "author": "Natalia Bandurova",
   "scripts": {
+    "deploy:staging": "firebase deploy --only hosting:carrot-s-hub",
+    "deploy:production": "firebase deploy --only hosting:morkovka",
     "start": "nx serve carrotsHub",
     "build": "nx build carrotsHub --configuration=production",
     "test": "nx test carrotsHub",
