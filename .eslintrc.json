@@ -1,62 +1,3 @@
-// {
-//   "root": true,
-//   "ignorePatterns": ["**/*"],
-//   "extends": ["@tinkoff/eslint-config/app"],
-//   "plugins": ["@nx"],
-//   "overrides": [
-//     {
-//       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
-//       "rules": {
-//         "@nx/enforce-module-boundaries": [
-//           "error",
-//           {
-//             "enforceBuildableLibDependency": true,
-//             "allow": [],
-//             "depConstraints": [
-//               {
-//                 "sourceTag": "*",
-//                 "onlyDependOnLibsWithTags": ["*"]
-//               }
-//             ]
-//           }
-//         ]
-//       }
-//     },
-//     {
-//       "files": ["*.ts", "*.tsx"],
-//       "parserOptions": {
-//         "project": ["./tsconfig.base.json"]
-//       },
-//       "extends": ["plugin:@nx/typescript"],
-//       "rules": {
-//         "import/no-deprecated": "error"
-//       }
-//     },
-//     {
-//       "files": ["*.js", "*.jsx"],
-//       "extends": ["plugin:@nx/javascript"],
-//       "rules": {}
-//     },
-//     {
-//       "files": ["*.html"],
-//       "parser": "@angular-eslint/template-parser",
-//       "extends": ["plugin:@nx/angular-template",
-//         "@tinkoff/eslint-config-angular/html-eslint"
-//       ],
-//       "rules": {
-//         "@html-eslint/element-newline": "off"
-//       }
-//     },
-//     {
-//       "files": ["*.spec.ts", "*.spec.tsx", "*.spec.js", "*.spec.jsx"],
-//       "env": {
-//         "jest": true
-//       },
-//       "rules": {}
-//     }
-//   ]
-// }
-
 {
   "root": true,
   "plugins": ["@nx"],
@@ -64,7 +5,7 @@
     "import/resolver": {
       "typescript": {
         "alwaysTryTypes": true,
-        "directory": "./tsconfig.json"
+        "directory": "./tsconfig.base.json"
       }
     }
   },

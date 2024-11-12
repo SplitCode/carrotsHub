@@ -1,7 +1,9 @@
 {
   "name": "@projects/source",
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "description": "Carrot's Hub - app for your health",
   "license": "MIT",
+  "author": "Natalia Bandurova",
   "scripts": {
     "start": "nx serve carrotsHub",
     "build": "nx build carrotsHub --configuration=production",
@@ -10,7 +12,7 @@
     "lint": "nx lint carrotsHub",
     "lint:fix": "nx lint carrotsHub --fix",
     "format:check": "prettier --check .",
-    "format:write": "prettier --write .",
+    "format": "prettier --write .",
     "stylelint": "stylelint 'apps/carrotsHub/src/**/*.less'",
     "stylelint:fix": "stylelint --fix 'apps/carrotsHub/src/**/*.less'",
     "prepare": "husky"
