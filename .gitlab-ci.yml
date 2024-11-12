@@ -33,7 +33,7 @@ build:
     - master
 
 deploy-staging:
-  stage: deploy
+  stage: deploy-staging
   script:
     - npm ci
     - npm install -g firebase-tools
@@ -44,7 +44,7 @@ deploy-staging:
     - build
 
 deploy-production:
-  stage: deploy
+  stage: deploy-production
   script:
     - npm ci
     - npm install -g firebase-tools
