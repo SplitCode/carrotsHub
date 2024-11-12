@@ -1,0 +1,44 @@
+:host {
+  --tui-accent: #0e8599;
+  --tui-accent-hover: #3d9aaa;
+  --tui-accent-active: #096475;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  max-width: 35rem;
+  width: 100%;
+  margin: 0 auto;
+  padding: 1rem 3rem 3rem;
+  border-radius: 0.5rem;
+  background-color: var(--container-color);
+  box-shadow: var(--tui-shadow-dropdown);
+}
+
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap:2rem;
+    color: var(--tui-text-01);
+    width: 100%;
+
+    .form-header {
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+  }
+
+  .links {
+    display: flex;
+    margin-top: 2rem;
+    gap: 1rem;
+  }
+
