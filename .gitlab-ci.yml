@@ -1,0 +1,55 @@
+image: node:20
+
+variables:
+  CI: "true"
+
+stages:
+  - lint
+  - build
+  - deploy-staging
+  - deploy-production
+
+lint:
+  stage: lint
+  script:
+    - npm ci
+    - npm run format:check
+    - npm run lint
+    - npm run stylelint
+  only:
+    - branches
+    - merge_requests
+
+build:
+  stage: build
+  script:
+    - npm ci
+    - npm run build -- --configuration=production
+  artifacts:
+    paths:
+      - dist/apps/carrotsHub/browser/
+  only:
+    - merge_requests
+    - master
+
+deploy-staging:
+  stage: deploy-staging
+  script:
+    - npm ci
+    - npm install -g firebase-tools
+    - firebase deploy --only hosting:carrot-s-hub --token "$FIREBASE_DEPLOY_TOKEN"
+  only:
+    - merge_requests
+  dependencies:
+    - build
+
+deploy-production:
+  stage: deploy-production
+  script:
+    - npm ci
+    - npm install -g firebase-tools
+    - firebase deploy --only hosting:morkovka --token "$FIREBASE_DEPLOY_TOKEN"
+  only:
+    - master
+  dependencies:
+    - build
