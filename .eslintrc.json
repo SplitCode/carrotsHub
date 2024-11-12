@@ -77,9 +77,7 @@
         "@tinkoff/eslint-config-angular"
       ],
       "parserOptions": {
-        "project": [
-          "./tsconfig.base.json"
-        ]
+        "project": ["./tsconfig.base.json"]
       }
     },
     {
