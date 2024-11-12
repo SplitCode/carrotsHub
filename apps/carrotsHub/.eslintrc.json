@@ -1,7 +1,6 @@
 {
   "extends": ["../../.eslintrc.json"],
   "ignorePatterns": ["!**/*"],
-  "plugins": ["@nx", "@stylistic/js", "@typescript-eslint"],
   "overrides": [
     {
       "files": ["*.ts"],
@@ -25,23 +24,16 @@
             "prefix": "app",
             "style": "kebab-case"
           }
-        ],
-        "object-shorthand": ["error", "always"],
-        "curly": ["error"],
-        "no-redeclare": "error",
-        "@stylistic/js/quotes": ["error", "single"],
-        "keyword-spacing": ["error", { "before": true, "after": true }],
-        "eqeqeq": ["error", "always"],
-        "no-unreachable": "error",
-        "prefer-const": "error",
-        "@typescript-eslint/no-explicit-any": "error",
-        "@typescript-eslint/no-unused-vars": "error"
+        ]
       }
     },
     {
       "files": ["*.html"],
+      "parser": "@angular-eslint/template-parser",
       "extends": ["plugin:@nx/angular-template"],
-      "rules": {}
+      "rules": {
+        "@html-eslint/element-newline": "off"
+      }
     }
   ]
 }
