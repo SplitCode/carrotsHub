@@ -25,16 +25,10 @@
     </div>
 
     <div>
-      <tui-input-password
-        formControlName="password"
-        tuiTextfieldSize="m"
-      >
+      <tui-input-password formControlName="password" tuiTextfieldSize="m">
         пароль
         <span class="tui-required"></span>
-        <input
-            placeholder="******"
-            tuiTextfield
-        />
+        <input placeholder="******" tuiTextfield />
       </tui-input-password>
       <tui-error
         formControlName="password"
@@ -57,14 +51,14 @@
   <div class="divider">или</div>
 
   <button
-  class="google-button"
-  tuiButton
-  appearance="outline"
-  [disabled]="loading()"
-  (click)="onGoogleLogin()"
->
-  Вход с аккаунтом Google
-</button>
+    class="google-button"
+    tuiButton
+    appearance="outline"
+    [disabled]="loading()"
+    (click)="onGoogleLogin()"
+  >
+    Вход с аккаунтом Google
+  </button>
 
   <div class="links">
     <span>Нет аккаунта?</span>
