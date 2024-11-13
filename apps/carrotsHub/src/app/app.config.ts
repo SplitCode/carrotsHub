@@ -10,8 +10,8 @@ import { FIREBASE_OPTIONS } from "@angular/fire/compat";
 import { provideHttpClient } from "@angular/common/http";
 import { TUI_LANGUAGE, TUI_RUSSIAN_LANGUAGE } from "@taiga-ui/i18n";
 import { of } from "rxjs";
+import { provideAnalytics, getAnalytics } from "@angular/fire/analytics";
 import { appRoutes } from "./app.routes";
-// import { provideAnalytics, getAnalytics } from "@angular/fire/analytics";
 
 import { environment } from "../environments/environment";
 
@@ -29,7 +29,7 @@ export const appConfig: ApplicationConfig = {
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
+    provideAnalytics(() => getAnalytics()),
     { provide: FIREBASE_OPTIONS, useValue: environment.firebase },
-    // provideAnalytics(() => getAnalytics()),
   ],
 };
