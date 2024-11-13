@@ -12,8 +12,6 @@ import {
   Validators,
 } from "@angular/forms";
 import {
-  TuiDataListWrapperModule,
-  TuiCheckboxLabeledModule,
   TuiFieldErrorPipeModule,
   TuiInputModule,
   TuiInputPasswordModule,
@@ -34,6 +32,8 @@ import { VALIDATION_ERRORS } from "../../constants/validation-errors";
 import { AuthService } from "../../services/auth.service";
 import { Logger } from "../../../core/logger/logger.models";
 import { PageRoutes } from "../../../app.routes-path";
+import { NotificationService } from "../../../shared/services/notification.service";
+import { SUCCESS_LOGIN } from "../../../shared/constants/notification-messages";
 
 @Component({
   selector: "app-login-page",
@@ -41,11 +41,9 @@ import { PageRoutes } from "../../../app.routes-path";
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    TuiDataListWrapperModule,
     TuiInputModule,
     TuiTextareaModule,
     TuiButtonModule,
-    TuiCheckboxLabeledModule,
     TuiErrorModule,
     TuiFieldErrorPipeModule,
     TuiInputPasswordModule,
@@ -69,8 +67,9 @@ export class LoginPageComponent {
   pageRoutes = PageRoutes;
   readonly loading = signal(false);
   private readonly router = inject(Router);
-  private readonly authService = inject(AuthService);
   private readonly logger = inject(Logger);
+  private readonly authService = inject(AuthService);
+  private readonly alerts = inject(NotificationService);
 
   readonly loginForm: FormGroup = new FormGroup({
     email: new FormControl<string>("", {
@@ -98,7 +97,7 @@ export class LoginPageComponent {
             params: { method: "email_password" },
           });
           this.router.navigate([PageRoutes.Home]);
-          // тост о входе
+          this.alerts.showSuccess(SUCCESS_LOGIN);
         },
         error: (error) => {
           this.logger.logError({
