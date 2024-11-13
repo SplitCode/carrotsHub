@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { getAnalytics, logEvent } from "firebase/analytics";
-import type { LogEvent, Logger } from "../../models/logger.models";
-import { LogLevel } from "../../models/logger.models";
+import type { LogEvent, Logger } from "./logger.models";
+import { LogLevel } from "./logger.models";
 
 @Injectable({
   providedIn: "root",

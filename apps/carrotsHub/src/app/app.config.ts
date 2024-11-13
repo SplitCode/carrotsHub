@@ -16,8 +16,8 @@ import { TUI_LANGUAGE, TUI_RUSSIAN_LANGUAGE } from "@taiga-ui/i18n";
 import { of } from "rxjs";
 import { provideAnalytics, getAnalytics } from "@angular/fire/analytics";
 import { appRoutes } from "./app.routes";
-import { loggerFactory } from "./core/services/logger/logger-factory";
-import { Logger } from "./core/models/logger.models";
+import { loggerFactory } from "./core/logger/logger-factory";
+import { Logger } from "./core/logger/logger.models";
 
 import { environment } from "../environments/environment";
 

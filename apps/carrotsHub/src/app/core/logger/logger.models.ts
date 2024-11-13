@@ -1,9 +1,3 @@
-// export interface Logger {
-//   logInfo(event: LogEvent): void;
-//   logWarn(event: LogEvent): void;
-//   logError(event: LogEvent): void;
-// }
-
 export abstract class Logger {
   abstract logInfo(event: LogEvent): void;
   abstract logWarn(event: LogEvent): void;

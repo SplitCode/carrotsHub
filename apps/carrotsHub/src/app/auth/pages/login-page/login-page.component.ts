@@ -32,7 +32,7 @@ import { Router, RouterLink } from "@angular/router";
 import { finalize } from "rxjs";
 import { VALIDATION_ERRORS } from "../../constants/validation-errors";
 import { AuthService } from "../../services/auth.service";
-import { Logger } from "../../../core/models/logger.models";
+import { Logger } from "../../../core/logger/logger.models";
 import { PageRoutes } from "../../../app.routes-path";
 
 @Component({
