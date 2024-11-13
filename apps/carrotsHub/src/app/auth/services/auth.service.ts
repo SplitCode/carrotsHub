@@ -11,12 +11,12 @@ import "firebase/compat/auth";
   providedIn: "root",
 })
 export class AuthService {
-  private readonly afAuth = inject(AngularFireAuth);
+  private readonly auth = inject(AngularFireAuth);
   private readonly http = inject(HttpClient);
 
   signIn(params: SignIn): Observable<any> {
     return from(
-      this.afAuth.signInWithEmailAndPassword(params.email, params.password)
+      this.auth.signInWithEmailAndPassword(params.email, params.password)
     ).pipe(
       catchError((error: FirebaseError) =>
         throwError(() => new Error(this.translateFirebaseErrorMessage(error)))
@@ -25,7 +25,7 @@ export class AuthService {
   }
 
   recoverPassword(email: string): Observable<void> {
-    return from(this.afAuth.sendPasswordResetEmail(email)).pipe(
+    return from(this.auth.sendPasswordResetEmail(email)).pipe(
       catchError((error: FirebaseError) =>
         throwError(() => new Error(this.translateFirebaseErrorMessage(error)))
       )
@@ -44,16 +44,12 @@ export class AuthService {
 
   async googleLogin(): Promise<void> {
     const provider = new firebase.auth.GoogleAuthProvider();
-    const credential = await this.afAuth.signInWithPopup(provider);
+    const credential = await this.auth.signInWithPopup(provider);
     await this.sendTokenToBackend(credential.user as firebase.User);
   }
 
-  // async logout(): Promise<void> {
-  //   await this.afAuth.signOut();
-  // }
-
   logout(): Observable<void> {
-    return from(this.afAuth.signOut());
+    return from(this.auth.signOut());
   }
 
   private async sendTokenToBackend(user: firebase.User | null) {
@@ -66,11 +62,11 @@ export class AuthService {
   }
 
   getUser(): Observable<firebase.User | null> {
-    return this.afAuth.authState;
+    return this.auth.authState;
   }
 
   isAuth(): Observable<boolean> {
-    return this.afAuth.authState.pipe(map((user) => !!user));
+    return this.auth.authState.pipe(map((user) => !!user));
   }
 }
 
