@@ -32,7 +32,7 @@ import { Router, RouterLink } from "@angular/router";
 import { finalize } from "rxjs";
 import { VALIDATION_ERRORS } from "../../constants/validation-errors";
 import { AuthService } from "../../services/auth.service";
-import { AnalyticsService } from "../../../core/services/logger/analytics.service";
+import { LoggerService } from "../../../core/services/logger/logger.service";
 import { PageRoutes } from "../../../app.routes-path";
 
 @Component({
@@ -70,7 +70,7 @@ export class LoginPageComponent {
   readonly loading = signal(false);
   private readonly router = inject(Router);
   private readonly authService = inject(AuthService);
-  private readonly analytics = inject(AnalyticsService);
+  private readonly logger = inject(LoggerService);
 
   readonly loginForm: FormGroup = new FormGroup({
     email: new FormControl<string>("", {
@@ -93,14 +93,20 @@ export class LoginPageComponent {
       .pipe(finalize(() => this.loading.set(false)))
       .subscribe({
         next: () => {
-          this.analytics.logEvent("login_success", { method: "email" });
+          this.logger.logInfo({
+            name: "login_success",
+            params: { method: "email_password" },
+          });
           this.router.navigate([PageRoutes.Home]);
           // тост о входе
         },
         error: (error) => {
-          this.analytics.logEvent("login_failed", {
-            method: "email",
-            error: error.message,
+          this.logger.logError({
+            name: "login_failed",
+            params: {
+              method: "email_password",
+              error: error.message,
+            },
           });
           // eslint-disable-next-line no-console
           console.log(error); // добавить вывод ошибки, перенаправить на регистрацию
