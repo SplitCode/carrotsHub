@@ -6,6 +6,7 @@ import { catchError, firstValueFrom, from, map, throwError } from "rxjs";
 import firebase from "firebase/compat/app";
 import { environment } from "../../../environments/environment";
 import "firebase/compat/auth";
+import type { LoginCredentials } from "../models/auth.models";
 
 @Injectable({
   providedIn: "root",
@@ -14,7 +15,7 @@ export class AuthService {
   private readonly auth = inject(AngularFireAuth);
   private readonly http = inject(HttpClient);
 
-  signIn(params: SignIn): Observable<any> {
+  signIn(params: LoginCredentials): Observable<firebase.auth.UserCredential> {
     return from(
       this.auth.signInWithEmailAndPassword(params.email, params.password)
     ).pipe(
@@ -69,11 +70,6 @@ export class AuthService {
     return this.auth.authState.pipe(map((user) => !!user));
   }
 }
-
-type SignIn = {
-  email: string;
-  password: string;
-};
 
 type FirebaseError = {
   code: string;
