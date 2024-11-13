@@ -14,6 +14,7 @@
           autocomplete="email"
           placeholder="admin@admin.ru"
           tuiTextfield
+          autofocus
           type="email"
         />
       </tui-input>
@@ -27,12 +28,13 @@
       <tui-input-password
         formControlName="password"
         tuiTextfieldSize="m"
-        tuiHintAppearance="onDark"
-        tuiHintContent
-        tuiHintDirection="right"
       >
         пароль
         <span class="tui-required"></span>
+        <input
+            placeholder="******"
+            tuiTextfield
+        />
       </tui-input-password>
       <tui-error
         formControlName="password"
@@ -54,9 +56,15 @@
 
   <div class="divider">или</div>
 
-  <button class="google-button" tuiButton appearance="outline">
-    Вход с аккаунтом Google
-  </button>
+  <button
+  class="google-button"
+  tuiButton
+  appearance="outline"
+  [disabled]="loading()"
+  (click)="onGoogleLogin()"
+>
+  Вход с аккаунтом Google
+</button>
 
   <div class="links">
     <span>Нет аккаунта?</span>

@@ -23,16 +23,15 @@ import {
   TuiButtonModule,
   TuiErrorModule,
   TuiLinkModule,
-  TuiModeModule,
   TuiTextfieldControllerModule,
 } from "@taiga-ui/core";
-import { Router, RouterLink } from "@angular/router";
 import { finalize } from "rxjs";
-import { VALIDATION_ERRORS } from "../../constants/validation-errors";
-import { AuthService } from "../../services/auth.service";
+import { Router, RouterLink } from "@angular/router";
 import { Logger } from "../../../core/logger/logger.models";
 import { PageRoutes } from "../../../app.routes-path";
+import { AuthService } from "../../services/auth.service";
 import { NotificationService } from "../../../shared/services/notification.service";
+import { VALIDATION_ERRORS } from "../../constants/validation-errors";
 import { SUCCESS_LOGIN } from "../../../shared/constants/notification-messages";
 
 @Component({
@@ -50,7 +49,6 @@ import { SUCCESS_LOGIN } from "../../../shared/constants/notification-messages";
     TuiTextfieldControllerModule,
     RouterLink,
     TuiLinkModule,
-    TuiModeModule,
   ],
   templateUrl: "./login-page.component.html",
   styleUrl: "./login-page.component.less",
@@ -114,5 +112,10 @@ export class LoginPageComponent {
           console.log(error); // добавить вывод ошибки, перенаправить на регистрацию
         },
       });
+  }
+
+  onGoogleLogin() {
+    this.loading.set(true);
+    // this.authService.googleLogin().finally(() => this.loading.set(false));
   }
 }
