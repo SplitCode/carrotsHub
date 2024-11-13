@@ -74,11 +74,14 @@ export class LoginPageComponent {
   readonly loginForm: FormGroup = new FormGroup({
     email: new FormControl<string>("", {
       nonNullable: true,
-      validators: [Validators.required, Validators.email],
+      validators: [
+        Validators.required,
+        Validators.pattern(/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/),
+      ],
     }),
     password: new FormControl<string>("", {
       nonNullable: true,
-      validators: [Validators.required],
+      validators: [Validators.required, Validators.minLength(6)],
     }),
   });
 
