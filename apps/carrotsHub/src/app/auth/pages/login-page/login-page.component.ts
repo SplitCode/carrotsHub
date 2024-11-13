@@ -29,6 +29,7 @@ import {
   TuiTextfieldControllerModule,
 } from "@taiga-ui/core";
 import { Router, RouterLink } from "@angular/router";
+import { finalize } from "rxjs";
 import { VALIDATION_ERRORS } from "../../constants/validation-errors";
 import { AuthService } from "../../services/auth.service";
 import { PageRoutes } from "../../../app.routes-path";
@@ -87,13 +88,13 @@ export class LoginPageComponent {
         email: this.loginForm.value.email,
         password: this.loginForm.value.password,
       })
+      .pipe(finalize(() => this.loading.set(false)))
       .subscribe({
         next: () => {
-          this.loading.set(false);
           this.router.navigate([PageRoutes.Home]);
+          // тост о входе
         },
         error: (error) => {
-          this.loading.set(false);
           // eslint-disable-next-line no-console
           console.log(error); // добавить вывод ошибки, перенаправить на регистрацию
         },

@@ -48,8 +48,12 @@ export class AuthService {
     await this.sendTokenToBackend(credential.user as firebase.User);
   }
 
-  async logout(): Promise<void> {
-    await this.afAuth.signOut();
+  // async logout(): Promise<void> {
+  //   await this.afAuth.signOut();
+  // }
+
+  logout(): Observable<void> {
+    return from(this.afAuth.signOut());
   }
 
   private async sendTokenToBackend(user: firebase.User | null) {

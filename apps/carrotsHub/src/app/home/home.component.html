@@ -1,10 +1,12 @@
 <p>home works!</p>
 <button
-      size="m"
-      tuiButton
-      appearance="accent"
-      type="button"
-      (click)="onLogout()"
-    >
-      Выйти
-    </button>
+  size="m"
+  tuiButton
+  appearance="accent"
+  type="button"
+  (click)="onLogout()"
+  [showLoader]="loading()"
+  [disabled]="loading()"
+>
+  Выйти
+</button>
