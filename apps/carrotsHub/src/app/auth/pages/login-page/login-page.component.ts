@@ -30,6 +30,7 @@ import {
 } from "@taiga-ui/core";
 import { Router, RouterLink } from "@angular/router";
 import { VALIDATION_ERRORS } from "../../constants/validation-errors";
+import { AuthService } from "../../services/auth.service";
 
 @Component({
   selector: "app-login-page",
@@ -64,6 +65,7 @@ import { VALIDATION_ERRORS } from "../../constants/validation-errors";
 export class LoginPageComponent {
   readonly loading = signal(false);
   private readonly router = inject(Router);
+  private readonly authService = inject(AuthService);
 
   readonly loginForm: FormGroup = new FormGroup({
     email: new FormControl<string>("", {
@@ -76,12 +78,23 @@ export class LoginPageComponent {
     }),
   });
 
-  onSubmit() {
-    if (this.loginForm.valid) {
-      // eslint-disable-next-line no-console
-      console.log("Form Submitted", this.loginForm.value);
-    } else {
-      console.error("Form is invalid");
-    }
+  onLogin() {
+    this.loading.set(true);
+    this.authService
+      .signIn({
+        email: this.loginForm.value.email,
+        password: this.loginForm.value.password,
+      })
+      .subscribe({
+        next: () => {
+          this.loading.set(false);
+          this.router.navigate([""]);
+        },
+        error: (error) => {
+          this.loading.set(false);
+          // eslint-disable-next-line no-console
+          console.log(error); // добавить вывод ошибки, перенаправить на регистрацию
+        },
+      });
   }
 }

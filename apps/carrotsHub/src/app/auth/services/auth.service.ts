@@ -2,7 +2,7 @@ import { Injectable, inject } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import type { Observable } from "rxjs";
 import { AngularFireAuth } from "@angular/fire/compat/auth";
-import { catchError, firstValueFrom, from, throwError } from "rxjs";
+import { catchError, firstValueFrom, from, map, throwError } from "rxjs";
 import firebase from "firebase/compat/app";
 import { environment } from "../../../environments/environment";
 import "firebase/compat/auth";
@@ -13,10 +13,6 @@ import "firebase/compat/auth";
 export class AuthService {
   private readonly afAuth = inject(AngularFireAuth);
   private readonly http = inject(HttpClient);
-  // constructor(
-  //   private readonly afAuth: AngularFireAuth,
-  //   private readonly http: HttpClient
-  // ) {}
 
   signIn(params: SignIn): Observable<any> {
     return from(
@@ -68,6 +64,10 @@ export class AuthService {
   getUser(): Observable<firebase.User | null> {
     return this.afAuth.authState;
   }
+
+  isAuth(): Observable<boolean> {
+    return this.afAuth.authState.pipe(map((user) => !!user));
+  }
 }
 
 type SignIn = {
@@ -79,3 +79,12 @@ type FirebaseError = {
   code: string;
   message: string;
 };
+
+// async registerUser(email: string, password: string): Promise<void> {
+//   try {
+//     const userCredential = await this.afAuth.createUserWithEmailAndPassword(email, password);
+//     console.log("User registered successfully:", userCredential.user);
+//   } catch (error) {
+//     console.error("Registration failed:", error);
+//   }
+// }
