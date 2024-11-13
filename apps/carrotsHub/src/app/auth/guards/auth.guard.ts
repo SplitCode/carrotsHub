@@ -8,6 +8,7 @@ import { inject } from "@angular/core";
 import type { Observable } from "rxjs";
 import { map } from "rxjs";
 import { AuthService } from "../services/auth.service";
+import { PageRoutes } from "../../app.routes-path";
 
 export const authGuard: CanActivateFn = (
   _route: ActivatedRouteSnapshot,
@@ -18,14 +19,14 @@ export const authGuard: CanActivateFn = (
 
   return authService.isAuth().pipe(
     map((isAuth) => {
-      const { url } = state;
+      const url = state.url.slice(1);
 
-      if (isAuth && (url === "/login" || url === "/register")) {
-        router.navigate([""]);
+      if (isAuth && (url === PageRoutes.Login || url === PageRoutes.Register)) {
+        router.navigate([PageRoutes.Home]);
         return false;
       }
-      if (!isAuth && url !== "/login" && url !== "/register") {
-        router.navigate(["/login"]);
+      if (!isAuth && url !== PageRoutes.Login && url !== PageRoutes.Register) {
+        router.navigate([PageRoutes.Login]);
         return false;
       }
       return true;

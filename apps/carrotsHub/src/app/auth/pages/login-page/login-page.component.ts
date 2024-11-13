@@ -31,6 +31,7 @@ import {
 import { Router, RouterLink } from "@angular/router";
 import { VALIDATION_ERRORS } from "../../constants/validation-errors";
 import { AuthService } from "../../services/auth.service";
+import { PageRoutes } from "../../../app.routes-path";
 
 @Component({
   selector: "app-login-page",
@@ -63,6 +64,7 @@ import { AuthService } from "../../services/auth.service";
   ],
 })
 export class LoginPageComponent {
+  pageRoutes = PageRoutes;
   readonly loading = signal(false);
   private readonly router = inject(Router);
   private readonly authService = inject(AuthService);
@@ -88,7 +90,7 @@ export class LoginPageComponent {
       .subscribe({
         next: () => {
           this.loading.set(false);
-          this.router.navigate([""]);
+          this.router.navigate([PageRoutes.Home]);
         },
         error: (error) => {
           this.loading.set(false);
