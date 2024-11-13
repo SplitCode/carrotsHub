@@ -7,6 +7,7 @@ import { provideFirebaseApp, initializeApp } from "@angular/fire/app";
 import { provideAuth, getAuth } from "@angular/fire/auth";
 import { provideFirestore, getFirestore } from "@angular/fire/firestore";
 import { FIREBASE_OPTIONS } from "@angular/fire/compat";
+import { provideHttpClient } from "@angular/common/http";
 import { appRoutes } from "./app.routes";
 // import { provideAnalytics, getAnalytics } from "@angular/fire/analytics";
 
@@ -17,6 +18,7 @@ export const appConfig: ApplicationConfig = {
     provideAnimations(),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(appRoutes),
+    provideHttpClient(),
     importProvidersFrom(TuiRootModule),
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
