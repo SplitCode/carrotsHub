@@ -8,6 +8,8 @@ import { provideAuth, getAuth } from "@angular/fire/auth";
 import { provideFirestore, getFirestore } from "@angular/fire/firestore";
 import { FIREBASE_OPTIONS } from "@angular/fire/compat";
 import { provideHttpClient } from "@angular/common/http";
+import { TUI_LANGUAGE, TUI_RUSSIAN_LANGUAGE } from "@taiga-ui/i18n";
+import { of } from "rxjs";
 import { appRoutes } from "./app.routes";
 // import { provideAnalytics, getAnalytics } from "@angular/fire/analytics";
 
@@ -20,6 +22,10 @@ export const appConfig: ApplicationConfig = {
     provideRouter(appRoutes),
     provideHttpClient(),
     importProvidersFrom(TuiRootModule),
+    {
+      provide: TUI_LANGUAGE,
+      useValue: of(TUI_RUSSIAN_LANGUAGE),
+    },
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
