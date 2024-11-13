@@ -32,7 +32,7 @@ import { Router, RouterLink } from "@angular/router";
 import { finalize } from "rxjs";
 import { VALIDATION_ERRORS } from "../../constants/validation-errors";
 import { AuthService } from "../../services/auth.service";
-import { LoggerService } from "../../../core/services/logger/logger.service";
+import { Logger } from "../../../core/models/logger.models";
 import { PageRoutes } from "../../../app.routes-path";
 
 @Component({
@@ -70,7 +70,7 @@ export class LoginPageComponent {
   readonly loading = signal(false);
   private readonly router = inject(Router);
   private readonly authService = inject(AuthService);
-  private readonly logger = inject(LoggerService);
+  private readonly logger = inject(Logger);
 
   readonly loginForm: FormGroup = new FormGroup({
     email: new FormControl<string>("", {

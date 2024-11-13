@@ -1,12 +1,12 @@
 import { Injectable } from "@angular/core";
 import { getAnalytics, logEvent } from "firebase/analytics";
-import type { LogEvent } from "../../models/logger.models";
+import type { LogEvent, Logger } from "../../models/logger.models";
 import { LogLevel } from "../../models/logger.models";
 
 @Injectable({
   providedIn: "root",
 })
-export class LoggerService {
+export class DevLoggerService implements Logger {
   private readonly analytics = getAnalytics();
 
   logInfo(event: LogEvent) {
