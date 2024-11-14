@@ -42,6 +42,12 @@
       },
       "configurations": {
         "production": {
+          "fileReplacements": [
+            {
+              "replace": "apps/carrotsHub/src/environments/environment.ts",
+              "with": "apps/carrotsHub/src/environments/environment.prod.ts"
+            }
+          ],
           "budgets": [
             {
               "type": "initial",
