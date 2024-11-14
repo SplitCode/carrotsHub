@@ -1,10 +1,12 @@
 export enum MESSAGES {
-  successTitle = "!",
+  successTitle = "Ура!",
   errorTitle = "Упс!",
   successLogin = "Вы успешно вошли!",
-  errorLogin = "Неправильное имя пользователя или пароль!",
+  succesRegister = "Вы успешно зарегистрировались и вошли!",
+  errorLogin = "Неправильный email или пароль!",
   errorNoInternet = "Нет соединения с интернетом.",
-  errorTooManyRequests = "Слишком много попыток входа. Попробуйте позже.",
+  errorTooManyRequests = "Вы превысили количество попыток входа. Попробуйте еще раз позже.",
   errorServer = "Ошибка сервера. Попробуйте еще раз позже.",
   errorUnknown = "Произошла ошибка. Попробуйте еще раз позже.",
+  userAlreadyExist = "Пользователь с таким email уже зарегистрирован.",
 }

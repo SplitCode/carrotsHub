@@ -101,16 +101,14 @@ export class RegisterPageComponent {
 
   onRegister() {
     this.loading.set(true);
+    const { name, email, password } = this.registerForm.value;
     this.authService
-      .login({
-        email: this.registerForm.value.email,
-        password: this.registerForm.value.password,
-      })
+      .register(name, email, password)
       .pipe(finalize(() => this.loading.set(false)))
       .subscribe({
         next: () => {
           this.logger.logInfo({
-            name: "login_success",
+            name: "register_success",
             params: { method: "email_password" },
           });
           this.router.navigate([PageRoutes.Home]);
@@ -118,13 +116,14 @@ export class RegisterPageComponent {
         },
         error: (error) => {
           this.logger.logError({
-            name: "login_failed",
+            name: "register_failed",
             params: {
               method: "email_password",
               error: error.message,
             },
           });
-          console.error(error); // добавить вывод ошибки, перенаправить на регистрацию
+          this.alerts.showError(error.message);
+          console.error(error);
         },
       });
   }
