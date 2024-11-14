@@ -1,0 +1,23 @@
+<p>home works!</p>
+
+<div class="links">
+  <a [routerLink]="['/', pageRoutes.Register]" mode="positive" tuiLink
+    >Регистрация</a
+  >
+  <a [routerLink]="['/', pageRoutes.Login]" mode="positive" tuiLink>Войти</a>
+</div>
+
+@if (user$ | async; as user) {
+<button
+  size="m"
+  tuiButton
+  appearance="accent"
+  type="button"
+  (click)="onLogout()"
+  [showLoader]="loading()"
+  [disabled]="loading()"
+>
+  Выйти
+</button>
+<h2>Welcome to Carrot's Hub, {{ user.displayName }}!</h2>
+}

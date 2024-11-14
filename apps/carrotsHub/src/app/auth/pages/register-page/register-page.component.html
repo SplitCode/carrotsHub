@@ -1,0 +1,92 @@
+<div class="form-container">
+  <form class="form" [formGroup]="registerForm" (ngSubmit)="onRegister()">
+    <h3 class="form-header tui-text_h3">Регистрация</h3>
+
+    <div>
+      <tui-input
+        formControlName="name"
+        [tuiTextfieldCleaner]="true"
+        tuiTextfieldSize="m"
+      >
+        имя
+        <span class="tui-required"></span>
+        <input
+          autocomplete="name"
+          placeholder="Natalia"
+          tuiTextfield
+          autofocus
+          type="text"
+        />
+      </tui-input>
+      <tui-error
+        formControlName="name"
+        [error]="[] | tuiFieldError | async"
+      ></tui-error>
+    </div>
+
+    <div>
+      <tui-input
+        formControlName="email"
+        [tuiTextfieldCleaner]="true"
+        tuiTextfieldSize="m"
+      >
+        e-mail
+        <span class="tui-required"></span>
+        <input
+          autocomplete="email"
+          placeholder="admin@admin.ru"
+          tuiTextfield
+          autofocus
+          type="email"
+        />
+      </tui-input>
+      <tui-error
+        formControlName="email"
+        [error]="[] | tuiFieldError | async"
+      ></tui-error>
+    </div>
+
+    <div>
+      <tui-input-password formControlName="password" tuiTextfieldSize="m">
+        пароль
+        <span class="tui-required"></span>
+        <input placeholder="******" tuiTextfield />
+      </tui-input-password>
+      <tui-error
+        formControlName="password"
+        [error]="[] | tuiFieldError | async"
+      ></tui-error>
+    </div>
+
+    <div>
+      <tui-input-password
+        formControlName="confirmPassword"
+        tuiTextfieldSize="m"
+      >
+        подтверждение пароля
+        <span class="tui-required"></span>
+        <input placeholder="******" tuiTextfield />
+      </tui-input-password>
+      <tui-error
+        [formGroup]="registerForm"
+        [error]="[] | tuiFieldError | async"
+      ></tui-error>
+    </div>
+
+    <button
+      size="m"
+      tuiButton
+      appearance="accent"
+      type="submit"
+      [showLoader]="loading()"
+      [disabled]="!registerForm.valid"
+    >
+      Зарегистрироваться
+    </button>
+  </form>
+
+  <div class="links">
+    <span>Уже есть аккаунт?</span>
+    <a [routerLink]="['/', pageRoutes.Login]" mode="positive" tuiLink>Войти</a>
+  </div>
+</div>

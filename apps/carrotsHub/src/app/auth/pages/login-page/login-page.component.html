@@ -1,0 +1,73 @@
+<div class="form-container">
+  <form class="form" [formGroup]="loginForm" (ngSubmit)="onLogin()">
+    <h3 class="form-header tui-text_h3">Вход</h3>
+
+    <div>
+      <tui-input
+        formControlName="email"
+        [tuiTextfieldCleaner]="true"
+        tuiTextfieldSize="m"
+      >
+        e-mail
+        <span class="tui-required"></span>
+        <input
+          autocomplete="email"
+          placeholder="admin@admin.ru"
+          tuiTextfield
+          autofocus
+          type="email"
+        />
+      </tui-input>
+      <tui-error
+        formControlName="email"
+        [error]="[] | tuiFieldError | async"
+      ></tui-error>
+    </div>
+
+    <div>
+      <tui-input-password formControlName="password" tuiTextfieldSize="m">
+        пароль
+        <span class="tui-required"></span>
+        <input placeholder="******" tuiTextfield />
+      </tui-input-password>
+      <tui-error
+        formControlName="password"
+        [error]="[] | tuiFieldError | async"
+      ></tui-error>
+    </div>
+
+    <button
+      size="m"
+      tuiButton
+      appearance="accent"
+      type="submit"
+      [showLoader]="loading()"
+      [disabled]="!loginForm.valid"
+    >
+      Войти
+    </button>
+  </form>
+
+  <div class="form-bottom">
+    <div class="divider">или</div>
+
+    <button
+      size="m"
+      tuiButton
+      appearance="outline"
+      class="google-button"
+      [disabled]="loading()"
+      (click)="onGoogleLogin()"
+      icon="tuiIconChromeLarge"
+    >
+      Вход с аккаунтом Google
+    </button>
+
+    <div class="links">
+      <span>Нет аккаунта?</span>
+      <a [routerLink]="['/', pageRoutes.Register]" mode="positive" tuiLink
+        >Регистрация</a
+      >
+    </div>
+  </div>
+</div>
