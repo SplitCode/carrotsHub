@@ -111,7 +111,6 @@ export class LoginPageComponent {
             },
           });
           this.alerts.showError(error.message);
-          console.error(error); // добавить вывод ошибки, перенаправить на регистрацию
         },
       });
   }

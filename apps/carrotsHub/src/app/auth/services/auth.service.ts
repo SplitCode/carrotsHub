@@ -1,5 +1,5 @@
 import { Injectable, inject } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
+// import { HttpClient } from "@angular/common/http";
 import type { Observable } from "rxjs";
 import { AngularFireAuth } from "@angular/fire/compat/auth";
 import { catchError, from, map, throwError } from "rxjs";
@@ -16,8 +16,9 @@ import { MESSAGES } from "../../shared/constants/notification-messages";
 })
 export class AuthService {
   private readonly auth = inject(AngularFireAuth);
-  private readonly http = inject(HttpClient);
+  // private readonly http = inject(HttpClient);
   private readonly router = inject(Router);
+  currentUser$ = this.auth.authState;
 
   login(params: LoginCredentials): Observable<firebase.auth.UserCredential> {
     return from(

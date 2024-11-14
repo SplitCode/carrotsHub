@@ -1,5 +1,6 @@
 <p>home works!</p>
-<button
+@if (isAuth | async) {
+  <button
   size="m"
   tuiButton
   appearance="accent"
@@ -10,3 +11,4 @@
 >
   Выйти
 </button>
+}

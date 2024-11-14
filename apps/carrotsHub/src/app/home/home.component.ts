@@ -24,6 +24,8 @@ export class HomeComponent {
   private readonly router = inject(Router);
   private readonly authService = inject(AuthService);
 
+  isAuth = this.authService.currentUser$;
+
   onLogout() {
     this.loading.set(true);
     this.authService
