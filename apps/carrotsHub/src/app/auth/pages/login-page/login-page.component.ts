@@ -34,7 +34,7 @@ import { PageRoutes } from "../../../app.routes-path";
 import { AuthService } from "../../services/auth.service";
 import { NotificationService } from "../../../shared/services/notification.service";
 import { VALIDATION_ERRORS } from "../../constants/validation-errors";
-import { SUCCESS_LOGIN } from "../../../shared/constants/notification-messages";
+import { MESSAGES } from "../../../shared/constants/notification-messages";
 
 @Component({
   selector: "app-login-page",
@@ -89,11 +89,9 @@ export class LoginPageComponent {
 
   onLogin() {
     this.loading.set(true);
+    const { email, password } = this.loginForm.value;
     this.authService
-      .login({
-        email: this.loginForm.value.email,
-        password: this.loginForm.value.password,
-      })
+      .login({ email, password })
       .pipe(finalize(() => this.loading.set(false)))
       .subscribe({
         next: () => {
@@ -102,7 +100,7 @@ export class LoginPageComponent {
             params: { method: "email_password" },
           });
           this.router.navigate([PageRoutes.Home]);
-          this.alerts.showSuccess(SUCCESS_LOGIN);
+          this.alerts.showSuccess(MESSAGES.successLogin);
         },
         error: (error) => {
           this.logger.logError({
@@ -112,6 +110,7 @@ export class LoginPageComponent {
               error: error.message,
             },
           });
+          this.alerts.showError(error.message);
           console.error(error); // добавить вывод ошибки, перенаправить на регистрацию
         },
       });

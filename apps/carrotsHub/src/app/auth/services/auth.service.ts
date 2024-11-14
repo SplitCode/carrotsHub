@@ -8,7 +8,8 @@ import type firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 import { GoogleAuthProvider } from "firebase/auth";
 import { Router } from "@angular/router";
-import type { LoginCredentials } from "../models/auth.models";
+import type { LoginCredentials, FirebaseError } from "../models/auth.models";
+import { MESSAGES } from "../../shared/constants/notification-messages";
 
 @Injectable({
   providedIn: "root",
@@ -56,14 +57,20 @@ export class AuthService {
   //   );
   // }
 
-  private translateFirebaseErrorMessage({ code, message }: FirebaseError) {
-    if (code === "auth/user-not-found") {
-      return "User not found.";
+  translateFirebaseErrorMessage({ code }: FirebaseError): string {
+    if (code === "auth/user-not-found" || code === "auth/invalid-credential") {
+      return MESSAGES.errorLogin;
     }
-    if (code === "auth/wrong-password") {
-      return "User not found.";
+    if (code === "auth/network-request-failed") {
+      return MESSAGES.errorNoInternet;
     }
-    return message;
+    if (code === "auth/too-many-requests") {
+      return MESSAGES.errorTooManyRequests;
+    }
+    if (code === "auth/internal-error") {
+      return MESSAGES.errorServer;
+    }
+    return MESSAGES.errorUnknown;
   }
 
   async googleLogin(): Promise<void> {
@@ -91,8 +98,3 @@ export class AuthService {
     return this.auth.authState;
   }
 }
-
-type FirebaseError = {
-  code: string;
-  message: string;
-};

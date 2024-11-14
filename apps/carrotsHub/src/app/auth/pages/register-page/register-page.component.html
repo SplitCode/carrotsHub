@@ -25,6 +25,28 @@
     </div>
 
     <div>
+      <tui-input
+        formControlName="email"
+        [tuiTextfieldCleaner]="true"
+        tuiTextfieldSize="m"
+      >
+        имя
+        <span class="tui-required"></span>
+        <input
+          autocomplete="email"
+          placeholder="admin@admin.ru"
+          tuiTextfield
+          autofocus
+          type="email"
+        />
+      </tui-input>
+      <tui-error
+        formControlName="email"
+        [error]="[] | tuiFieldError | async"
+      ></tui-error>
+    </div>
+
+    <div>
       <tui-input-password formControlName="password" tuiTextfieldSize="m">
         пароль
         <span class="tui-required"></span>

@@ -30,7 +30,7 @@ import {
 import { TuiDestroyService } from "@taiga-ui/cdk";
 import { PageRoutes } from "../../../app.routes-path";
 import { Logger } from "../../../core/logger/logger.models";
-import { SUCCESS_LOGIN } from "../../../shared/constants/notification-messages";
+import { MESSAGES } from "../../../shared/constants/notification-messages";
 import { NotificationService } from "../../../shared/services/notification.service";
 import { AuthService } from "../../services/auth.service";
 import { VALIDATION_ERRORS } from "../../constants/validation-errors";
@@ -103,7 +103,7 @@ export class RegisterPageComponent {
             params: { method: "email_password" },
           });
           this.router.navigate([PageRoutes.Home]);
-          this.alerts.showSuccess(SUCCESS_LOGIN);
+          this.alerts.showSuccess(MESSAGES.successLogin);
         },
         error: (error) => {
           this.logger.logError({
