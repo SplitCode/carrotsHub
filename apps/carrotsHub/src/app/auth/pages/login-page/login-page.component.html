@@ -1,6 +1,6 @@
 <div class="form-container">
   <form class="form" [formGroup]="loginForm" (ngSubmit)="onLogin()">
-    <h2 class="form-header tui-text_h2">Вход</h2>
+    <h3 class="form-header tui-text_h3">Вход</h3>
 
     <div>
       <tui-input
@@ -62,6 +62,8 @@
 
   <div class="links">
     <span>Нет аккаунта?</span>
-    <a [routerLink]="['/', pageRoutes.Register]" mode="positive" tuiLink>Регистрация</a>
+    <a [routerLink]="['/', pageRoutes.Register]" mode="positive" tuiLink
+      >Регистрация</a
+    >
   </div>
 </div>
