@@ -8,7 +8,11 @@ import type firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 import { GoogleAuthProvider } from "firebase/auth";
 import { Router } from "@angular/router";
-import type { LoginCredentials, FirebaseError } from "../models/auth.models";
+import type {
+  LoginCredentials,
+  RegistrationCredentials,
+  FirebaseError,
+} from "../models/auth.models";
 import { MESSAGES } from "../../shared/constants/notification-messages";
 
 @Injectable({
@@ -34,12 +38,14 @@ export class AuthService {
     return from(this.auth.signOut());
   }
 
-  register(name: string, email: string, password: string): Observable<void> {
-    return from(this.auth.createUserWithEmailAndPassword(email, password)).pipe(
+  register(params: RegistrationCredentials): Observable<void> {
+    return from(
+      this.auth.createUserWithEmailAndPassword(params.email, params.password)
+    ).pipe(
       switchMap((userCredential) => {
         const user = userCredential.user;
         if (user) {
-          return from(user.updateProfile({ displayName: name }));
+          return from(user.updateProfile({ displayName: params.name }));
         }
         return of();
       }),

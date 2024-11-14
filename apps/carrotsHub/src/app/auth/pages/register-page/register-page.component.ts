@@ -103,7 +103,7 @@ export class RegisterPageComponent {
     this.loading.set(true);
     const { name, email, password } = this.registerForm.value;
     this.authService
-      .register(name, email, password)
+      .register({ name, email, password })
       .pipe(finalize(() => this.loading.set(false)))
       .subscribe({
         next: () => {

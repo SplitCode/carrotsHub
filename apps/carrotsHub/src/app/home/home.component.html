@@ -1,4 +1,12 @@
 <p>home works!</p>
+
+<div class="links">
+<a [routerLink]="['/', pageRoutes.Register]" mode="positive" tuiLink
+>Регистрация</a
+>
+<a [routerLink]="['/', pageRoutes.Login]" mode="positive" tuiLink>Войти</a>
+</div>
+
 @if (user$ | async; as user) {
 <button
   size="m"

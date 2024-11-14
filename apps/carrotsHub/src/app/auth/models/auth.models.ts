@@ -4,7 +4,7 @@ export type LoginCredentials = {
 };
 
 export type RegistrationCredentials = LoginCredentials & {
-  confirmPassword: string;
+  name: string;
 };
 
 export type FirebaseError = {
