@@ -4,22 +4,22 @@
 
     <div>
       <tui-input
-        formControlName="email"
+        formControlName="name"
         [tuiTextfieldCleaner]="true"
         tuiTextfieldSize="m"
       >
-        e-mail
+        имя
         <span class="tui-required"></span>
         <input
-          autocomplete="email"
-          placeholder="admin@admin.ru"
+          autocomplete="name"
+          placeholder="Natalia"
           tuiTextfield
           autofocus
-          type="email"
+          type="text"
         />
       </tui-input>
       <tui-error
-        formControlName="email"
+        formControlName="name"
         [error]="[] | tuiFieldError | async"
       ></tui-error>
     </div>
@@ -30,7 +30,7 @@
         [tuiTextfieldCleaner]="true"
         tuiTextfieldSize="m"
       >
-        имя
+        e-mail
         <span class="tui-required"></span>
         <input
           autocomplete="email"
@@ -59,13 +59,13 @@
     </div>
 
     <div>
-      <tui-input-password formControlName="password" tuiTextfieldSize="m">
+      <tui-input-password formControlName="confirmPassword" tuiTextfieldSize="m">
         подтверждение пароля
         <span class="tui-required"></span>
         <input placeholder="******" tuiTextfield />
       </tui-input-password>
       <tui-error
-        formControlName="password"
+        [formGroup]="registerForm"
         [error]="[] | tuiFieldError | async"
       ></tui-error>
     </div>

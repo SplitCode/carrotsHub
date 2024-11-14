@@ -34,6 +34,7 @@ import { MESSAGES } from "../../../shared/constants/notification-messages";
 import { NotificationService } from "../../../shared/services/notification.service";
 import { AuthService } from "../../services/auth.service";
 import { VALIDATION_ERRORS } from "../../constants/validation-errors";
+import { passwordsMatchValidator } from "../../../shared/validators/confirm-passwors.validator";
 
 @Component({
   selector: "app-register-page",
@@ -71,22 +72,32 @@ export class RegisterPageComponent {
   private readonly authService = inject(AuthService);
   private readonly alerts = inject(NotificationService);
 
-  readonly registerForm: FormGroup = new FormGroup({
-    email: new FormControl<string>("", {
-      nonNullable: true,
-      validators: [
-        Validators.required,
-        Validators.pattern(/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/),
-      ],
-    }),
-    password: new FormControl<string>("", {
-      nonNullable: true,
-      validators: [Validators.required, Validators.minLength(6)],
-    }),
-    confirmPassword: new FormControl<string>("", {
-      nonNullable: true,
-    }),
-  });
+  readonly registerForm: FormGroup = new FormGroup(
+    {
+      name: new FormControl<string>("", {
+        nonNullable: true,
+        validators: [Validators.required],
+      }),
+      email: new FormControl<string>("", {
+        nonNullable: true,
+        validators: [
+          Validators.required,
+          Validators.pattern(
+            /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/
+          ),
+        ],
+      }),
+      password: new FormControl<string>("", {
+        nonNullable: true,
+        validators: [Validators.required, Validators.minLength(6)],
+      }),
+      confirmPassword: new FormControl<string>("", {
+        nonNullable: true,
+        validators: [Validators.required],
+      }),
+    },
+    { validators: passwordsMatchValidator }
+  );
 
   onRegister() {
     this.loading.set(true);

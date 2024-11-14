@@ -1,6 +1,6 @@
 <p>home works!</p>
-@if (isAuth | async) {
-  <button
+@if (user$ | async; as user) {
+<button
   size="m"
   tuiButton
   appearance="accent"
@@ -11,4 +11,5 @@
 >
   Выйти
 </button>
+<h2>Welcome to Carrot's Hub, {{user.email}}!</h2>
 }
