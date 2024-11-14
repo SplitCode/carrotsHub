@@ -2,6 +2,8 @@
   --tui-accent: #0e8599;
   --tui-accent-hover: #3d9aaa;
   --tui-accent-active: #096475;
+  --tui-positive: #0e8599;
+  --tui-positive-hover: #ff7043;
 }
 
 .form-container {
@@ -9,12 +11,13 @@
   flex-direction: column;
   align-items: center;
   gap: 1.5rem;
-  max-width: 35rem;
+  max-width: 25rem;
   margin: 0 auto;
   padding: 1rem 3rem 3rem;
   border-radius: 0.5rem;
-  background-color: var(--container-color);
-  box-shadow: var(--tui-shadow-dropdown);
+  background-color: #ffffff;
+  box-shadow: var(--tui-shadow-navigation);
+  border-bottom: 0.5rem solid #0e8599;
 }
 
 .form {
@@ -22,6 +25,7 @@
   flex-direction: column;
   gap: 2rem;
   color: var(--tui-text-01);
+  max-width: 20rem;
   width: 100%;
 
   .form-header {
@@ -33,5 +37,5 @@
 .links {
   display: flex;
   margin-top: 2rem;
-  gap: 1rem;
+  gap: 0.5rem;
 }

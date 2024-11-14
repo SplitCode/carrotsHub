@@ -23,6 +23,7 @@ import {
   TuiButtonModule,
   TuiErrorModule,
   TuiLinkModule,
+  TuiModeModule,
   TuiTextfieldControllerModule,
 } from "@taiga-ui/core";
 import { finalize } from "rxjs";
@@ -49,6 +50,7 @@ import { SUCCESS_LOGIN } from "../../../shared/constants/notification-messages";
     TuiTextfieldControllerModule,
     RouterLink,
     TuiLinkModule,
+    TuiModeModule,
   ],
   templateUrl: "./login-page.component.html",
   styleUrl: "./login-page.component.less",
@@ -86,7 +88,7 @@ export class LoginPageComponent {
   onLogin() {
     this.loading.set(true);
     this.authService
-      .signIn({
+      .login({
         email: this.loginForm.value.email,
         password: this.loginForm.value.password,
       })
@@ -108,14 +110,25 @@ export class LoginPageComponent {
               error: error.message,
             },
           });
-          // eslint-disable-next-line no-console
-          console.log(error); // добавить вывод ошибки, перенаправить на регистрацию
+          console.error(error); // добавить вывод ошибки, перенаправить на регистрацию
         },
       });
   }
 
-  onGoogleLogin() {
-    this.loading.set(true);
-    // this.authService.googleLogin().finally(() => this.loading.set(false));
-  }
+  // onGoogleLogin() {
+  //   this.authService.googleLogin();
+  //   this.loading.set(true);
+  //   this.authService
+  //     .googleLogin()
+  //     .pipe(finalize(() => this.loading.set(false)))
+  //     .subscribe({
+  //       next: () => {
+  //         this.alerts.showSuccess(SUCCESS_LOGIN);
+  //         this.router.navigate([PageRoutes.Home]);
+  //       },
+  //       error: (error) => {
+  //         console.error("Google login failed:", error);
+  //       },
+  //     });
+  // }
 }
