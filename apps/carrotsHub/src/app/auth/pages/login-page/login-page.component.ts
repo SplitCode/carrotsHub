@@ -24,6 +24,7 @@ import {
   TuiErrorModule,
   TuiLinkModule,
   TuiModeModule,
+  TuiSvgModule,
   TuiTextfieldControllerModule,
 } from "@taiga-ui/core";
 import { finalize } from "rxjs";
@@ -51,6 +52,7 @@ import { SUCCESS_LOGIN } from "../../../shared/constants/notification-messages";
     RouterLink,
     TuiLinkModule,
     TuiModeModule,
+    TuiSvgModule,
   ],
   templateUrl: "./login-page.component.html",
   styleUrl: "./login-page.component.less",
