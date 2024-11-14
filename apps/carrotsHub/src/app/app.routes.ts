@@ -3,6 +3,7 @@ import { AuthGuard } from "@angular/fire/auth-guard";
 import { HomeComponent } from "./home/home.component";
 import { LoginPageComponent } from "./auth/pages/login-page/login-page.component";
 import { RegisterPageComponent } from "./auth/pages/register-page/register-page.component";
+// import { Page404Component } from "./core/pages/page404/page404.component";
 import { PageRoutes } from "./app.routes-path";
 import {
   // redirectUnauthorizedToLogin,
@@ -29,7 +30,7 @@ export const appRoutes: Route[] = [
     data: { authGuardPipe: redirectLoggedInToHome },
   },
   // {
-  //   path: "**",
-  //   component: NotFoundPageComponent,
+  //   path: PageRoutes.NotFound,
+  //   component: Page404Component,
   // },
 ];

@@ -2,7 +2,7 @@ export enum MESSAGES {
   successTitle = "Ура!",
   errorTitle = "Упс!",
   successLogin = "Вы успешно вошли!",
-  succesRegister = "Вы успешно зарегистрировались и вошли!",
+  successRegister = "Вы успешно зарегистрировались и вошли!",
   errorLogin = "Неправильный email или пароль!",
   errorNoInternet = "Нет соединения с интернетом.",
   errorTooManyRequests = "Вы превысили количество попыток входа. Попробуйте еще раз позже.",

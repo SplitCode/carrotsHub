@@ -23,8 +23,6 @@ import {
   TuiButtonModule,
   TuiErrorModule,
   TuiLinkModule,
-  TuiModeModule,
-  TuiSvgModule,
   TuiTextfieldControllerModule,
 } from "@taiga-ui/core";
 import { finalize } from "rxjs";
@@ -51,8 +49,6 @@ import { MESSAGES } from "../../../shared/constants/notification-messages";
     TuiTextfieldControllerModule,
     RouterLink,
     TuiLinkModule,
-    TuiModeModule,
-    TuiSvgModule,
   ],
   templateUrl: "./login-page.component.html",
   styleUrl: "./login-page.component.less",
