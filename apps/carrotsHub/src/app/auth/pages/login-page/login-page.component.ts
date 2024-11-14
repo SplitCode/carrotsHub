@@ -115,20 +115,20 @@ export class LoginPageComponent {
       });
   }
 
-  // onGoogleLogin() {
-  //   this.authService.googleLogin();
-  //   this.loading.set(true);
-  //   this.authService
-  //     .googleLogin()
-  //     .pipe(finalize(() => this.loading.set(false)))
-  //     .subscribe({
-  //       next: () => {
-  //         this.alerts.showSuccess(SUCCESS_LOGIN);
-  //         this.router.navigate([PageRoutes.Home]);
-  //       },
-  //       error: (error) => {
-  //         console.error("Google login failed:", error);
-  //       },
-  //     });
-  // }
+  onGoogleLogin() {
+    this.authService.googleLogin();
+    // this.loading.set(true);
+    // this.authService
+    //   .googleLogin()
+    //   .pipe(finalize(() => this.loading.set(false)))
+    //   .subscribe({
+    //     next: () => {
+    //       this.alerts.showSuccess(SUCCESS_LOGIN);
+    //       this.router.navigate([PageRoutes.Home]);
+    //     },
+    //     error: (error) => {
+    //       console.error("Google login failed:", error);
+    //     },
+    //   });
+  }
 }

@@ -6,6 +6,8 @@ import { catchError, from, map, throwError } from "rxjs";
 import type firebase from "firebase/compat/app";
 // import { environment } from "../../../environments/environment";
 import "firebase/compat/auth";
+import { GoogleAuthProvider } from "firebase/auth";
+import { Router } from "@angular/router";
 import type { LoginCredentials } from "../models/auth.models";
 
 @Injectable({
@@ -14,6 +16,7 @@ import type { LoginCredentials } from "../models/auth.models";
 export class AuthService {
   private readonly auth = inject(AngularFireAuth);
   private readonly http = inject(HttpClient);
+  private readonly router = inject(Router);
 
   login(params: LoginCredentials): Observable<firebase.auth.UserCredential> {
     return from(
@@ -31,6 +34,9 @@ export class AuthService {
 
   isAuth(): Observable<boolean> {
     return this.auth.authState.pipe(map((user) => !!user));
+    // const user = await angularFireAuth.currentUser;
+    // const isLoggedIn = !!user;
+    // return isLoggedIn;
   }
 
   // async registerUser(email: string, password: string): Promise<void> {
@@ -58,6 +64,12 @@ export class AuthService {
       return "User not found.";
     }
     return message;
+  }
+
+  async googleLogin(): Promise<void> {
+    const creds = await this.auth.signInWithPopup(new GoogleAuthProvider());
+    this.router.navigate([""]);
+    console.info(creds);
   }
 
   // async googleLogin(): Promise<void> {
