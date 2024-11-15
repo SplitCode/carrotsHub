@@ -1,6 +1,6 @@
 <div class="form-container">
   <form class="form" [formGroup]="loginForm" (ngSubmit)="onLogin()">
-    <h3 class="form-header tui-text_h3">Вход</h3>
+    <h3 class="form__header tui-text_h3">Вход</h3>
 
     <div>
       <tui-input
@@ -39,7 +39,7 @@
     <button
       size="m"
       tuiButton
-      appearance="accent"
+      appearance="primary"
       type="submit"
       [showLoader]="loading()"
       [disabled]="!loginForm.valid"
@@ -48,22 +48,27 @@
     </button>
   </form>
 
-  <div class="form-bottom">
-    <div class="divider">или</div>
+  <div class="form__bottom">
+    <div class="form__divider">или</div>
 
     <button
       size="m"
       tuiButton
       appearance="outline"
-      class="google-button"
+      class="form__google-button"
       [disabled]="loading()"
       (click)="onGoogleLogin()"
-      icon="tuiIconChromeLarge"
+
     >
+    <img
+        src="assets/icons/google.svg"
+        alt="Google Icon"
+        class="form__google-icon"
+      />
       Вход с аккаунтом Google
     </button>
 
-    <div class="links">
+    <div class="form__links">
       <span>Нет аккаунта?</span>
       <a [routerLink]="['/', pageRoutes.Register]" mode="positive" tuiLink
         >Регистрация</a

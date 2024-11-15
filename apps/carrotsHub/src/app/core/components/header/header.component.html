@@ -1,40 +1,59 @@
+<div class="container">
 <header class="header">
   <div class="header__content">
-    <div class="logo-container">
+    <div class="header__logo">
       <img
         src="assets/icons/carrot.svg"
-        class="header__logo"
+        class="header__icon"
         alt="Carrot's Hub Logo"
       />
-      <p class="header__title">
-        Carrot's Hub
-        <a tuiLink [routerLink]="['/', pageRoutes.Home]" routerLinkActive="active"></a>
-      </p>
+        <a
+          tuiLink
+          [routerLink]="[pageRoutes.Home]"
+          class="header__link"
+        >Carrot's Hub</a>
     </div>
 
-    <!-- Navigation -->
     <nav class="header__nav">
-      <a tuiLink [routerLink]="['/', pageRoutes.Recipes]" routerLinkActive="active">[Рецепты]</a>
-      <a tuiLink [routerLink]="['/', pageRoutes.Journal]" routerLinkActive="active">[Дневник]</a>
-      <a tuiLink [routerLink]="['/', pageRoutes.Profile]" routerLinkActive="active">[Профиль]</a>
+      <a
+        class="header__link"
+        tuiLink
+        [routerLink]="['/', pageRoutes.Recipes]"
+        routerLinkActive="active-link"
+        >[Рецепты]</a
+      >
+      <a
+        class="header__link"
+        tuiLink
+        [routerLink]="['/', pageRoutes.Journal]"
+        routerLinkActive="active-link"
+        >[Дневник]</a
+      >
+      <a
+        class="header__link"
+        tuiLink
+        [routerLink]="['/', pageRoutes.Profile]"
+        routerLinkActive="active-link"
+        >[Профиль]</a
+      >
     </nav>
 
-    <!-- User Actions -->
     <div class="header__actions">
       <!-- Если пользователь авторизован -->
       @if (user$ | async; as user) {
-        <button
-          tuiButton
-          size="m"
-          appearance="accent"
-          type="button"
-          (click)="onLogout()"
-          [showLoader]="loading()"
-          [disabled]="loading()"
-        >
-          Выход
-        </button>
+      <button
+        tuiButton
+        size="m"
+        appearance="accent"
+        type="button"
+        (click)="onLogout()"
+        [showLoader]="loading()"
+        [disabled]="loading()"
+      >
+        Выход
+      </button>
       }
     </div>
   </div>
 </header>
+</div>

@@ -1,6 +1,6 @@
 <div class="form-container">
   <form class="form" [formGroup]="registerForm" (ngSubmit)="onRegister()">
-    <h3 class="form-header tui-text_h3">Регистрация</h3>
+    <h3 class="form__header tui-text_h3">Регистрация</h3>
 
     <div>
       <tui-input
@@ -76,7 +76,7 @@
     <button
       size="m"
       tuiButton
-      appearance="accent"
+      appearance="primary"
       type="submit"
       [showLoader]="loading()"
       [disabled]="!registerForm.valid"
@@ -85,7 +85,7 @@
     </button>
   </form>
 
-  <div class="links">
+  <div class="form__links">
     <span>Уже есть аккаунт?</span>
     <a [routerLink]="['/', pageRoutes.Login]" mode="positive" tuiLink>Войти</a>
   </div>

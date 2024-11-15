@@ -7,6 +7,7 @@ import {
 import { CommonModule } from "@angular/common";
 import { TuiSvgModule, TuiButtonModule, TuiLinkModule } from "@taiga-ui/core";
 import { Router, RouterLink } from "@angular/router";
+import { RouterModule } from "@angular/router";
 import { finalize } from "rxjs";
 import { PageRoutes } from "../../../app.routes-path";
 import { AuthService } from "../../../auth/services/auth.service";
@@ -20,6 +21,7 @@ import { AuthService } from "../../../auth/services/auth.service";
     TuiButtonModule,
     TuiLinkModule,
     RouterLink,
+    RouterModule,
   ],
   templateUrl: "./header.component.html",
   styleUrl: "./header.component.less",
