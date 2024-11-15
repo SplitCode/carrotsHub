@@ -27,6 +27,7 @@
   &__icon {
     width: 3rem;
     height: 3rem;
+    transition: transform 0.3s ease;
   }
 
   &__title {
@@ -38,6 +39,10 @@
     color: var(--tui-text-01);
     font-size: 1rem;
     transition: color 0.3s ease;
+
+    &:hover .header__icon {
+      transform: scale(1.3);
+    }
 
     &:hover,
     &:active {
@@ -72,11 +77,11 @@
 }
 
 .burger__menu {
+  position: relative;
   display: none;
   background: none;
   border: none;
   cursor: pointer;
-  position: relative;
   width: 2.5rem;
   height: 1.5rem;
 }
@@ -93,8 +98,8 @@
   transition: opacity 0.3s ease-in-out;
 }
 
-.burger__menu::before,
-.burger__menu::after {
+.burger__menu:before,
+.burger__menu:after {
   content: "";
   position: absolute;
   left: 0;
@@ -105,12 +110,12 @@
   transition: transform 0.3s ease-in-out, top 0.3s ease-in-out;
 }
 
-.burger__menu::before {
-  background-color: var(--tui-accent);
+.burger__menu:before {
   top: 0;
+  background-color: var(--tui-accent);
 }
 
-.burger__menu::after {
+.burger__menu:after {
   bottom: 0;
 }
 
@@ -118,20 +123,14 @@
   opacity: 0;
 }
 
-.burger--open::before {
+.burger--open:before {
   top: 50%;
   transform: rotate(45deg);
 }
 
-.burger--open::after {
+.burger--open:after {
   top: 50%;
   transform: rotate(-45deg);
-}
-
-@media (max-width: 860px) {
-  .nav__list {
-    gap: 1rem;
-  }
 }
 
 @media (max-width: 768px) {
@@ -140,10 +139,10 @@
   }
 
   .header__nav {
-    display: none;
     position: absolute;
     top: 100%;
     left: 0;
+    display: none;
     width: 100%;
     flex-direction: column;
     padding: 1rem;

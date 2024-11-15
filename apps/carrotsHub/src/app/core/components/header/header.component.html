@@ -7,9 +7,10 @@
             src="assets/icons/carrot.svg"
             class="header__icon"
             alt="Carrot's Hub Logo"
+            draggable="false"
           />
         </a>
-        <p class="header__title">Carrot's Hub</p>
+          <span class="header__title">Carrot's Hub</span>
       </div>
 
       <button
@@ -32,6 +33,7 @@
               >[Рецепты]</a
             >
           </li>
+          @if (user$ | async; as user) {
           <li>
             <a
               class="header__link"
@@ -52,6 +54,7 @@
               >[Профиль]</a
             >
           </li>
+        }
         </ul>
         <div class="header__actions">
           @if (user$ | async; as user) {
