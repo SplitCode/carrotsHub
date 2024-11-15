@@ -2,7 +2,12 @@
   <header class="header">
     <div class="header__content">
       <div class="header__logo">
-        <a tuiLink [routerLink]="[pageRoutes.Home]" class="header__link">
+        <a
+          tuiLink
+          [routerLink]="[pageRoutes.Home]"
+          class="header__link"
+          (click)="closeMenu()"
+        >
           <img
             src="assets/icons/carrot.svg"
             class="header__icon"
@@ -56,44 +61,44 @@
           </li>
           }
         </ul>
+        @if (user$ | async; as user) {
         <div class="header__actions">
-          @if (user$ | async; as user) {
           <button
             tuiButton
             size="m"
             appearance="accent"
             type="button"
-            (click)="onLogout()"
+            (click)="onLogout(); closeMenu()"
             [showLoader]="loading()"
             [disabled]="loading()"
           >
             Выход
           </button>
-          } @else {
-          <div class="header__auth">
-            <button
-              tuiButton
-              size="m"
-              appearance="accent"
-              type="button"
-              (click)="closeMenu()"
-              [routerLink]="['/', pageRoutes.Register]"
-            >
-              Регистрация
-            </button>
-            <button
-              tuiButton
-              size="m"
-              appearance="accent"
-              type="button"
-              (click)="closeMenu()"
-              [routerLink]="['/', pageRoutes.Login]"
-            >
-              Вход
-            </button>
-          </div>
-          }
         </div>
+        } @else {
+        <div class="header__auth">
+          <button
+            tuiButton
+            size="m"
+            appearance="accent"
+            type="button"
+            (click)="closeMenu()"
+            [routerLink]="['/', pageRoutes.Register]"
+          >
+            Регистрация
+          </button>
+          <button
+            tuiButton
+            size="m"
+            appearance="accent"
+            type="button"
+            (click)="closeMenu()"
+            [routerLink]="['/', pageRoutes.Login]"
+          >
+            Вход
+          </button>
+        </div>
+        }
       </nav>
     </div>
   </header>
