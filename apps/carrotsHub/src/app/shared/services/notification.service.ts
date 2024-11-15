@@ -10,13 +10,18 @@ export class NotificationService {
 
   showSuccess(message: string, label: string = MESSAGES.successTitle) {
     this.alerts
-      .open(message, { label, status: "success", autoClose: true })
+      .open(message, {
+        label,
+        status: "success",
+        autoClose: true,
+        hasIcon: true,
+      })
       .subscribe();
   }
 
   showError(message: string, label: string = MESSAGES.errorTitle) {
     this.alerts
-      .open(message, { label, status: "error", autoClose: true })
+      .open(message, { label, status: "error", autoClose: true, hasIcon: true })
       .subscribe();
   }
 }

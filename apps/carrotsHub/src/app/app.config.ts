@@ -13,6 +13,7 @@ import { provideFirestore, getFirestore } from "@angular/fire/firestore";
 import { FIREBASE_OPTIONS } from "@angular/fire/compat";
 import { provideHttpClient } from "@angular/common/http";
 import { TUI_LANGUAGE, TUI_RUSSIAN_LANGUAGE } from "@taiga-ui/i18n";
+import { TUI_ALERT_POSITION } from "@taiga-ui/core";
 import { of } from "rxjs";
 import { provideAnalytics, getAnalytics } from "@angular/fire/analytics";
 import { appRoutes } from "./app.routes";
@@ -31,6 +32,10 @@ export const appConfig: ApplicationConfig = {
     {
       provide: TUI_LANGUAGE,
       useValue: of(TUI_RUSSIAN_LANGUAGE),
+    },
+    {
+      provide: TUI_ALERT_POSITION,
+      useValue: "6rem 3rem auto auto",
     },
     {
       provide: Logger,
