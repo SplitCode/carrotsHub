@@ -10,11 +10,7 @@
   backdrop-filter: blur(1.25rem);
   padding: 1rem 2rem;
   box-shadow: var(--tui-shadow);
-  background-color: color-mix(
-    in srgb,
-    var(--tui-background-base),
-    transparent 50%
-  );
+  background-color: color-mix(in srgb, var(--tui-base-01), transparent 50%);
 
   &__content {
     display: flex;
@@ -25,11 +21,16 @@
   &__logo {
     display: flex;
     align-items: center;
+    align-self: flex-start;
   }
 
   &__icon {
     width: 3rem;
     height: 3rem;
+  }
+
+  &__title {
+    font-size: 1rem;
   }
 
   &__link {
@@ -46,7 +47,7 @@
 
   &__nav {
     display: flex;
-    gap: 1rem;
+    flex: 1 1 auto;
   }
 
   &__auth {
@@ -59,4 +60,123 @@
   font-weight: bold;
   color: var(--tui-primary);
   border-bottom: 0.125rem solid var(--tui-accent);
+}
+
+.nav__list {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1 1 auto;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.burger__menu {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  width: 2.5rem;
+  height: 1.5rem;
+}
+
+.burger__menu__line {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 100%;
+  height: 0.2rem;
+  transform: translateY(-50%);
+  border-radius: 0.1rem;
+  background-color: var(--tui-accent);
+  transition: opacity 0.3s ease-in-out;
+}
+
+.burger__menu::before,
+.burger__menu::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 0.2rem;
+  border-radius: 0.1rem;
+  background-color: var(--tui-accent);
+  transition: transform 0.3s ease-in-out, top 0.3s ease-in-out;
+}
+
+.burger__menu::before {
+  background-color: var(--tui-accent);
+  top: 0;
+}
+
+.burger__menu::after {
+  bottom: 0;
+}
+
+.burger--open .burger__menu__line {
+  opacity: 0;
+}
+
+.burger--open::before {
+  top: 50%;
+  transform: rotate(45deg);
+}
+
+.burger--open::after {
+  top: 50%;
+  transform: rotate(-45deg);
+}
+
+@media (max-width: 860px) {
+  .nav__list {
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .burger__menu {
+    display: flex;
+  }
+
+  .header__nav {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    flex-direction: column;
+    padding: 1rem;
+    gap: 2rem;
+    height: calc(100dvh - var(--header-hight));
+    box-sizing: border-box;
+    backdrop-filter: blur(1.25rem);
+    background-color: var(--tui-base-01);
+    box-shadow: var(--tui-shadow);
+    transition: opacity 0.3s ease-in-out;
+    opacity: 0;
+  }
+
+  .nav--open {
+    display: flex;
+    opacity: 1;
+  }
+
+  .nav__list {
+    flex-direction: column;
+    gap: 2rem;
+    align-items: center;
+    flex: initial;
+    margin-top: 1rem;
+  }
+
+  .header__actions,
+  .header__auth {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .header__auth button {
+    width: 40%;
+  }
 }

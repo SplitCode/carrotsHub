@@ -29,6 +29,7 @@ import { AuthService } from "../../../auth/services/auth.service";
 })
 export class HeaderComponent {
   pageRoutes = PageRoutes;
+  isMenuOpen = false;
   readonly loading = signal(false);
   private readonly router = inject(Router);
   private readonly authService = inject(AuthService);
@@ -48,5 +49,13 @@ export class HeaderComponent {
           console.error("Ошибка при выходе:", error); // логгер
         },
       });
+  }
+
+  toggleMenu() {
+    this.isMenuOpen = !this.isMenuOpen;
+  }
+
+  closeMenu() {
+    this.isMenuOpen = false;
   }
 }
