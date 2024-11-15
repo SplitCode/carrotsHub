@@ -6,7 +6,7 @@ import { RegisterPageComponent } from "./auth/pages/register-page/register-page.
 import { RecipesPageComponent } from "./recipes/pages/recipes-page.component";
 import { ProfilePageComponent } from "./profile/profile-page.component";
 import { JournalPageComponent } from "./journal/pages/journal-page.component";
-// import { Page404Component } from "./core/pages/page404/page404.component";
+import { NotFoundPageComponent } from "./core/pages/not-found-page.component";
 import { PageRoutes } from "./app.routes-path";
 import {
   redirectUnauthorizedToLogin,
@@ -46,8 +46,8 @@ export const appRoutes: Route[] = [
     canActivate: [AuthGuard],
     data: { authGuardPipe: redirectUnauthorizedToLogin },
   },
-  // {
-  //   path: PageRoutes.NotFound,
-  //   component: Page404Component,
-  // },
+  {
+    path: PageRoutes.NotFound,
+    component: NotFoundPageComponent,
+  },
 ];

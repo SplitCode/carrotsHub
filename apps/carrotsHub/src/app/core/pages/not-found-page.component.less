@@ -1,0 +1,41 @@
+.not-found {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2rem;
+    max-width: 600px;
+    padding: 2rem;
+    margin: auto;
+  }
+
+  &__title {
+    font-size: 8rem;
+    font-weight: bold;
+    margin: 0;
+    color: var(--tui-accent);
+  }
+
+  &__message {
+    font-size: 1.5rem;
+    margin: 1rem 0 2rem;
+  }
+
+  &__link {
+    color: var(--tui-accent);
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.25rem;
+    transition: color 0.3s ease;
+
+    &:hover {
+      color: var(--tui-accent-hover);
+    }
+  }
+}
