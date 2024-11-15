@@ -1,0 +1,60 @@
+:host {
+  --tui-accent: #0e8599;
+}
+
+.header {
+  // background-color: var(--tui-primary);
+  // margin: 2rem;
+  // color: white;
+  padding: 1rem 2rem;
+  // border-radius: 10px;
+  box-shadow: var(--tui-shadow-navigation);
+
+  &__content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__logo {
+    width: 40px;
+    height: 40px;
+  }
+
+  &__title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-left: 0.5rem;
+  }
+
+  &__nav {
+    display: flex;
+    gap: 1rem;
+
+    a {
+      // color: white;
+      text-decoration: none;
+      transition: color 0.3s ease;
+
+      &:hover,
+      &.active {
+        color: var(--tui-accent);
+      }
+    }
+  }
+
+  &__actions {
+    button {
+      // color: white;
+      // border: 1px solid white;
+
+      &:hover {
+        color: var(--tui-accent);
+      }
+    }
+  }
+}
+
+.logo-container {
+  display: flex;
+}
