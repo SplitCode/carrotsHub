@@ -1,0 +1,29 @@
+.footer {
+  background-color: var(--tui-base-02);
+  padding: 1rem 2rem;
+  font-size: 0.875rem;
+  box-shadow: var(--tui-shadow-sidebar);
+
+  &__content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-grow: 1;
+  }
+
+  &__link {
+    color: var(--tui-text-01);
+    text-decoration: none;
+    transition: color 0.3s ease;
+
+    &:hover {
+      color: var(--tui-accent-hover);
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .footer__text {
+    display: none;
+  }
+}

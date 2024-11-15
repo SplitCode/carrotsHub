@@ -1,0 +1,105 @@
+<div class="container">
+  <header class="header">
+    <div class="header__content">
+      <div class="header__logo">
+        <a
+          tuiLink
+          [routerLink]="[pageRoutes.Home]"
+          class="header__link"
+          (click)="closeMenu()"
+        >
+          <img
+            src="assets/icons/carrot.svg"
+            class="header__icon"
+            alt="Carrot's Hub Logo"
+            draggable="false"
+          />
+        </a>
+        <span class="header__title">Carrot's Hub</span>
+      </div>
+
+      <button
+        class="burger__menu"
+        (click)="toggleMenu()"
+        [class.burger--open]="isMenuOpen"
+      >
+        <span class="burger__menu__line"></span>
+      </button>
+
+      <nav class="header__nav" [class.nav--open]="isMenuOpen">
+        <ul class="nav__list">
+          <li>
+            <a
+              class="header__link"
+              tuiLink
+              [routerLink]="['/', pageRoutes.Recipes]"
+              routerLinkActive="active-link"
+              (click)="closeMenu()"
+              >[Рецепты]</a
+            >
+          </li>
+          @if (user$ | async; as user) {
+          <li>
+            <a
+              class="header__link"
+              tuiLink
+              [routerLink]="['/', pageRoutes.Journal]"
+              routerLinkActive="active-link"
+              (click)="closeMenu()"
+              >[Дневник]</a
+            >
+          </li>
+          <li>
+            <a
+              class="header__link"
+              tuiLink
+              [routerLink]="['/', pageRoutes.Profile]"
+              routerLinkActive="active-link"
+              (click)="closeMenu()"
+              >[Профиль]</a
+            >
+          </li>
+          }
+        </ul>
+        @if (user$ | async; as user) {
+        <div class="header__actions">
+          <button
+            tuiButton
+            size="m"
+            appearance="accent"
+            type="button"
+            (click)="onLogout(); closeMenu()"
+            [showLoader]="loading()"
+            [disabled]="loading()"
+          >
+            Выход
+          </button>
+        </div>
+        } @else {
+        <div class="header__auth">
+          <button
+            tuiButton
+            size="m"
+            appearance="accent"
+            type="button"
+            (click)="closeMenu()"
+            [routerLink]="['/', pageRoutes.Register]"
+          >
+            Регистрация
+          </button>
+          <button
+            tuiButton
+            size="m"
+            appearance="accent"
+            type="button"
+            (click)="closeMenu()"
+            [routerLink]="['/', pageRoutes.Login]"
+          >
+            Вход
+          </button>
+        </div>
+        }
+      </nav>
+    </div>
+  </header>
+</div>

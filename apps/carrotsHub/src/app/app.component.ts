@@ -7,10 +7,19 @@ import {
 } from "@taiga-ui/core";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { RouterModule } from "@angular/router";
+import { HeaderComponent } from "./core/components/header/header.component";
+import { FooterComponent } from "./core/components/footer/footer.component";
 
 @Component({
   standalone: true,
-  imports: [RouterModule, TuiRootModule, TuiDialogModule, TuiAlertModule],
+  imports: [
+    RouterModule,
+    TuiRootModule,
+    TuiDialogModule,
+    TuiAlertModule,
+    HeaderComponent,
+    FooterComponent,
+  ],
   selector: "app-root",
   templateUrl: "./app.component.html",
   changeDetection: ChangeDetectionStrategy.OnPush,

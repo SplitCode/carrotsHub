@@ -1,1 +1,51 @@
 /* You can add global styles to this file, and also import other style files */
+@font-face {
+  font-family: Excalifont;
+  src: url("assets/fonts/Excalifont-Regular.woff2") format("woff2");
+  font-weight: normal;
+}
+
+:root {
+  --tui-primary: #0e8599;
+  --tui-primary-hover: #3d9aaa;
+  --tui-primary-active: #075b6a;
+  --tui-accent: #0e8599;
+  --tui-accent-hover: #faa12a;
+  --tui-accent-active: #f58f0a;
+  --tui-positive: #0e8599;
+  --tui-positive-hover: #faa12a;
+  --main-background: #e4e2e2fb;
+  --tui-font-text: "Excalifont", sans-serif;
+  --tui-font-heading: "Excalifont", sans-serif;
+  --scrollbar-width: 0.3rem;
+  --header-hight: 8rem;
+}
+
+tui-root .t-root-content {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+html,
+body {
+  overflow-x: hidden;
+  overflow-y: scroll;
+  height: 100%;
+}
+
+::-webkit-scrollbar {
+  width: var(--scrollbar-width);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--tui-primary);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--tui-primary-hover);
+}
+
+::-webkit-scrollbar-thumb:active {
+  background-color: var(--tui-primary-active);
+}

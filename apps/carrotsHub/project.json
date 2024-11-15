@@ -30,6 +30,11 @@
             "glob": "favicon.ico",
             "input": "apps/carrotsHub/src",
             "output": "."
+          },
+          {
+            "glob": "**/*",
+            "input": "apps/carrotsHub/src/assets",
+            "output": "assets"
           }
         ],
         "styles": [

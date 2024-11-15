@@ -11,29 +11,28 @@ import {
   ReactiveFormsModule,
   Validators,
 } from "@angular/forms";
-import { Router, RouterLink } from "@angular/router";
-import { finalize } from "rxjs";
 import {
-  TuiButtonModule,
-  TuiErrorModule,
-  TuiTextfieldControllerModule,
-  TuiLinkModule,
-  TuiModeModule,
-} from "@taiga-ui/core";
-import {
-  TuiInputModule,
-  TuiTextareaModule,
   TuiFieldErrorPipeModule,
+  TuiInputModule,
   TuiInputPasswordModule,
+  TuiTextareaModule,
   TUI_VALIDATION_ERRORS,
 } from "@taiga-ui/kit";
 import { TuiDestroyService } from "@taiga-ui/cdk";
-import { PageRoutes } from "../../../app.routes-path";
+import {
+  TuiButtonModule,
+  TuiErrorModule,
+  TuiLinkModule,
+  TuiTextfieldControllerModule,
+} from "@taiga-ui/core";
+import { finalize } from "rxjs";
+import { Router, RouterLink } from "@angular/router";
 import { Logger } from "../../../core/logger/logger.models";
-import { MESSAGES } from "../../../shared/constants/notification-messages";
-import { NotificationService } from "../../../shared/services/notification.service";
+import { PageRoutes } from "../../../app.routes-path";
 import { AuthService } from "../../services/auth.service";
+import { NotificationService } from "../../../shared/services/notification.service";
 import { VALIDATION_ERRORS } from "../../constants/validation-errors";
+import { MESSAGES } from "../../../shared/constants/notification-messages";
 import { passwordsMatchValidator } from "../../../shared/validators/confirm-passwors.validator";
 
 @Component({
@@ -51,7 +50,6 @@ import { passwordsMatchValidator } from "../../../shared/validators/confirm-pass
     TuiTextfieldControllerModule,
     RouterLink,
     TuiLinkModule,
-    TuiModeModule,
   ],
   templateUrl: "./register-page.component.html",
   styleUrl: "./register-page.component.less",
@@ -112,7 +110,7 @@ export class RegisterPageComponent {
             params: { method: "email_password" },
           });
           this.router.navigate([PageRoutes.Home]);
-          this.alerts.showSuccess(MESSAGES.successLogin);
+          this.alerts.showSuccess(MESSAGES.successRegister);
         },
         error: (error) => {
           this.logger.logError({
@@ -123,7 +121,6 @@ export class RegisterPageComponent {
             },
           });
           this.alerts.showError(error.message);
-          console.error(error);
         },
       });
   }
