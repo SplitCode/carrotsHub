@@ -28,6 +28,11 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(appRoutes),
     provideHttpClient(),
+    provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideAuth(() => getAuth()),
+    provideFirestore(() => getFirestore()),
+    provideAnalytics(() => getAnalytics()),
+    { provide: FIREBASE_OPTIONS, useValue: environment.firebase },
     importProvidersFrom(TuiRootModule),
     {
       provide: TUI_LANGUAGE,
@@ -41,10 +46,5 @@ export const appConfig: ApplicationConfig = {
       provide: Logger,
       useFactory: () => loggerFactory(isDevMode()),
     },
-    provideFirebaseApp(() => initializeApp(environment.firebase)),
-    provideAuth(() => getAuth()),
-    provideFirestore(() => getFirestore()),
-    provideAnalytics(() => getAnalytics()),
-    { provide: FIREBASE_OPTIONS, useValue: environment.firebase },
   ],
 };
