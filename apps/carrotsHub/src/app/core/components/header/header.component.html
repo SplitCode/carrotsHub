@@ -37,7 +37,6 @@
       </nav>
 
       <div class="header__actions">
-        <!-- Если пользователь авторизован -->
         @if (user$ | async; as user) {
         <button
           tuiButton
@@ -50,6 +49,27 @@
         >
           Выход
         </button>
+        } @else {
+        <div class="header__auth">
+          <button
+            tuiButton
+            size="m"
+            appearance="accent"
+            type="button"
+            [routerLink]="['/', pageRoutes.Register]"
+          >
+            Регистрация
+          </button>
+          <button
+            tuiButton
+            size="m"
+            appearance="accent"
+            type="button"
+            [routerLink]="['/', pageRoutes.Login]"
+          >
+            Вход
+          </button>
+        </div>
         }
       </div>
     </div>
