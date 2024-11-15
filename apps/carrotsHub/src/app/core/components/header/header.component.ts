@@ -11,6 +11,7 @@ import { RouterModule } from "@angular/router";
 import { finalize } from "rxjs";
 import { PageRoutes } from "../../../app.routes-path";
 import { AuthService } from "../../../auth/services/auth.service";
+import { Logger } from "../../logger/logger.models";
 
 @Component({
   selector: "app-header",
@@ -32,6 +33,7 @@ export class HeaderComponent {
   isMenuOpen = false;
   readonly loading = signal(false);
   private readonly router = inject(Router);
+  private readonly logger = inject(Logger);
   private readonly authService = inject(AuthService);
 
   user$ = this.authService.currentUser$;
@@ -43,10 +45,14 @@ export class HeaderComponent {
       .pipe(finalize(() => this.loading.set(false)))
       .subscribe({
         next: () => {
+          this.logger.logInfo({ name: "logout_success" });
           this.router.navigate([PageRoutes.Login]);
         },
         error: (error) => {
-          console.error("Ошибка при выходе:", error); // логгер
+          this.logger.logError({
+            name: "logout_failed",
+            params: { error: error.message },
+          });
         },
       });
   }
