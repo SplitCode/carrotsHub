@@ -1,28 +1,40 @@
 <header class="header">
   <div class="header__content">
-    <!-- Logo or Title -->
-    <!-- <img src="./../../../../assets/icons/carrot.svg" class="header__logo" alt="Carrot Logo"/> -->
     <div class="logo-container">
-      <img src="assets/icons/carrot.svg" class="header__logo" alt="Carrot Logo"/>
-      <p>Carrot's Hub</p>
+      <img
+        src="assets/icons/carrot.svg"
+        class="header__logo"
+        alt="Carrot's Hub Logo"
+      />
+      <p class="header__title">
+        Carrot's Hub
+        <a tuiLink [routerLink]="['/', pageRoutes.Home]" routerLinkActive="active"></a>
+      </p>
     </div>
 
     <!-- Navigation -->
     <nav class="header__nav">
-      <a tuiLink routerLink="/" routerLinkActive="active">[Рецепты]</a>
-      <a tuiLink routerLink="/about" routerLinkActive="active">[Дневник]</a>
-      <a tuiLink routerLink="/contact" routerLinkActive="active">[Профиль]</a>
+      <a tuiLink [routerLink]="['/', pageRoutes.Recipes]" routerLinkActive="active">[Рецепты]</a>
+      <a tuiLink [routerLink]="['/', pageRoutes.Journal]" routerLinkActive="active">[Дневник]</a>
+      <a tuiLink [routerLink]="['/', pageRoutes.Profile]" routerLinkActive="active">[Профиль]</a>
     </nav>
 
     <!-- User Actions -->
     <div class="header__actions">
-      <button
-        tuiButton
-        appearance="accent"
-        size="m"
-      >
-        Выход
-      </button>
+      <!-- Если пользователь авторизован -->
+      @if (user$ | async; as user) {
+        <button
+          tuiButton
+          size="m"
+          appearance="accent"
+          type="button"
+          (click)="onLogout()"
+          [showLoader]="loading()"
+          [disabled]="loading()"
+        >
+          Выход
+        </button>
+      }
     </div>
   </div>
 </header>

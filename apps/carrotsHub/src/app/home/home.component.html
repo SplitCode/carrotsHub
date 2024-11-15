@@ -1,4 +1,6 @@
-<p>home works!</p>
+@if (user$ | async; as user) {
+  <h2>Welcome to Carrot's Hub, {{ user.displayName }}!</h2>
+  }
 
 <div class="links">
   <a [routerLink]="['/', pageRoutes.Register]" mode="positive" tuiLink
@@ -7,17 +9,4 @@
   <a [routerLink]="['/', pageRoutes.Login]" mode="positive" tuiLink>Войти</a>
 </div>
 
-@if (user$ | async; as user) {
-<button
-  size="m"
-  tuiButton
-  appearance="accent"
-  type="button"
-  (click)="onLogout()"
-  [showLoader]="loading()"
-  [disabled]="loading()"
->
-  Выйти
-</button>
-<h2>Welcome to Carrot's Hub, {{ user.displayName }}!</h2>
-}
+

@@ -3,7 +3,7 @@ import { AuthGuard } from "@angular/fire/auth-guard";
 import { HomeComponent } from "./home/home.component";
 import { LoginPageComponent } from "./auth/pages/login-page/login-page.component";
 import { RegisterPageComponent } from "./auth/pages/register-page/register-page.component";
-import { ReceipePageComponent } from "./receipe/pages/receipe-page.component";
+import { RecipesPageComponent } from "./recipes/pages/recipes-page.component";
 import { ProfilePageComponent } from "./profile/profile-page.component";
 import { JournalPageComponent } from "./journal/pages/journal-page.component";
 // import { Page404Component } from "./core/pages/page404/page404.component";
@@ -32,7 +32,7 @@ export const appRoutes: Route[] = [
   },
   {
     path: PageRoutes.Recipes,
-    component: ReceipePageComponent,
+    component: RecipesPageComponent,
   },
   {
     path: PageRoutes.Profile,
