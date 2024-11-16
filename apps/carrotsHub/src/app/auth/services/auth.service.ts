@@ -1,10 +1,8 @@
 import { Injectable, inject } from "@angular/core";
-// import { HttpClient } from "@angular/common/http";
 import type { Observable } from "rxjs";
 import { AngularFireAuth } from "@angular/fire/compat/auth";
 import { catchError, from, of, switchMap, throwError } from "rxjs";
 import type firebase from "firebase/compat/app";
-// import { environment } from "../../../environments/environment";
 import "firebase/compat/auth";
 import { GoogleAuthProvider } from "firebase/auth";
 import { Router } from "@angular/router";
@@ -20,7 +18,6 @@ import { MESSAGES } from "../../shared/constants/notification-messages";
 })
 export class AuthService {
   private readonly auth = inject(AngularFireAuth);
-  // private readonly http = inject(HttpClient);
   private readonly router = inject(Router);
   currentUser$ = this.auth.authState;
 
@@ -69,14 +66,6 @@ export class AuthService {
     );
   }
 
-  // recoverPassword(email: string): Observable<void> {
-  //   return from(this.auth.sendPasswordResetEmail(email)).pipe(
-  //     catchError((error: FirebaseError) =>
-  //       throwError(() => new Error(this.translateFirebaseErrorMessage(error)))
-  //     )
-  //   );
-  // }
-
   private translateFirebaseErrorMessage({ code }: FirebaseError): string {
     switch (code) {
       case "auth/user-not-found":
@@ -94,8 +83,4 @@ export class AuthService {
         return MESSAGES.errorUnknown;
     }
   }
-
-  // getUser(): Observable<firebase.User | null> {
-  //   return this.auth.authState;
-  // }
 }
