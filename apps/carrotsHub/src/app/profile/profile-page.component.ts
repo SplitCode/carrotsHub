@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { ChangeDetectionStrategy, Component, inject } from "@angular/core";
 import { CommonModule } from "@angular/common";
+import { AuthService } from "../auth/services/auth.service";
 
 @Component({
   selector: "app-profile-page",
@@ -9,4 +10,7 @@ import { CommonModule } from "@angular/common";
   styleUrl: "./profile-page.component.less",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProfilePageComponent {}
+export class ProfilePageComponent {
+  private readonly authService = inject(AuthService);
+  user$ = this.authService.currentUser$;
+}

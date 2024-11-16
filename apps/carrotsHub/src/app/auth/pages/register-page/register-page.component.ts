@@ -27,6 +27,7 @@ import {
 } from "@taiga-ui/core";
 import { finalize } from "rxjs";
 import { Router, RouterLink } from "@angular/router";
+import { HttpClient } from "@angular/common/http";
 import { Logger } from "../../../core/logger/logger.models";
 import { PageRoutes } from "../../../app.routes-path";
 import { AuthService } from "../../services/auth.service";
@@ -69,6 +70,7 @@ export class RegisterPageComponent {
   private readonly logger = inject(Logger);
   private readonly authService = inject(AuthService);
   private readonly alerts = inject(NotificationService);
+  private readonly httpClient = inject(HttpClient);
 
   readonly registerForm: FormGroup = new FormGroup(
     {
@@ -100,6 +102,12 @@ export class RegisterPageComponent {
   onRegister() {
     this.loading.set(true);
     const { name, email, password } = this.registerForm.value;
+    this.httpClient
+      .post(
+        "https://carrot-s-hub-default-rtdb.firebaseio.com/users.json",
+        this.registerForm.value
+      )
+      .subscribe((response) => console.info(response));
     this.authService
       .register({ name, email, password })
       .pipe(finalize(() => this.loading.set(false)))
