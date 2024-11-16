@@ -90,41 +90,39 @@ export class LoginPageComponent {
       .login({ email, password })
       .pipe(finalize(() => this.loading.set(false)))
       .subscribe({
-        next: () => {
-          this.logger.logInfo({
-            name: "login_success",
-            params: { method: "email_password" },
-          });
-          this.router.navigate([PageRoutes.Home]);
-          this.alerts.showSuccess(MESSAGES.successLogin);
-        },
-        error: (error) => {
-          this.logger.logError({
-            name: "login_failed",
-            params: {
-              method: "email_password",
-              error: error.message,
-            },
-          });
-          this.alerts.showError(error.message);
-        },
+        next: () => this.handleLoginSuccess("email_password"),
+        error: (error) => this.handleLoginError(error, "email_password"),
       });
   }
 
   onGoogleLogin() {
-    this.authService.googleLogin();
-    // this.loading.set(true);
-    // this.authService
-    //   .googleLogin()
-    //   .pipe(finalize(() => this.loading.set(false)))
-    //   .subscribe({
-    //     next: () => {
-    //       this.alerts.showSuccess(SUCCESS_LOGIN);
-    //       this.router.navigate([PageRoutes.Home]);
-    //     },
-    //     error: (error) => {
-    //       console.error("Google login failed:", error);
-    //     },
-    //   });
+    this.loading.set(true);
+    this.authService
+      .googleLogin()
+      .pipe(finalize(() => this.loading.set(false)))
+      .subscribe({
+        next: () => this.handleLoginSuccess("google"),
+        error: (error) => this.handleLoginError(error, "google"),
+      });
+  }
+
+  private handleLoginSuccess(method: string) {
+    this.logger.logInfo({
+      name: "login_success",
+      params: { method },
+    });
+    this.alerts.showSuccess(MESSAGES.successLogin);
+    this.router.navigate([PageRoutes.Home]);
+  }
+
+  private handleLoginError(error: Error, method: string) {
+    this.logger.logError({
+      name: "login_failed",
+      params: {
+        method,
+        error: error.message,
+      },
+    });
+    this.alerts.showError(error.message);
   }
 }

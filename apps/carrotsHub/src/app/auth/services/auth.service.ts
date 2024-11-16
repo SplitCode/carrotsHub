@@ -24,6 +24,10 @@ export class AuthService {
   private readonly router = inject(Router);
   currentUser$ = this.auth.authState;
 
+  initialize() {
+    window.onbeforeunload = () => null;
+  }
+
   login(params: LoginCredentials): Observable<firebase.auth.UserCredential> {
     return from(
       this.auth.signInWithEmailAndPassword(params.email, params.password)
@@ -31,6 +35,16 @@ export class AuthService {
       catchError((error: FirebaseError) =>
         throwError(() => new Error(this.translateFirebaseErrorMessage(error)))
       )
+    );
+  }
+
+  googleLogin() {
+    return from(this.auth.signInWithPopup(new GoogleAuthProvider())).pipe(
+      catchError((error: FirebaseError) => {
+        return throwError(
+          () => new Error(this.translateFirebaseErrorMessage(error))
+        );
+      })
     );
   }
 
@@ -63,7 +77,7 @@ export class AuthService {
   //   );
   // }
 
-  translateFirebaseErrorMessage({ code }: FirebaseError): string {
+  private translateFirebaseErrorMessage({ code }: FirebaseError): string {
     switch (code) {
       case "auth/user-not-found":
       case "auth/invalid-credential":
@@ -80,34 +94,6 @@ export class AuthService {
         return MESSAGES.errorUnknown;
     }
   }
-
-  async googleLogin(): Promise<void> {
-    const creds = await this.auth.signInWithPopup(new GoogleAuthProvider());
-    this.router.navigate([""]);
-    console.info(creds);
-  }
-
-  // async googleLogin(): Promise<void> {
-  //   const provider = new firebase.auth.GoogleAuthProvider();
-  //   const credential = await this.auth.signInWithPopup(provider);
-  //   await this.sendTokenToBackend(credential.user as firebase.User);
-  // }
-
-  // private async sendTokenToBackend(user: firebase.User | null) {
-  //   if (user) {
-  //     const idToken = await user.getIdToken();
-  //     await firstValueFrom(
-  //       this.http.post(`${environment.backendUrl}/api/auth/login`, { idToken })
-  //     );
-  //   }
-  // }
-
-  // isAuth(): Observable<boolean> {
-  //   return this.auth.authState.pipe(map((user) => !!user));
-  //   // const user = await angularFireAuth.currentUser;
-  //   // const isLoggedIn = !!user;
-  //   // return isLoggedIn;
-  // }
 
   // getUser(): Observable<firebase.User | null> {
   //   return this.auth.authState;
