@@ -12,6 +12,7 @@
   align-items: center;
   gap: 1rem;
   max-width: 35rem;
+  height: 15.625rem;
   margin: 4rem auto 0;
   padding: 2rem 3rem 3rem;
   border-radius: 0.5rem;
@@ -92,19 +93,34 @@
   }
 }
 
-// .calories-result {
-//   margin-top: 2rem;
-//   background-color: #f0f0f0;
-//   padding: 1rem;
-//   border-radius: 8px;
+.calories-result {
+  // display: flex;
+  // flex-direction: column;
+  // justify-content: center;
+  // align-items: center;
+  text-align: center;
+  max-width: 35rem;
+  margin: 2rem auto 0;
+  padding: 2rem 3rem 3rem;
+  border-radius: 0.5rem;
+  background-color: var(--tui-base-01);
+  box-shadow: var(--tui-shadow-navigation);
 
-//   .calories-value {
-//     font-size: 1.5rem;
-//     font-weight: bold;
-//   }
+  &__value {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--tui-primary);
+  }
 
-//   .macronutrients {
-//     display: flex;
-//     justify-content: space-between;
-//   }
-// }
+  &__macronutrients {
+    display: flex;
+    justify-content: center;
+    gap: 5rem;
+    margin-top: 1rem;
+
+    .macronutrients-item {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+}
