@@ -121,19 +121,19 @@
   <!-- <section class="calories-result" *ngIf="dailyCaloriesForm.valid"> -->
   <section class="calories-result">
     <h6 class="tui-text_h6">Ваша дневная норма составляет</h6>
-    <span class="calories-result__value">1800 ккал</span>
+    <span class="calories-result__value">{{ calculatedCalories || '-'}}  ккал</span>
     <div class="calories-result__macronutrients">
       <div class="macronutrients-item">
         <p>Углеводы:</p>
-        <p>160г</p>
+        <p>{{ carbohydrates || '-'}}г</p>
       </div>
       <div class="macronutrients-item">
         <p>Белки:</p>
-        <p>65г</p>
+        <p>{{ protein || '-'}}г</p>
       </div>
       <div class="macronutrients-item">
         <p>Жиры:</p>
-        <p>44г</p>
+        <p>{{ fat || '-'}}г</p>
       </div>
     </div>
   </section>

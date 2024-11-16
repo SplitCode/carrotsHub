@@ -53,6 +53,81 @@ export class ProfilePageComponent {
     switchMap((user) => this.userDataService.getUserData(user.uid))
   );
 
+  readonly goals = ["Снижение веса", "Поддержание веса", "Набор веса"];
+  readonly genders = ["Мужской", "Женский"];
+  readonly lifestyles = [
+    "Сидячий",
+    "Малоактивный",
+    "Активный",
+    "Очень активный",
+  ];
+
+  calculatedCalories: number | null = null;
+  protein: number | null = null;
+  fat: number | null = null;
+  carbohydrates: number | null = null;
+
+  readonly dailyCaloriesForm: FormGroup = new FormGroup({
+    goal: new FormControl("", Validators.required),
+    age: new FormControl("", [Validators.required, Validators.min(1)]),
+    gender: new FormControl("", Validators.required),
+    lifestyle: new FormControl("", Validators.required),
+    weight: new FormControl("", [Validators.required, Validators.min(1)]),
+    height: new FormControl("", [Validators.required, Validators.min(1)]),
+  });
+
+  onCalculate() {
+    const formValues = this.dailyCaloriesForm.value;
+    const { goal, age, gender, lifestyle, weight, height } = formValues;
+
+    if (!this.dailyCaloriesForm.valid) {
+      return;
+    }
+
+    const activityLevels: { [key: string]: number } = {
+      Сидячий: 1.2,
+      Малоактивный: 1.375,
+      Активный: 1.55,
+      "Очень активный": 1.725,
+    };
+
+    const activityMultiplier = activityLevels[lifestyle];
+
+    let baseMetabolicRate: number;
+
+    if (gender === "male") {
+      baseMetabolicRate = 9.99 * weight + 6.25 * height - 4.92 * age + 5;
+    } else {
+      baseMetabolicRate = 9.99 * weight + 6.25 * height - 4.92 * age - 161;
+    }
+
+    const normRSK = Math.round(baseMetabolicRate * activityMultiplier);
+
+    let resultRSK: number;
+
+    if (goal === "Снижение веса") {
+      resultRSK = Math.round(normRSK - normRSK * 0.2);
+    } else if (goal === "Набор веса") {
+      resultRSK = Math.round(normRSK + normRSK * 0.2);
+    } else {
+      resultRSK = normRSK;
+    }
+
+    this.protein = Math.round((resultRSK * 0.2) / 4);
+    this.fat = Math.round((resultRSK * 0.3) / 9);
+    this.carbohydrates = Math.round((resultRSK * 0.5) / 4);
+
+    this.calculatedCalories = resultRSK;
+
+    if (this.dailyCaloriesForm.valid) {
+      console.info(
+        "Форма для расчета калорий:",
+        this.dailyCaloriesForm.value,
+        resultRSK
+      );
+    }
+  }
+
   // ngOnInit(): void {
   //   this.authService.currentUser$.subscribe((user) => {
   //     if (user) {
@@ -76,27 +151,4 @@ export class ProfilePageComponent {
   //       this.alerts.showError("Ошибка при обновлении профиля: " + error.message);
   //     });
   // }
-  readonly goals = ["Снижение веса", "Поддержание веса", "Набор веса"];
-  readonly genders = ["Мужской", "Женский"];
-  readonly lifestyles = [
-    "Сидячий",
-    "Малоактивный",
-    "Активный",
-    "Очень активный",
-  ];
-
-  readonly dailyCaloriesForm: FormGroup = new FormGroup({
-    goal: new FormControl("", Validators.required),
-    age: new FormControl("", [Validators.required, Validators.min(1)]),
-    gender: new FormControl("", Validators.required),
-    lifestyle: new FormControl("", Validators.required),
-    weight: new FormControl("", [Validators.required, Validators.min(1)]),
-    height: new FormControl("", [Validators.required, Validators.min(1)]),
-  });
-
-  onCalculate() {
-    if (this.dailyCaloriesForm.valid) {
-      console.info("Форма для расчета калорий:", this.dailyCaloriesForm.value);
-    }
-  }
 }
