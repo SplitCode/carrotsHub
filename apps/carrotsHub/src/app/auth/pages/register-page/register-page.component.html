@@ -16,6 +16,7 @@
           tuiTextfield
           autofocus
           type="text"
+          [disabled]="loading()"
         />
       </tui-input>
       <tui-error
@@ -38,6 +39,7 @@
           tuiTextfield
           autofocus
           type="email"
+          [disabled]="loading()"
         />
       </tui-input>
       <tui-error
@@ -50,7 +52,7 @@
       <tui-input-password formControlName="password" tuiTextfieldSize="m">
         пароль
         <span class="tui-required"></span>
-        <input placeholder="******" tuiTextfield />
+        <input placeholder="******" tuiTextfield [disabled]="loading()" />
       </tui-input-password>
       <tui-error
         formControlName="password"
@@ -65,7 +67,7 @@
       >
         подтверждение пароля
         <span class="tui-required"></span>
-        <input placeholder="******" tuiTextfield />
+        <input placeholder="******" tuiTextfield [disabled]="loading()"/>
       </tui-input-password>
       <tui-error
         [formGroup]="registerForm"
@@ -79,7 +81,7 @@
       appearance="primary"
       type="submit"
       [showLoader]="loading()"
-      [disabled]="!registerForm.valid"
+      [disabled]="loading() || !registerForm.valid"
     >
       Зарегистрироваться
     </button>
