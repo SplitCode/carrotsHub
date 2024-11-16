@@ -1,6 +1,5 @@
-<!-- @if (user$ | async; as user) {
+@if (userData$ | async; as userData) {
   <h2>Профиль пользователя</h2>
-  <p>Имя: {{ user.displayName }}</p>
-  <p>Email: {{ user.email }}</p>
-  <p>Возраст: 20 лет</p>
-  } -->
+  <p>Имя: {{ userData.name }}</p>
+  <p>Email: {{ userData.email }}</p>
+  }
