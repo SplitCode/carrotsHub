@@ -8,12 +8,12 @@ export interface UserData {
   targetWeight?: number;
   height?: number;
   gender: Gender;
-  target: Target;
+  goal: Goal;
   lifestyle: Lifestyle;
 }
 
 type Gender = "male" | "female";
 
-type Target = "Снижение веса" | "Поддержание веса" | "Набор веса";
+type Goal = "Снижение веса" | "Поддержание веса" | "Набор веса";
 
 type Lifestyle = "Сидячий" | "Малоактивный" | "Активный" | "Очень активный";
