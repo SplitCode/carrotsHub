@@ -29,7 +29,11 @@
 
   <section class="calories-form">
     <h6 class="tui-text_h6">Вычислить рекомендованную суточную калорийность</h6>
-    <form class="calories-form__form" [formGroup]="dailyCaloriesForm" (ngSubmit)="onCalculate()">
+    <form
+      class="calories-form__form"
+      [formGroup]="dailyCaloriesForm"
+      (ngSubmit)="onCalculate()"
+    >
       <div class="calories-form__field">
         <label class="calories-form__label"> Цель: </label>
         <tui-select
