@@ -16,6 +16,7 @@
           tuiTextfield
           autofocus
           type="email"
+          [disabled]="loading()"
         />
       </tui-input>
       <tui-error
@@ -28,7 +29,7 @@
       <tui-input-password formControlName="password" tuiTextfieldSize="m">
         пароль
         <span class="tui-required"></span>
-        <input placeholder="******" tuiTextfield />
+        <input placeholder="******" tuiTextfield [disabled]="loading()" />
       </tui-input-password>
       <tui-error
         formControlName="password"
@@ -42,7 +43,7 @@
       appearance="primary"
       type="submit"
       [showLoader]="loading()"
-      [disabled]="!loginForm.valid"
+      [disabled]="loading() || !loginForm.valid"
     >
       Войти
     </button>
@@ -56,6 +57,7 @@
       tuiButton
       appearance="outline"
       class="form__google-button"
+      [showLoader]="loading()"
       [disabled]="loading()"
       (click)="onGoogleLogin()"
     >

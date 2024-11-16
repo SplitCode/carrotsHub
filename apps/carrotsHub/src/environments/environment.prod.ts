@@ -2,7 +2,7 @@ export const environment = {
   production: true,
   firebase: {
     apiKey: "AIzaSyB_l7x7-ck9xNIMJAcy1QCbRCruIk2n3Xk",
-    authDomain: "carrot-s-hub.firebaseapp.com",
+    authDomain: "morkovka.web.app",
     projectId: "carrot-s-hub",
     storageBucket: "carrot-s-hub.firebasestorage.app",
     messagingSenderId: "1047568718956",
