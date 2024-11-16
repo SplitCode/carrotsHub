@@ -4,15 +4,22 @@ import { filter, switchMap, type Observable } from "rxjs";
 import {
   FormControl,
   FormGroup,
+  FormsModule,
   ReactiveFormsModule,
   Validators,
 } from "@angular/forms";
 import {
   TuiAvatarModule,
-  TuiInputCopyModule,
+  TuiDataListWrapperModule,
+  TuiInputModule,
+  TuiInputNumberModule,
   TuiSelectModule,
 } from "@taiga-ui/kit";
-import { TuiButtonModule, TuiTextfieldControllerModule } from "@taiga-ui/core";
+import {
+  TuiButtonModule,
+  TuiDataListModule,
+  TuiTextfieldControllerModule,
+} from "@taiga-ui/core";
 import { AuthService } from "../auth/services/auth.service";
 import { UserDataService } from "./services/user-data.service";
 import type { UserData } from "./models/user-data.interface";
@@ -22,8 +29,12 @@ import type { UserData } from "./models/user-data.interface";
   standalone: true,
   imports: [
     CommonModule,
-    TuiInputCopyModule,
+    TuiInputModule,
+    TuiInputNumberModule,
+    FormsModule,
     ReactiveFormsModule,
+    TuiDataListWrapperModule,
+    TuiDataListModule,
     TuiSelectModule,
     TuiButtonModule,
     TuiAvatarModule,
@@ -65,6 +76,15 @@ export class ProfilePageComponent {
   //       this.alerts.showError("Ошибка при обновлении профиля: " + error.message);
   //     });
   // }
+  readonly goals = ["Снижение веса", "Поддержание веса", "Набор веса"];
+  readonly genders = ["Мужской", "Женский"];
+  readonly lifestyles = [
+    "Сидячий",
+    "Малоактивный",
+    "Активный",
+    "Очень активный",
+  ];
+
   readonly dailyCaloriesForm: FormGroup = new FormGroup({
     goal: new FormControl("", Validators.required),
     age: new FormControl("", [Validators.required, Validators.min(1)]),
@@ -76,7 +96,6 @@ export class ProfilePageComponent {
 
   onCalculate() {
     if (this.dailyCaloriesForm.valid) {
-      // Логика расчета дневной нормы калорий будет здесь
       console.info("Форма для расчета калорий:", this.dailyCaloriesForm.value);
     }
   }

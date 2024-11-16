@@ -1,6 +1,6 @@
-<div class="profile-container">
+<div class="container">
   <section class="user-info">
-    <div class="avatar-container">
+    <div class="user-info__avatar">
       <tui-avatar
         avatarUrl="tuiIconUserLarge"
         new
@@ -9,16 +9,16 @@
         class="avatar"
       ></tui-avatar>
     </div>
-    <div class="user-details">
+    <div class="user-info__details">
       @if (userData$ | async; as userData) {
       <h4 class="tui-text_h4">{{ userData.name }}</h4>
       <p>Возраст: {{ userData.age || "-" }}</p>
-      <div class="user-parameters">
-        <div class="user-parameters__details">
+      <div class="user-info__parameters">
+        <div class="user-info__parameters-details">
           <p>Текущий вес:</p>
           <p>{{ userData.weight || "-" }} кг</p>
         </div>
-        <div class="user-parameters__details">
+        <div class="user-info__parameters-details">
           <p>Цель:</p>
           <p>{{ userData.targetWeight || "-" }} кг</p>
         </div>
@@ -26,51 +26,95 @@
       }
     </div>
   </section>
-  <!-- <section class="calories-form">
-    <h3>Вычислить рекомендованную суточную калорийность (РСК)</h3>
-    <form [formGroup]="dailyCaloriesForm" (ngSubmit)="onCalculate()">
-      <label>
-        Выберите цель:
-        <tui-select formControlName="goal">
-          <option value="Снижение веса">Снижение веса</option>
-          <option value="Поддержание веса">Поддержание веса</option>
-          <option value="Набор веса">Набор веса</option>
+
+  <section class="calories-form">
+    <h6 class="tui-text_h6">Вычислить рекомендованную суточную калорийность</h6>
+    <form class="calories-form__form" [formGroup]="dailyCaloriesForm" (ngSubmit)="onCalculate()">
+      <div class="calories-form__field">
+        <label class="calories-form__label"> Цель: </label>
+        <tui-select
+          formControlName="goal"
+          tuiTextfieldSize="m"
+          class="calories-form__select"
+          [tuiTextfieldLabelOutside]="true"
+        >
+          <tui-data-list-wrapper
+            *tuiDataList
+            [items]="goals"
+          ></tui-data-list-wrapper>
         </tui-select>
-      </label>
-      <label>
-        Возраст:
-        <tui-input formControlName="age" tuiTextfieldController></tui-input>
-      </label>
-      <label>
-        Пол:
-        <tui-select formControlName="gender">
-          <option value="Мужской">Мужской</option>
-          <option value="Женский">Женский</option>
+      </div>
+
+      <div class="calories-form__field">
+        <label class="calories-form__label"> Возраст: </label>
+        <tui-input-number
+          formControlName="age"
+          tuiTextfieldSize="m"
+          class="calories-form__select"
+          [tuiTextfieldLabelOutside]="true"
+        >
+        </tui-input-number>
+      </div>
+
+      <div class="calories-form__field">
+        <label class="calories-form__label"> Пол: </label>
+        <tui-select
+          formControlName="gender"
+          tuiTextfieldSize="m"
+          class="calories-form__select"
+          [tuiTextfieldLabelOutside]="true"
+        >
+          <tui-data-list-wrapper
+            *tuiDataList
+            [items]="genders"
+          ></tui-data-list-wrapper>
         </tui-select>
-      </label>
-      <label>
-        Образ жизни:
-        <tui-select formControlName="lifestyle">
-          <option value="Сидячий">Сидячий</option>
-          <option value="Малоактивный">Малоактивный</option>
-          <option value="Активный">Активный</option>
-          <option value="Очень активный">Очень активный</option>
+      </div>
+
+      <div class="calories-form__field">
+        <label class="calories-form__label"> Образ жизни: </label>
+        <tui-select
+          formControlName="lifestyle"
+          tuiTextfieldSize="m"
+          class="calories-form__select"
+          [tuiTextfieldLabelOutside]="true"
+        >
+          <tui-data-list-wrapper
+            *tuiDataList
+            [items]="lifestyles"
+          ></tui-data-list-wrapper>
         </tui-select>
-      </label>
-      <label>
-        Вес, кг:
-        <tui-input formControlName="weight" tuiTextfieldController></tui-input>
-      </label>
-      <label>
-        Рост, см:
-        <tui-input formControlName="height" tuiTextfieldController></tui-input>
-      </label>
+      </div>
+
+      <div class="calories-form__field">
+        <label class="calories-form__label"> Вес, кг: </label>
+        <tui-input-number
+          formControlName="weight"
+          tuiTextfieldSize="m"
+          class="calories-form__select"
+          [tuiTextfieldLabelOutside]="true"
+        >
+        </tui-input-number>
+      </div>
+
+      <div class="calories-form__field">
+        <label class="calories-form__label"> Рост, см: </label>
+        <tui-input-number
+          formControlName="height"
+          tuiTextfieldSize="m"
+          class="calories-form__select"
+          [tuiTextfieldLabelOutside]="true"
+        >
+        </tui-input-number>
+      </div>
+
       <button tuiButton type="submit" [disabled]="!dailyCaloriesForm.valid">
         Вычислить
       </button>
     </form>
   </section>
-  <section class="calories-result" *ngIf="dailyCaloriesForm.valid">
+
+  <!-- <section class="calories-result" *ngIf="dailyCaloriesForm.valid">
     <h3>Ваша дневная норма составляет</h3>
     <span class="calories-value">1800 ккал</span>
     <div class="macronutrients">
