@@ -9,4 +9,5 @@ export enum MESSAGES {
   errorServer = "Ошибка сервера. Попробуйте еще раз позже.",
   errorUnknown = "Произошла ошибка. Попробуйте еще раз позже.",
   userAlreadyExist = "Пользователь с таким email уже зарегистрирован.",
+  cancelGoogleLogin = "Вход через Google отменён.",
 }

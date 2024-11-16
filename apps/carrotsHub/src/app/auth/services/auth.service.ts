@@ -79,6 +79,8 @@ export class AuthService {
         return MESSAGES.errorServer;
       case "auth/email-already-in-use":
         return MESSAGES.userAlreadyExist;
+      case "auth/popup-closed-by-user":
+        return MESSAGES.cancelGoogleLogin;
       default:
         return MESSAGES.errorUnknown;
     }
