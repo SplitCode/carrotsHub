@@ -153,7 +153,8 @@ export class ProfilePageComponent implements OnInit {
         ),
         finalize(() => {
           this.loading.set(false);
-        })
+        }),
+        takeUntil(this.destroy$)
       )
       .subscribe({
         next: () => {
