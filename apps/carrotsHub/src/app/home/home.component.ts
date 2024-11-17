@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { AuthService } from "../auth/services/auth.service";
-import { PageRoutes } from "../app.routes-path";
+import { PageRoutes } from "../shared/constants/app.routes-path";
 
 @Component({
   selector: "app-home",

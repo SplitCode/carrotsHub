@@ -2,7 +2,7 @@ import {
   redirectLoggedInTo,
   redirectUnauthorizedTo,
 } from "@angular/fire/auth-guard";
-import { PageRoutes } from "../../app.routes-path";
+import { PageRoutes } from "../../shared/constants/app.routes-path";
 
 export const redirectUnauthorizedToLogin = () =>
   redirectUnauthorizedTo([PageRoutes.Login]);
