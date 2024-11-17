@@ -2,9 +2,9 @@ import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component, inject } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormControl, ReactiveFormsModule } from "@angular/forms";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Router } from "@angular/router";
-import { debounceTime, switchMap } from "rxjs";
+import { catchError, debounceTime, of, switchMap } from "rxjs";
 
 @Component({
   selector: "app-recipes-page",
@@ -28,7 +28,11 @@ export class RecipesPageComponent implements OnInit {
     this.searchControl.valueChanges
       .pipe(
         debounceTime(500),
-        switchMap((query) => this.searchRecipes(query || ""))
+        switchMap((query) => this.searchRecipes(query || "")),
+        catchError((error) => {
+          console.error("Ошибка при получении рецептов:", error);
+          return of({ hits: [] });
+        })
       )
       .subscribe((data) => {
         this.recipes = data.hits.map((hit: any) => hit.recipe);
@@ -37,7 +41,11 @@ export class RecipesPageComponent implements OnInit {
 
   searchRecipes(query: string) {
     const url = `https://api.edamam.com/search?q=${query}&app_id=${this.apiId}&app_key=${this.apiKey}`;
-    return this.http.get<any>(url);
+    const headers = new HttpHeaders({
+      "Edamam-Account-User": "01ea880a",
+    });
+
+    return this.http.get<any>(url, { headers });
   }
 
   openRecipeDetail(recipeUri: string) {
