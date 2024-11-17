@@ -1,0 +1,29 @@
+<section class="user-info">
+  <div class="user-info__avatar">
+    <tui-avatar
+      avatarUrl="tuiIconUserLarge"
+      new
+      size="xxl"
+      [rounded]="true"
+      class="avatar"
+    ></tui-avatar>
+  </div>
+  <div class="user-info__details">
+    <h4 class="tui-text_h4">{{ userData?.name || "-" }}</h4>
+    <p>Возраст: {{ userData?.age || "-" }}</p>
+    <div class="user-info__parameters">
+      <div class="user-info__parameters-details">
+        <p>Текущий вес:</p>
+        <p>{{ userData?.weight || "-" }} кг</p>
+      </div>
+      <div class="user-info__parameters-details">
+        <p>Цель:</p>
+        <p>{{ userData?.goal || "-" }}</p>
+      </div>
+      <div class="user-info__parameters-details">
+        <p>Оптимальный вес:</p>
+        <p>{{ userData?.optimalWeight || "-" }} кг</p>
+      </div>
+    </div>
+  </div>
+</section>

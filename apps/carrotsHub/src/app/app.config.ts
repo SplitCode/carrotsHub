@@ -7,15 +7,16 @@ import {
   isDevMode,
 } from "@angular/core";
 import { provideRouter } from "@angular/router";
+import { provideHttpClient } from "@angular/common/http";
 import { provideFirebaseApp, initializeApp } from "@angular/fire/app";
 import { provideAuth, getAuth } from "@angular/fire/auth";
 import { provideFirestore, getFirestore } from "@angular/fire/firestore";
+import { provideAnalytics, getAnalytics } from "@angular/fire/analytics";
+import { provideDatabase, getDatabase } from "@angular/fire/database";
 import { FIREBASE_OPTIONS } from "@angular/fire/compat";
-import { provideHttpClient } from "@angular/common/http";
 import { TUI_LANGUAGE, TUI_RUSSIAN_LANGUAGE } from "@taiga-ui/i18n";
 import { TUI_ALERT_POSITION } from "@taiga-ui/core";
 import { of } from "rxjs";
-import { provideAnalytics, getAnalytics } from "@angular/fire/analytics";
 import { appRoutes } from "./app.routes";
 import { loggerFactory } from "./core/logger/logger-factory";
 import { Logger } from "./core/logger/logger.models";
@@ -32,6 +33,7 @@ export const appConfig: ApplicationConfig = {
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
     provideAnalytics(() => getAnalytics()),
+    provideDatabase(() => getDatabase()),
     { provide: FIREBASE_OPTIONS, useValue: environment.firebase },
     importProvidersFrom(TuiRootModule),
     {

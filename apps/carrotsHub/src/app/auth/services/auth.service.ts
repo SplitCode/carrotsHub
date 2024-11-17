@@ -1,11 +1,11 @@
 import { Injectable, inject } from "@angular/core";
 import type { Observable } from "rxjs";
 import { AngularFireAuth } from "@angular/fire/compat/auth";
+import { AngularFireDatabase } from "@angular/fire/compat/database";
 import { catchError, from, of, switchMap, throwError } from "rxjs";
 import type firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 import { GoogleAuthProvider } from "firebase/auth";
-import { Router } from "@angular/router";
 import type {
   LoginCredentials,
   RegistrationCredentials,
@@ -18,12 +18,8 @@ import { MESSAGES } from "../../shared/constants/notification-messages";
 })
 export class AuthService {
   private readonly auth = inject(AngularFireAuth);
-  private readonly router = inject(Router);
+  private readonly db = inject(AngularFireDatabase);
   currentUser$ = this.auth.authState;
-
-  initialize() {
-    window.onbeforeunload = () => null;
-  }
 
   login(params: LoginCredentials): Observable<firebase.auth.UserCredential> {
     return from(
@@ -37,11 +33,31 @@ export class AuthService {
 
   googleLogin() {
     return from(this.auth.signInWithPopup(new GoogleAuthProvider())).pipe(
-      catchError((error: FirebaseError) => {
-        return throwError(
-          () => new Error(this.translateFirebaseErrorMessage(error))
-        );
-      })
+      switchMap((userCredential) => {
+        const user = userCredential.user;
+        if (user) {
+          return this.db
+            .object(`users/${user.uid}`)
+            .valueChanges()
+            .pipe(
+              switchMap((data) => {
+                if (!data) {
+                  return this.db.object(`users/${user.uid}`).set({
+                    uid: user.uid,
+                    name: user.displayName,
+                    email: user.email,
+                    createdAt: new Date().toISOString(),
+                  });
+                }
+                return of(null);
+              })
+            );
+        }
+        return of();
+      }),
+      catchError((error: FirebaseError) =>
+        throwError(() => new Error(this.translateFirebaseErrorMessage(error)))
+      )
     );
   }
 
@@ -56,7 +72,17 @@ export class AuthService {
       switchMap((userCredential) => {
         const user = userCredential.user;
         if (user) {
-          return from(user.updateProfile({ displayName: params.name }));
+          return from(user.updateProfile({ displayName: params.name })).pipe(
+            switchMap(() =>
+              this.db.object(`users/${user.uid}`).set({
+                uid: user.uid,
+                name: params.name,
+                email: params.email,
+                password: params.password,
+                createdAt: new Date().toISOString(),
+              })
+            )
+          );
         }
         return of();
       }),

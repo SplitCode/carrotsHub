@@ -1,1 +1,124 @@
-<p>profile-page works!</p>
+<div class="container">
+  <app-user-info [userData]="userData$ | async"></app-user-info>
+
+  <section class="calories-form">
+    <h6 class="tui-text_h6">Вычислить рекомендованную суточную калорийность</h6>
+    <form
+      class="calories-form__form"
+      [formGroup]="dailyCaloriesForm"
+      (ngSubmit)="onCalculate()"
+    >
+      <div class="calories-form__field">
+        <label class="calories-form__label"> Цель: </label>
+        <tui-select
+          formControlName="goal"
+          tuiTextfieldSize="m"
+          class="calories-form__select"
+          [tuiTextfieldLabelOutside]="true"
+        >
+          <tui-data-list-wrapper
+            *tuiDataList
+            [items]="goals"
+          ></tui-data-list-wrapper>
+        </tui-select>
+      </div>
+
+      <div class="calories-form__field">
+        <label class="calories-form__label"> Возраст: </label>
+        <tui-input-number
+          formControlName="age"
+          tuiTextfieldSize="m"
+          class="calories-form__select"
+          [tuiTextfieldLabelOutside]="true"
+        >
+        </tui-input-number>
+      </div>
+
+      <div class="calories-form__field">
+        <label class="calories-form__label"> Пол: </label>
+        <tui-select
+          formControlName="gender"
+          tuiTextfieldSize="m"
+          class="calories-form__select"
+          [tuiTextfieldLabelOutside]="true"
+        >
+          <tui-data-list-wrapper
+            *tuiDataList
+            [items]="genders"
+          ></tui-data-list-wrapper>
+        </tui-select>
+      </div>
+
+      <div class="calories-form__field">
+        <label class="calories-form__label"> Образ жизни: </label>
+        <tui-select
+          formControlName="lifestyle"
+          tuiTextfieldSize="m"
+          class="calories-form__select"
+          [tuiTextfieldLabelOutside]="true"
+        >
+          <tui-data-list-wrapper
+            *tuiDataList
+            [items]="lifestyles"
+          ></tui-data-list-wrapper>
+        </tui-select>
+      </div>
+
+      <div class="calories-form__field">
+        <label class="calories-form__label"> Вес, кг: </label>
+        <tui-input-number
+          formControlName="weight"
+          tuiTextfieldSize="m"
+          class="calories-form__select"
+          [tuiTextfieldLabelOutside]="true"
+        >
+        </tui-input-number>
+      </div>
+
+      <div class="calories-form__field">
+        <label class="calories-form__label"> Рост, см: </label>
+        <tui-input-number
+          formControlName="height"
+          tuiTextfieldSize="m"
+          class="calories-form__select"
+          [tuiTextfieldLabelOutside]="true"
+        >
+        </tui-input-number>
+      </div>
+
+      <button
+        tuiButton
+        type="submit"
+        [showLoader]="loading()"
+        [disabled]="loading() || !dailyCaloriesForm.valid"
+      >
+        Вычислить
+      </button>
+    </form>
+  </section>
+
+  <section class="calories-result">
+    <h6 class="tui-text_h6">Ваша дневная норма составляет</h6>
+    <span class="calories-result__value"
+      >{{ calculatedCalories || "-" }} ккал</span
+    >
+    <div class="calories-result__macronutrients">
+      <div class="macronutrients-item">
+        <p>Углеводы:</p>
+        <p>{{ carbohydrates || "-" }}г</p>
+      </div>
+      <div class="macronutrients-item">
+        <p>Белки:</p>
+        <p>{{ protein || "-" }}г</p>
+      </div>
+      <div class="macronutrients-item">
+        <p>Жиры:</p>
+        <p>{{ fat || "-" }}г</p>
+      </div>
+    </div>
+    <div class="calories-result__target">
+      <p>Оптимальный вес: &nbsp;</p>
+      <p class="calories-result__weight">{{ optimalWeight || "-" }} кг</p>
+    </div>
+  </section>
+</div>

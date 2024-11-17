@@ -1,0 +1,51 @@
+.user-info {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  max-width: 35rem;
+  height: 15.625rem;
+  margin: 4rem auto 0;
+  padding: 2rem 3rem 3rem;
+  border-radius: 0.5rem;
+  background-color: var(--tui-base-01);
+  box-shadow: var(--tui-shadow-navigation);
+
+  &__avatar {
+    position: absolute;
+    top: -4rem;
+    left: 50%;
+    z-index: 2;
+    transform: translateX(-50%);
+
+    .avatar {
+      background-color: var(--tui-primary);
+      border: 1px solid black;
+    }
+  }
+
+  &__details {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 4rem;
+    width: 100%;
+
+    p {
+      margin: 0.5rem 0;
+    }
+  }
+
+  &__parameters {
+    align-self: flex-start;
+    margin-top: 1rem;
+    width: 100%;
+  }
+
+  &__parameters-details {
+    display: flex;
+    justify-content: space-between;
+  }
+}
