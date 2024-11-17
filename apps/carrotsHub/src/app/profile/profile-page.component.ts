@@ -1,6 +1,20 @@
-import { ChangeDetectionStrategy, Component, inject } from "@angular/core";
+import type { OnInit } from "@angular/core";
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  signal,
+} from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { filter, switchMap, tap, type Observable } from "rxjs";
+import {
+  filter,
+  finalize,
+  Observable,
+  switchMap,
+  take,
+  takeUntil,
+  tap,
+} from "rxjs";
 import {
   FormControl,
   FormGroup,
@@ -19,12 +33,18 @@ import {
   TuiDataListModule,
   TuiTextfieldControllerModule,
 } from "@taiga-ui/core";
+import { TuiDestroyService } from "@taiga-ui/cdk";
 import { AuthService } from "../auth/services/auth.service";
 import { UserDataService } from "./services/user-data.service";
 import type { UserData } from "./models/user-data.interface";
 import { GOAL, GENDER, LIFESTYLE, ACTIVITY_LEVELS } from "./constants/profile";
 import { UserInfoComponent } from "./components/user-info/user-info.component";
 import { Logger } from "../core/logger/logger.models";
+import {
+  calculateBaseMetabolicRate,
+  calculateCalories,
+  calculateOptimalWeightByBrock,
+} from "./utils/calculation-utils";
 
 @Component({
   selector: "app-profile-page",
@@ -45,29 +65,18 @@ import { Logger } from "../core/logger/logger.models";
   templateUrl: "./profile-page.component.html",
   styleUrl: "./profile-page.component.less",
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [TuiDestroyService],
 })
-export class ProfilePageComponent {
+export class ProfilePageComponent implements OnInit {
   private readonly authService = inject(AuthService);
   private readonly userDataService = inject(UserDataService);
+  private readonly destroy$ = inject(TuiDestroyService);
   private readonly logger = inject(Logger);
 
+  readonly loading = signal(false);
+
   user$ = this.authService.currentUser$;
-  userData$: Observable<UserData | null> = this.authService.currentUser$.pipe(
-    filter((user) => !!user),
-    switchMap((user) => this.userDataService.getUserData(user.uid)),
-    tap((userData) => {
-      if (userData) {
-        this.dailyCaloriesForm.patchValue(userData);
-        if (userData.calculatedCalories) {
-          this.calculatedCalories = userData.calculatedCalories;
-          this.protein = userData.protein ?? null;
-          this.fat = userData.fat ?? null;
-          this.carbohydrates = userData.carbohydrates ?? null;
-          this.optimalWeight = userData.optimalWeight ?? null;
-        }
-      }
-    })
-  );
+  userData$: Observable<UserData | null> = new Observable<UserData | null>();
 
   readonly goals = Object.values(GOAL);
   readonly genders = Object.values(GENDER);
@@ -84,7 +93,7 @@ export class ProfilePageComponent {
       nonNullable: true,
       validators: [Validators.required],
     }),
-    age: new FormControl(0, {
+    age: new FormControl(null, {
       nonNullable: true,
       validators: [Validators.required, Validators.min(1)],
     }),
@@ -96,42 +105,42 @@ export class ProfilePageComponent {
       nonNullable: true,
       validators: [Validators.required],
     }),
-    weight: new FormControl(0, {
+    weight: new FormControl(null, {
       nonNullable: true,
       validators: [Validators.required, Validators.min(1)],
     }),
-    height: new FormControl(0, {
+    height: new FormControl(null, {
       nonNullable: true,
       validators: [Validators.required, Validators.min(1)],
     }),
   });
 
   onCalculate() {
+    this.loading.set(true);
+
     const formValues = this.dailyCaloriesForm.value;
     const { goal, age, gender, lifestyle, weight, height } = formValues;
 
     const activityMultiplier = ACTIVITY_LEVELS[lifestyle as LIFESTYLE];
-
-    const baseMetabolicRate = this.calculateBaseMetabolicRate(
+    const baseMetabolicRate = calculateBaseMetabolicRate(
       weight,
       height,
       age,
       gender
     );
-
     const normRSK = Math.round(baseMetabolicRate * activityMultiplier);
-    const resultRSK = this.calculateCalories(goal, normRSK);
+    const resultRSK = calculateCalories(goal, normRSK);
 
     this.protein = Math.round((resultRSK * 0.2) / 4);
     this.fat = Math.round((resultRSK * 0.3) / 9);
     this.carbohydrates = Math.round((resultRSK * 0.5) / 4);
-
     this.calculatedCalories = resultRSK;
-    this.optimalWeight = this.calculateOptimalWeightByBrock(height, gender);
+    this.optimalWeight = calculateOptimalWeightByBrock(height, gender);
 
     this.user$
       .pipe(
         filter((user) => !!user),
+        take(1),
         switchMap((user) =>
           this.userDataService.updateUserData(user.uid, {
             ...formValues,
@@ -141,7 +150,10 @@ export class ProfilePageComponent {
             carbohydrates: this.carbohydrates,
             optimalWeight: this.optimalWeight,
           })
-        )
+        ),
+        finalize(() => {
+          this.loading.set(false);
+        })
       )
       .subscribe({
         next: () => {
@@ -159,36 +171,23 @@ export class ProfilePageComponent {
       });
   }
 
-  private calculateBaseMetabolicRate(
-    weight: number,
-    height: number,
-    age: number,
-    gender: GENDER
-  ): number {
-    if (gender === GENDER.male) {
-      return 9.99 * weight + 6.25 * height - 4.92 * age + 5;
-    }
-    return 9.99 * weight + 6.25 * height - 4.92 * age - 161;
-  }
-
-  private calculateCalories(goal: GOAL, normRSK: number): number {
-    switch (goal) {
-      case GOAL.weightLoss:
-        return Math.round(normRSK - normRSK * 0.2);
-      case GOAL.weightGain:
-        return Math.round(normRSK + normRSK * 0.2);
-      case GOAL.maintenance:
-      default:
-        return normRSK;
-    }
-  }
-
-  private calculateOptimalWeightByBrock(
-    height: number,
-    gender: GENDER
-  ): number {
-    return gender === GENDER.male
-      ? Math.round((height - 100) * 1.15)
-      : Math.round((height - 110) * 1.15);
+  ngOnInit(): void {
+    this.userData$ = this.user$.pipe(
+      filter((user) => !!user),
+      switchMap((user) => this.userDataService.getUserData(user.uid)),
+      tap((userData) => {
+        if (userData) {
+          this.dailyCaloriesForm.patchValue(userData);
+          if (userData.calculatedCalories) {
+            this.calculatedCalories = userData.calculatedCalories;
+            this.protein = userData.protein ?? null;
+            this.fat = userData.fat ?? null;
+            this.carbohydrates = userData.carbohydrates ?? null;
+            this.optimalWeight = userData.optimalWeight ?? null;
+          }
+        }
+      }),
+      takeUntil(this.destroy$)
+    );
   }
 }

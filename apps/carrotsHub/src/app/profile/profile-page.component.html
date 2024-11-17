@@ -86,7 +86,12 @@
         </tui-input-number>
       </div>
 
-      <button tuiButton type="submit" [disabled]="!dailyCaloriesForm.valid">
+      <button
+        tuiButton
+        type="submit"
+        [showLoader]="loading()"
+        [disabled]="loading() || !dailyCaloriesForm.valid"
+      >
         Вычислить
       </button>
     </form>
