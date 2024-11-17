@@ -7,9 +7,13 @@ export interface UserData {
   weight?: number;
   targetWeight?: number;
   height?: number;
-  gender: Gender;
-  goal: Goal;
-  lifestyle: Lifestyle;
+  gender?: Gender;
+  goal?: Goal;
+  lifestyle?: Lifestyle;
+  calculatedCalories?: number;
+  protein?: number;
+  fat?: number;
+  carbohydrates?: number;
 }
 
 type Gender = "male" | "female";

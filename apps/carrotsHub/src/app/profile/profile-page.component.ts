@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { filter, switchMap, type Observable } from "rxjs";
+import { filter, switchMap, tap, type Observable } from "rxjs";
 import {
   FormControl,
   FormGroup,
@@ -50,7 +50,18 @@ export class ProfilePageComponent {
   user$ = this.authService.currentUser$;
   userData$: Observable<UserData | null> = this.authService.currentUser$.pipe(
     filter((user) => !!user),
-    switchMap((user) => this.userDataService.getUserData(user.uid))
+    switchMap((user) => this.userDataService.getUserData(user.uid)),
+    tap((userData) => {
+      if (userData) {
+        this.dailyCaloriesForm.patchValue(userData);
+        if (userData.calculatedCalories) {
+          this.calculatedCalories = userData.calculatedCalories;
+          this.protein = userData.protein ?? null;
+          this.fat = userData.fat ?? null;
+          this.carbohydrates = userData.carbohydrates ?? null;
+        }
+      }
+    })
   );
 
   readonly goals = ["Снижение веса", "Поддержание веса", "Набор веса"];
@@ -125,30 +136,45 @@ export class ProfilePageComponent {
         this.dailyCaloriesForm.value,
         resultRSK
       );
+
+      this.user$
+        .pipe(
+          filter((user) => !!user),
+          switchMap((user) =>
+            this.userDataService.updateUserData(user.uid, {
+              ...formValues,
+              calculatedCalories: this.calculatedCalories,
+              protein: this.protein,
+              fat: this.fat,
+              carbohydrates: this.carbohydrates,
+            })
+          )
+        )
+        .subscribe();
     }
   }
-
-  // ngOnInit(): void {
-  //   this.authService.currentUser$.subscribe((user) => {
-  //     if (user) {
-  //       // Получаем данные пользователя из UserDataService
-  //       this.userData$ = this.userDataService.getUserData(user.uid);
-  //     }
-  //   });
-  // }
-
-  // onSaveProfile() {
-  //   const updatedUserData = {
-  //     address: this.profileForm.value.address,
-  //     phoneNumber: this.profileForm.value.phoneNumber,
-  //   };
-
-  //   this.databaseService.updateUser(this.currentUser.uid, updatedUserData)
-  //     .then(() => {
-  //       this.alerts.showSuccess("Профиль успешно обновлен");
-  //     })
-  //     .catch((error) => {
-  //       this.alerts.showError("Ошибка при обновлении профиля: " + error.message);
-  //     });
-  // }
 }
+
+// ngOnInit(): void {
+//   this.authService.currentUser$.subscribe((user) => {
+//     if (user) {
+//       // Получаем данные пользователя из UserDataService
+//       this.userData$ = this.userDataService.getUserData(user.uid);
+//     }
+//   });
+// }
+
+// onSaveProfile() {
+//   const updatedUserData = {
+//     address: this.profileForm.value.address,
+//     phoneNumber: this.profileForm.value.phoneNumber,
+//   };
+
+//   this.databaseService.updateUser(this.currentUser.uid, updatedUserData)
+//     .then(() => {
+//       this.alerts.showSuccess("Профиль успешно обновлен");
+//     })
+//     .catch((error) => {
+//       this.alerts.showError("Ошибка при обновлении профиля: " + error.message);
+//     });
+// }
