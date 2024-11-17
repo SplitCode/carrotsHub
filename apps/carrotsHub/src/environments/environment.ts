@@ -11,4 +11,8 @@ export const environment = {
     measurementId: "G-XG80ZGVQJ7",
   },
   backendUrl: "http://localhost:3000",
+  edamam: {
+    apiId: "01ea880a",
+    apiKey: "daaed082eb9b2c1bba652577a2e3326e",
+  },
 };

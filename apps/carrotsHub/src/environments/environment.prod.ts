@@ -11,4 +11,8 @@ export const environment = {
     measurementId: "G-TDNSFVL3YL",
   },
   backendUrl: "https://morkovka.web.app",
+  edamam: {
+    apiId: "01ea880a",
+    apiKey: "daaed082eb9b2c1bba652577a2e3326e",
+  },
 };
