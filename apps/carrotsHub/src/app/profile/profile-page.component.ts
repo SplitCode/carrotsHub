@@ -24,6 +24,7 @@ import { AuthService } from "../auth/services/auth.service";
 import { UserDataService } from "./services/user-data.service";
 import type { UserData } from "./models/user-data.interface";
 import { GOAL, GENDER, LIFESTYLE, ACTIVITY_LEVELS } from "./constants/profile";
+import { UserInfoComponent } from "./components/user-info/user-info.component";
 
 @Component({
   selector: "app-profile-page",
@@ -40,6 +41,7 @@ import { GOAL, GENDER, LIFESTYLE, ACTIVITY_LEVELS } from "./constants/profile";
     TuiButtonModule,
     TuiAvatarModule,
     TuiTextfieldControllerModule,
+    UserInfoComponent,
   ],
   templateUrl: "./profile-page.component.html",
   styleUrl: "./profile-page.component.less",
