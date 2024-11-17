@@ -92,7 +92,6 @@
     </form>
   </section>
 
-  <!-- <section class="calories-result" *ngIf="dailyCaloriesForm.valid"> -->
   <section class="calories-result">
     <h6 class="tui-text_h6">Ваша дневная норма составляет</h6>
     <span class="calories-result__value"
@@ -111,6 +110,10 @@
         <p>Жиры:</p>
         <p>{{ fat || "-" }}г</p>
       </div>
+    </div>
+    <div class="calories-result__target">
+      <p>Оптимальный вес: &nbsp; </p>
+      <p class="calories-result__weight">{{ optimalWeight || '-' }} кг</p>
     </div>
   </section>
 </div>

@@ -2,7 +2,7 @@
   // display: flex;
   max-width: 50rem;
   margin: 0 auto;
-  padding: 2rem;
+  // padding: 2rem;
 }
 
 .tui-text_h6 {
@@ -67,12 +67,27 @@
   &__macronutrients {
     display: flex;
     justify-content: center;
-    gap: 5rem;
-    margin-top: 1rem;
+    gap: clamp(1rem, 5vw, 5rem);
+    margin: 1rem 0;
 
     .macronutrients-item {
       display: flex;
       flex-direction: column;
+    }
+
+    p {
+      margin: 0;
+    }
+  }
+
+  &__target {
+    display: flex;
+    justify-content: center;
+    gap: clamp(3rem, 10vw, 25rem);
+
+    .calories-result__weight {
+      font-weight: bold;
+      color: var(--tui-primary);
     }
   }
 }

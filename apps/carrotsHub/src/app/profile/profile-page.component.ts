@@ -63,6 +63,7 @@ export class ProfilePageComponent {
           this.protein = userData.protein ?? null;
           this.fat = userData.fat ?? null;
           this.carbohydrates = userData.carbohydrates ?? null;
+          this.optimalWeight = userData.optimalWeight ?? null;
         }
       }
     })
@@ -76,6 +77,7 @@ export class ProfilePageComponent {
   protein: number | null = null;
   fat: number | null = null;
   carbohydrates: number | null = null;
+  optimalWeight: number | null = null;
 
   readonly dailyCaloriesForm: FormGroup = new FormGroup({
     goal: new FormControl("", {
@@ -125,6 +127,7 @@ export class ProfilePageComponent {
     this.carbohydrates = Math.round((resultRSK * 0.5) / 4);
 
     this.calculatedCalories = resultRSK;
+    this.optimalWeight = this.calculateOptimalWeightByBrock(height, gender);
 
     console.info(
       "Форма для расчета калорий:",
@@ -144,6 +147,7 @@ export class ProfilePageComponent {
             protein: this.protein,
             fat: this.fat,
             carbohydrates: this.carbohydrates,
+            optimalWeight: this.optimalWeight,
           })
         )
       )
@@ -172,6 +176,15 @@ export class ProfilePageComponent {
       default:
         return normRSK;
     }
+  }
+
+  private calculateOptimalWeightByBrock(
+    height: number,
+    gender: GENDER
+  ): number {
+    return gender === GENDER.male
+      ? Math.round((height - 100) * 1.15)
+      : Math.round((height - 110) * 1.15);
   }
 }
 

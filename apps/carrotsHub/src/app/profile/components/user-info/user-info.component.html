@@ -19,7 +19,11 @@
       </div>
       <div class="user-info__parameters-details">
         <p>Цель:</p>
-        <p>{{ userData.targetWeight || "-" }} кг</p>
+        <p>{{ userData.goal || "-" }}</p>
+      </div>
+      <div class="user-info__parameters-details">
+        <p>Оптимальный вес:</p>
+        <p>{{ userData.optimalWeight || "-" }} кг</p>
       </div>
     </div>
     }

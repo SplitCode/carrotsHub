@@ -8,7 +8,7 @@ export interface UserData {
   createdAt: string;
   age?: number;
   weight?: number;
-  targetWeight?: number;
+  optimalWeight?: number;
   height?: number;
   gender?: GENDER;
   goal?: GOAL;
