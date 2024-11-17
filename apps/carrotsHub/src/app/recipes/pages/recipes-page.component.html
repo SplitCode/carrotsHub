@@ -14,6 +14,10 @@
   >
     <img [src]="recipe.image" alt="{{ recipe.label }}" />
     <p>{{ recipe.label }}</p>
-    <p>Калорийность {{ recipe.calories }}</p>
+    <p>Количество порций:{{ recipe.yield }}</p>
+    <p>Калорийность на 1 порцию{{ recipe.calories / recipe.yield }}</p>
+    <p>Белки{{ recipe.digest[2].total }}</p>
+    <p>Жиры {{ recipe.digest[0].total }}</p>
+    <p>Углеводы {{ recipe.digest[1].total }}</p>
   </div>
 </section>
