@@ -12,7 +12,8 @@ stages:
 
 install:
   stage: install
-  script: npm ci
+  script:
+    - npm ci
   artifacts:
     paths:
       - node_modules/
@@ -30,7 +31,8 @@ lint:
   only:
     - branches
     - merge_requests
-  dependencies: -install
+  dependencies:
+    - install
 
 build:
   stage: build
@@ -42,7 +44,8 @@ build:
   only:
     - merge_requests
     - master
-  dependencies: -install
+  dependencies:
+    - install
 
 deploy-staging:
   stage: deploy-staging
