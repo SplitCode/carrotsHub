@@ -9,23 +9,21 @@
     ></tui-avatar>
   </div>
   <div class="user-info__details">
-    @if (userData) {
-    <h4 class="tui-text_h4">{{ userData.name }}</h4>
-    <p>Возраст: {{ userData.age || "-" }}</p>
+    <h4 class="tui-text_h4">{{ userData?.name || "-"}}</h4>
+    <p>Возраст: {{ userData?.age || "-" }}</p>
     <div class="user-info__parameters">
       <div class="user-info__parameters-details">
         <p>Текущий вес:</p>
-        <p>{{ userData.weight || "-" }} кг</p>
+        <p>{{ userData?.weight || "-" }} кг</p>
       </div>
       <div class="user-info__parameters-details">
         <p>Цель:</p>
-        <p>{{ userData.goal || "-" }}</p>
+        <p>{{ userData?.goal || "-" }}</p>
       </div>
       <div class="user-info__parameters-details">
         <p>Оптимальный вес:</p>
-        <p>{{ userData.optimalWeight || "-" }} кг</p>
+        <p>{{ userData?.optimalWeight || "-" }} кг</p>
       </div>
     </div>
-    }
   </div>
 </section>
