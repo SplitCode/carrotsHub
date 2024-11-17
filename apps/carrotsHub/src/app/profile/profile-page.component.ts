@@ -95,7 +95,7 @@ export class ProfilePageComponent implements OnInit {
     }),
     age: new FormControl(null, {
       nonNullable: true,
-      validators: [Validators.required, Validators.min(1)],
+      validators: [Validators.required, Validators.min(1), Validators.max(120)],
     }),
     gender: new FormControl("", {
       nonNullable: true,
@@ -107,11 +107,11 @@ export class ProfilePageComponent implements OnInit {
     }),
     weight: new FormControl(null, {
       nonNullable: true,
-      validators: [Validators.required, Validators.min(1)],
+      validators: [Validators.required, Validators.min(1), Validators.max(500)],
     }),
     height: new FormControl(null, {
       nonNullable: true,
-      validators: [Validators.required, Validators.min(1)],
+      validators: [Validators.required, Validators.min(1), Validators.max(300)],
     }),
   });
 
