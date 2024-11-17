@@ -1,9 +1,11 @@
-import type { OnInit } from "@angular/core";
+// import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component, inject } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { FormControl, ReactiveFormsModule } from "@angular/forms";
+import { FormControl, FormGroup, ReactiveFormsModule } from "@angular/forms";
 import { Router } from "@angular/router";
-import { catchError, debounceTime, of, switchMap } from "rxjs";
+// import { catchError, debounceTime, of, switchMap } from "rxjs";
+import type { Observable } from "rxjs";
+import { catchError, of, map } from "rxjs";
 import { EdamamService } from "../../api/services/edamam.service";
 
 @Component({
@@ -14,30 +16,28 @@ import { EdamamService } from "../../api/services/edamam.service";
   styleUrl: "./recipes-page.component.less",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RecipesPageComponent implements OnInit {
-  // searchForm = new FormGroup({
-  //   searchControl: new FormControl(""),
-  // });
+export class RecipesPageComponent {
+  searchForm = new FormGroup({
+    searchControl: new FormControl(""),
+  });
 
-  searchControl = new FormControl("");
-  recipes: any[] = [];
+  recipes$: Observable<any[]> = of([]);
 
   private readonly edamamService = inject(EdamamService);
   private readonly router = inject(Router);
 
-  ngOnInit() {
-    this.searchControl.valueChanges
-      .pipe(
-        debounceTime(300),
-        switchMap((query) => this.edamamService.searchRecipes(query || "")),
+  onSearch() {
+    const query = this.searchForm.get("searchControl")?.value;
+
+    if (query) {
+      this.recipes$ = this.edamamService.searchRecipes(query).pipe(
         catchError((error) => {
           console.error("Ошибка при получении рецептов:", error);
           return of({ hits: [] });
-        })
-      )
-      .subscribe((data) => {
-        this.recipes = data.hits.map((hit: any) => hit.recipe);
-      });
+        }),
+        map((data) => data.hits.map((hit: any) => hit.recipe))
+      );
+    }
   }
 
   openRecipeDetail(recipeUri: string) {

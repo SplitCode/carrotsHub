@@ -1,14 +1,17 @@
 <section class="search-container">
-  <input
-    type="text"
-    [formControl]="searchControl"
-    placeholder="Поиск рецепта..."
-  />
+  <form [formGroup]="searchForm" (ngSubmit)="onSearch()">
+    <input
+      type="text"
+      formControlName="searchControl"
+      placeholder="Поиск..."
+    />
+    <button type="submit" tuiButton appearance="primary">Искать</button>
+  </form>
 </section>
 
 <section class="recipes-container">
   <div
-    *ngFor="let recipe of recipes"
+    *ngFor="let recipe of recipes$ | async"
     class="recipe-card"
     (click)="openRecipeDetail(recipe.uri)"
   >
