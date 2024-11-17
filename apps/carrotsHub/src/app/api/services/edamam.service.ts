@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Injectable, inject } from "@angular/core";
 import type { Observable } from "rxjs";
 import { environment } from "../../../environments/environment";
@@ -13,16 +13,27 @@ export class EdamamService {
   private readonly http = inject(HttpClient);
 
   searchRecipes(query: string): Observable<EdamamResponse> {
-    const url = `https://api.edamam.com/search?q=${query}&app_id=${this.apiId}&app_key=${this.apiKey}`;
+    const url = "https://api.edamam.com/search";
+    const params = new HttpParams()
+      .set("q", query)
+      .set("app_id", this.apiId)
+      .set("app_key", this.apiKey);
+
     const headers = new HttpHeaders({
       "Edamam-Account-User": this.apiId,
     });
 
-    return this.http.get<EdamamResponse>(url, { headers });
+    return this.http.get<EdamamResponse>(url, { headers, params });
   }
 
   getRecipeDetail(recipeId: string): Observable<any> {
-    const url = `https://api.edamam.com/search?r=${recipeId}&app_id=${this.apiId}&app_key=${this.apiKey}`;
-    return this.http.get<any>(url);
+    const url = "https://api.edamam.com/search";
+    const params = new HttpParams()
+      .set("r", recipeId)
+      .set("app_id", this.apiId)
+      .set("app_key", this.apiKey);
+
+    // const url = `https://api.edamam.com/search?r=${recipeId}&app_id=${this.apiId}&app_key=${this.apiKey}`;
+    return this.http.get<any>(url, { params });
   }
 }
