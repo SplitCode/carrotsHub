@@ -4,26 +4,38 @@ variables:
   CI: "true"
 
 stages:
+  - install
   - lint
   - build
   - deploy-staging
   - deploy-production
 
+install:
+  stage: install
+  script: npm ci
+  artifacts:
+    paths:
+      - node_modules/
+  only:
+    - branches
+    - merge_requests
+    - master
+
 lint:
   stage: lint
   script:
-    - npm ci
     - npm run format:check
     - npm run lint
     - npm run stylelint
   only:
     - branches
     - merge_requests
+  dependencies:
+    -install
 
 build:
   stage: build
   script:
-    - npm ci
     - npm run build -- --configuration=production
   artifacts:
     paths:
@@ -31,6 +43,8 @@ build:
   only:
     - merge_requests
     - master
+  dependencies:
+    -install
 
 deploy-staging:
   stage: deploy-staging
@@ -46,7 +60,6 @@ deploy-staging:
 deploy-production:
   stage: deploy-production
   script:
-    - npm ci
     - npm install -g firebase-tools
     - firebase deploy --only hosting:morkovka --token "$FIREBASE_DEPLOY_TOKEN"
   only:
