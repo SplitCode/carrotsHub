@@ -1,1 +1,14 @@
-<p>recipes-page works!</p>
+<section class="search-container">
+  <input type="text" [formControl]="searchControl" placeholder="Поиск рецепта..." />
+</section>
+
+<section class="recipes-container">
+  <div
+    *ngFor="let recipe of recipes"
+    class="recipe-card"
+    (click)="openRecipeDetail(recipe.uri)"
+  >
+    <img [src]="recipe.image" alt="{{ recipe.label }}" />
+    <p>{{ recipe.label }}</p>
+  </div>
+</section>

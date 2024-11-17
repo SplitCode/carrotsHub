@@ -1,1 +1,10 @@
-<p>recipe-detail works!</p>
+<section class="recipe-detail" *ngIf="recipe">
+  <h2>{{ recipe.label }}</h2>
+  <img [src]="recipe.image" alt="{{ recipe.label }}" />
+  <ul>
+    <li *ngFor="let ingredient of recipe.ingredientLines">
+      {{ ingredient }}
+    </li>
+  </ul>
+  <p>Калории: {{ recipe.calories | number:'1.0-0' }}</p>
+</section>
