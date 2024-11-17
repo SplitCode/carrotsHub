@@ -23,6 +23,7 @@ import {
 import { AuthService } from "../auth/services/auth.service";
 import { UserDataService } from "./services/user-data.service";
 import type { UserData } from "./models/user-data.interface";
+import { GOAL, GENDER, LIFESTYLE, ACTIVITY_LEVELS } from "./constants/profile";
 
 @Component({
   selector: "app-profile-page",
@@ -47,6 +48,7 @@ import type { UserData } from "./models/user-data.interface";
 export class ProfilePageComponent {
   private readonly authService = inject(AuthService);
   private readonly userDataService = inject(UserDataService);
+
   user$ = this.authService.currentUser$;
   userData$: Observable<UserData | null> = this.authService.currentUser$.pipe(
     filter((user) => !!user),
@@ -64,14 +66,9 @@ export class ProfilePageComponent {
     })
   );
 
-  readonly goals = ["Снижение веса", "Поддержание веса", "Набор веса"];
-  readonly genders = ["Мужской", "Женский"];
-  readonly lifestyles = [
-    "Сидячий",
-    "Малоактивный",
-    "Активный",
-    "Очень активный",
-  ];
+  readonly goals = Object.values(GOAL);
+  readonly genders = Object.values(GENDER);
+  readonly lifestyles = Object.values(LIFESTYLE);
 
   calculatedCalories: number | null = null;
   protein: number | null = null;
@@ -79,50 +76,47 @@ export class ProfilePageComponent {
   carbohydrates: number | null = null;
 
   readonly dailyCaloriesForm: FormGroup = new FormGroup({
-    goal: new FormControl("", Validators.required),
-    age: new FormControl("", [Validators.required, Validators.min(1)]),
-    gender: new FormControl("", Validators.required),
-    lifestyle: new FormControl("", Validators.required),
-    weight: new FormControl("", [Validators.required, Validators.min(1)]),
-    height: new FormControl("", [Validators.required, Validators.min(1)]),
+    goal: new FormControl("", {
+      nonNullable: true,
+      validators: [Validators.required],
+    }),
+    age: new FormControl(0, {
+      nonNullable: true,
+      validators: [Validators.required, Validators.min(1)],
+    }),
+    gender: new FormControl("", {
+      nonNullable: true,
+      validators: [Validators.required],
+    }),
+    lifestyle: new FormControl("", {
+      nonNullable: true,
+      validators: [Validators.required],
+    }),
+    weight: new FormControl(0, {
+      nonNullable: true,
+      validators: [Validators.required, Validators.min(1)],
+    }),
+    height: new FormControl(0, {
+      nonNullable: true,
+      validators: [Validators.required, Validators.min(1)],
+    }),
   });
 
   onCalculate() {
     const formValues = this.dailyCaloriesForm.value;
     const { goal, age, gender, lifestyle, weight, height } = formValues;
 
-    if (!this.dailyCaloriesForm.valid) {
-      return;
-    }
+    const activityMultiplier = ACTIVITY_LEVELS[lifestyle as LIFESTYLE];
 
-    const activityLevels: { [key: string]: number } = {
-      Сидячий: 1.2,
-      Малоактивный: 1.375,
-      Активный: 1.55,
-      "Очень активный": 1.725,
-    };
-
-    const activityMultiplier = activityLevels[lifestyle];
-
-    let baseMetabolicRate: number;
-
-    if (gender === "male") {
-      baseMetabolicRate = 9.99 * weight + 6.25 * height - 4.92 * age + 5;
-    } else {
-      baseMetabolicRate = 9.99 * weight + 6.25 * height - 4.92 * age - 161;
-    }
+    const baseMetabolicRate = this.calculateBaseMetabolicRate(
+      weight,
+      height,
+      age,
+      gender
+    );
 
     const normRSK = Math.round(baseMetabolicRate * activityMultiplier);
-
-    let resultRSK: number;
-
-    if (goal === "Снижение веса") {
-      resultRSK = Math.round(normRSK - normRSK * 0.2);
-    } else if (goal === "Набор веса") {
-      resultRSK = Math.round(normRSK + normRSK * 0.2);
-    } else {
-      resultRSK = normRSK;
-    }
+    const resultRSK = this.calculateCalories(goal, normRSK);
 
     this.protein = Math.round((resultRSK * 0.2) / 4);
     this.fat = Math.round((resultRSK * 0.3) / 9);
@@ -130,39 +124,54 @@ export class ProfilePageComponent {
 
     this.calculatedCalories = resultRSK;
 
-    if (this.dailyCaloriesForm.valid) {
-      console.info(
-        "Форма для расчета калорий:",
-        this.dailyCaloriesForm.value,
-        resultRSK
-      );
+    console.info(
+      "Форма для расчета калорий:",
+      this.dailyCaloriesForm.value,
+      resultRSK
+    );
 
-      this.user$
-        .pipe(
-          filter((user) => !!user),
-          switchMap((user) =>
-            this.userDataService.updateUserData(user.uid, {
-              ...formValues,
-              calculatedCalories: this.calculatedCalories,
-              protein: this.protein,
-              fat: this.fat,
-              carbohydrates: this.carbohydrates,
-            })
-          )
+    this.user$
+      .pipe(
+        filter((user) => !!user),
+        switchMap((user) =>
+          this.userDataService.updateUserData(user.uid, {
+            ...formValues,
+            age: this.dailyCaloriesForm.value.age,
+            height: this.dailyCaloriesForm.value.height,
+            calculatedCalories: this.calculatedCalories,
+            protein: this.protein,
+            fat: this.fat,
+            carbohydrates: this.carbohydrates,
+          })
         )
-        .subscribe();
+      )
+      .subscribe();
+  }
+
+  private calculateBaseMetabolicRate(
+    weight: number,
+    height: number,
+    age: number,
+    gender: GENDER
+  ): number {
+    if (gender === GENDER.male) {
+      return 9.99 * weight + 6.25 * height - 4.92 * age + 5;
+    }
+    return 9.99 * weight + 6.25 * height - 4.92 * age - 161;
+  }
+
+  private calculateCalories(goal: GOAL, normRSK: number): number {
+    switch (goal) {
+      case GOAL.weightLoss:
+        return Math.round(normRSK - normRSK * 0.2);
+      case GOAL.weightGain:
+        return Math.round(normRSK + normRSK * 0.2);
+      case GOAL.maintenance:
+      default:
+        return normRSK;
     }
   }
 }
-
-// ngOnInit(): void {
-//   this.authService.currentUser$.subscribe((user) => {
-//     if (user) {
-//       // Получаем данные пользователя из UserDataService
-//       this.userData$ = this.userDataService.getUserData(user.uid);
-//     }
-//   });
-// }
 
 // onSaveProfile() {
 //   const updatedUserData = {

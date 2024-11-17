@@ -1,3 +1,6 @@
+import type { GENDER } from "../constants/profile";
+import type { GOAL, LIFESTYLE } from "../constants/profile";
+
 export interface UserData {
   uid: string;
   name: string;
@@ -7,17 +10,11 @@ export interface UserData {
   weight?: number;
   targetWeight?: number;
   height?: number;
-  gender?: Gender;
-  goal?: Goal;
-  lifestyle?: Lifestyle;
+  gender?: GENDER;
+  goal?: GOAL;
+  lifestyle?: LIFESTYLE;
   calculatedCalories?: number;
   protein?: number;
   fat?: number;
   carbohydrates?: number;
 }
-
-type Gender = "male" | "female";
-
-type Goal = "Снижение веса" | "Поддержание веса" | "Набор веса";
-
-type Lifestyle = "Сидячий" | "Малоактивный" | "Активный" | "Очень активный";
