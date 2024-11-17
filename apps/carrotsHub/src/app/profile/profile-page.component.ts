@@ -9,7 +9,6 @@ import {
   Validators,
 } from "@angular/forms";
 import {
-  TuiAvatarModule,
   TuiDataListWrapperModule,
   TuiInputModule,
   TuiInputNumberModule,
@@ -25,6 +24,7 @@ import { UserDataService } from "./services/user-data.service";
 import type { UserData } from "./models/user-data.interface";
 import { GOAL, GENDER, LIFESTYLE, ACTIVITY_LEVELS } from "./constants/profile";
 import { UserInfoComponent } from "./components/user-info/user-info.component";
+import { Logger } from "../core/logger/logger.models";
 
 @Component({
   selector: "app-profile-page",
@@ -39,7 +39,6 @@ import { UserInfoComponent } from "./components/user-info/user-info.component";
     TuiDataListModule,
     TuiSelectModule,
     TuiButtonModule,
-    TuiAvatarModule,
     TuiTextfieldControllerModule,
     UserInfoComponent,
   ],
@@ -50,6 +49,7 @@ import { UserInfoComponent } from "./components/user-info/user-info.component";
 export class ProfilePageComponent {
   private readonly authService = inject(AuthService);
   private readonly userDataService = inject(UserDataService);
+  private readonly logger = inject(Logger);
 
   user$ = this.authService.currentUser$;
   userData$: Observable<UserData | null> = this.authService.currentUser$.pipe(
@@ -129,20 +129,12 @@ export class ProfilePageComponent {
     this.calculatedCalories = resultRSK;
     this.optimalWeight = this.calculateOptimalWeightByBrock(height, gender);
 
-    console.info(
-      "Форма для расчета калорий:",
-      this.dailyCaloriesForm.value,
-      resultRSK
-    );
-
     this.user$
       .pipe(
         filter((user) => !!user),
         switchMap((user) =>
           this.userDataService.updateUserData(user.uid, {
             ...formValues,
-            age: this.dailyCaloriesForm.value.age,
-            height: this.dailyCaloriesForm.value.height,
             calculatedCalories: this.calculatedCalories,
             protein: this.protein,
             fat: this.fat,
@@ -151,7 +143,20 @@ export class ProfilePageComponent {
           })
         )
       )
-      .subscribe();
+      .subscribe({
+        next: () => {
+          this.logger.logInfo({
+            name: "UserDataUpdated",
+            params: { userData: formValues },
+          });
+        },
+        error: (error) => {
+          this.logger.logError({
+            name: "UserDataUpdateFailed",
+            params: { error },
+          });
+        },
+      });
   }
 
   private calculateBaseMetabolicRate(
@@ -187,18 +192,3 @@ export class ProfilePageComponent {
       : Math.round((height - 110) * 1.15);
   }
 }
-
-// onSaveProfile() {
-//   const updatedUserData = {
-//     address: this.profileForm.value.address,
-//     phoneNumber: this.profileForm.value.phoneNumber,
-//   };
-
-//   this.databaseService.updateUser(this.currentUser.uid, updatedUserData)
-//     .then(() => {
-//       this.alerts.showSuccess("Профиль успешно обновлен");
-//     })
-//     .catch((error) => {
-//       this.alerts.showError("Ошибка при обновлении профиля: " + error.message);
-//     });
-// }

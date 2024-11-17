@@ -104,24 +104,28 @@ export class RegisterPageComponent {
       .register({ name, email, password })
       .pipe(finalize(() => this.loading.set(false)))
       .subscribe({
-        next: () => {
-          this.logger.logInfo({
-            name: "register_success",
-            params: { method: "email_password" },
-          });
-          this.router.navigate([PageRoutes.Home]);
-          this.alerts.showSuccess(MESSAGES.successRegister);
-        },
-        error: (error) => {
-          this.logger.logError({
-            name: "register_failed",
-            params: {
-              method: "email_password",
-              error: error.message,
-            },
-          });
-          this.alerts.showError(error.message);
-        },
+        next: () => this.handleRegisterSuccess("email_password"),
+        error: (error) => this.handleRegisterError(error, "email_password"),
       });
+  }
+
+  private handleRegisterSuccess(method: string) {
+    this.logger.logInfo({
+      name: "register_success",
+      params: { method },
+    });
+    this.alerts.showSuccess(MESSAGES.successRegister);
+    this.router.navigate([PageRoutes.Home]);
+  }
+
+  private handleRegisterError(error: Error, method: string) {
+    this.logger.logError({
+      name: "register_failed",
+      params: {
+        method,
+        error: error.message,
+      },
+    });
+    this.alerts.showError(error.message);
   }
 }

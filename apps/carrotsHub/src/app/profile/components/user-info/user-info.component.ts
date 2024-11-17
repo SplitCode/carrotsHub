@@ -14,3 +14,18 @@ import type { UserData } from "../../models/user-data.interface";
 export class UserInfoComponent {
   @Input() userData: UserData | null = null;
 }
+
+// onSaveProfile() {
+//   const updatedUserData = {
+//     address: this.profileForm.value.address,
+//     phoneNumber: this.profileForm.value.phoneNumber,
+//   };
+
+//   this.databaseService.updateUser(this.currentUser.uid, updatedUserData)
+//     .then(() => {
+//       this.alerts.showSuccess("Профиль успешно обновлен");
+//     })
+//     .catch((error) => {
+//       this.alerts.showError("Ошибка при обновлении профиля: " + error.message);
+//     });
+// }
