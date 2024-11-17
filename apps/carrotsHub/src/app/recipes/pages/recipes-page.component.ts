@@ -1,12 +1,11 @@
-// import type { OnInit } from "@angular/core";
 import { ChangeDetectionStrategy, Component, inject } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormControl, FormGroup, ReactiveFormsModule } from "@angular/forms";
 import { Router } from "@angular/router";
-// import { catchError, debounceTime, of, switchMap } from "rxjs";
 import type { Observable } from "rxjs";
 import { catchError, of, map } from "rxjs";
 import { EdamamService } from "../../api/services/edamam.service";
+import type { Recipe } from "../models/recipe.interface";
 
 @Component({
   selector: "app-recipes-page",
@@ -21,7 +20,7 @@ export class RecipesPageComponent {
     searchControl: new FormControl(""),
   });
 
-  recipes$: Observable<any[]> = of([]);
+  recipes$: Observable<Recipe[]> = of([]);
 
   private readonly edamamService = inject(EdamamService);
   private readonly router = inject(Router);
@@ -29,13 +28,25 @@ export class RecipesPageComponent {
   onSearch() {
     const query = this.searchForm.get("searchControl")?.value;
 
-    if (query) {
+    if (query?.trim()) {
       this.recipes$ = this.edamamService.searchRecipes(query).pipe(
         catchError((error) => {
           console.error("Ошибка при получении рецептов:", error);
           return of({ hits: [] });
         }),
-        map((data) => data.hits.map((hit: any) => hit.recipe))
+        // map((data) => data.hits.map((hit: any) => hit.recipe))
+        map((data) =>
+          data.hits.map((hit: any) => ({
+            uri: hit.recipe.uri,
+            label: hit.recipe.label,
+            image: hit.recipe.image,
+            calories: hit.recipe.calories,
+            yield: hit.recipe.yield,
+            fat: hit.recipe.digest[0]?.total || 0,
+            carbs: hit.recipe.digest[1]?.total || 0,
+            protein: hit.recipe.digest[2]?.total || 0,
+          }))
+        )
       );
     }
   }

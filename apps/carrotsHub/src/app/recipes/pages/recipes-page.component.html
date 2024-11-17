@@ -1,10 +1,6 @@
 <section class="search-container">
   <form [formGroup]="searchForm" (ngSubmit)="onSearch()">
-    <input
-      type="text"
-      formControlName="searchControl"
-      placeholder="Поиск..."
-    />
+    <input type="text" formControlName="searchControl" placeholder="Поиск..." />
     <button type="submit" tuiButton appearance="primary">Искать</button>
   </form>
 </section>
@@ -17,10 +13,10 @@
   >
     <img [src]="recipe.image" alt="{{ recipe.label }}" />
     <p>{{ recipe.label }}</p>
-    <p>Количество порций:{{ recipe.yield }}</p>
-    <p>Калорийность на 1 порцию{{ recipe.calories / recipe.yield }}</p>
-    <p>Белки{{ recipe.digest[2].total }}</p>
-    <p>Жиры {{ recipe.digest[0].total }}</p>
-    <p>Углеводы {{ recipe.digest[1].total }}</p>
+    <p>Количество порций - {{ recipe.yield | number: '1.0-0' }}</p>
+    <p>Калорийность на 1 порцию - {{ (recipe.calories / recipe.yield) | number: '1.0-0' }}ккал</p>
+    <p>Белки - {{ recipe.protein | number: '1.0-0' }}г</p>
+    <p>Жиры - {{ recipe.fat | number: '1.0-0' }}г</p>
+    <p>Углеводы - {{ recipe.carbs| number: '1.0-0' }}г</p>
   </div>
 </section>
