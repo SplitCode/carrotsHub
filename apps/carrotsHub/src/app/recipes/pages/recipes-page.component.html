@@ -27,14 +27,13 @@
   </div>
 </section>
 
-<section class="recipes-container">
-  <div
-    *ngFor="let recipe of recipes$ | async"
-    class="recipe-card"
+<section class="recipes">
+  @for ( recipe of recipes$ | async; track $index) {
+  <div class="recipes__card"
     (click)="openRecipeDetail(recipe.uri)"
   >
-    <img [src]="recipe.image" alt="{{ recipe.label }}" />
-    <p>{{ recipe.label }}</p>
+    <img class="recipes__image" [src]="recipe.image" alt="{{ recipe.label }}" />
+    <p class="recipes__label">{{ recipe.label }}</p>
     <p>Количество порций - {{ recipe.yield | number : "1.0-0" }}</p>
     <p>
       Калорийность на 1 порцию -
@@ -44,4 +43,7 @@
     <p>Жиры - {{ recipe.fat | number : "1.0-0" }}г</p>
     <p>Углеводы - {{ recipe.carbs | number : "1.0-0" }}г</p>
   </div>
+}
 </section>
+
+<!-- <app-recipe-card [recipe]="recipe"></app-recipe-card> -->
