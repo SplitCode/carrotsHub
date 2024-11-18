@@ -1,81 +1,51 @@
-# Projects
+# Carrot's Hub 🥕
 
-<a alt="Nx logo" href="https://nx.dev" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="45"></a>
+Добро пожаловать в Carrot's Hub - сервис предназначенный для того, чтобы помочь пользователям следить за своим питанием и питьевым режимом,
+повышать осведомленность о калорийности и составе продуктов, а также формировать привычки здорового питания и изучать полезные рецепты.
 
-✨ Your new, shiny [Nx workspace](https://nx.dev) is almost ready ✨.
+Начните путь к здоровому образу жизни с [Carrot's Hub ](https://morkovka.web.app/)!
 
-[Learn more about this workspace setup and its capabilities](https://nx.dev/getting-started/tutorials/angular-monorepo-tutorial?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or run `npx nx graph` to visually explore what was created. Now, let's get you up to speed!
+## Доступ к приложению
 
-## Finish your CI setup
+Staging deploy: https://carrot-s-hub.web.app/
 
-[Click here to finish setting up your workspace!](https://cloud.nx.app/connect/GXcGVWIgnJ)
+Production deploy: https://morkovka.web.app/
 
-## Run tasks
+### Тестовые аккаунты для проверки функциональности:
 
-To run the dev server for your app, use:
+**Тестовый аккаунт 1 (без данных):**
 
-```sh
-npx nx serve carrotsHub
-```
+email - admin@test.ru,
+password - admin1
 
-To create a production bundle:
+**Тестовый аккаунт 2 (с предустановленными данными):**
 
-```sh
-npx nx build carrotsHub
-```
+email - admin2@test.ru,
+password - admin2
 
-To see all available targets to run for a project, run:
+## Стек
 
-```sh
-npx nx show project carrotsHub
-```
+Фронтенд:
 
-These targets are either [inferred automatically](https://nx.dev/concepts/inferred-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or defined in the `project.json` or `package.json` files.
+- Язык: TypeScript
+- Фреймворк: Angular 18
+- UI-библиотека, стили: Taiga UI + LESS
+- Инструменты для линтинга и форматирования кода: Eslint, Stylelint, Prettier
 
-[More about running tasks in the docs &raquo;](https://nx.dev/features/run-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+Бэкенд:
 
-## Add new projects
+- Платформа: Firebase (Authentication, Realtime Database, Analytics, Hosting)
+- API: Edamam API
 
-While you could add new projects to your workspace manually, you might want to leverage [Nx plugins](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) and their [code generation](https://nx.dev/features/generate-code?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) feature.
+Сборка и деплой:
 
-Use the plugin's generator to create new projects.
+- Nx Monorepo
+- Firebase Hosting
 
-To generate a new application, use:
+Таск трекер:
 
-```sh
-npx nx g @nx/angular:app demo
-```
+- Jira
 
-To generate a new library, use:
+## Контрибьюторы
 
-```sh
-npx nx g @nx/angular:lib mylib
-```
-
-You can use `npx nx list` to get a list of installed plugins. Then, run `npx nx list <plugin-name>` to learn about more specific capabilities of a particular plugin. Alternatively, [install Nx Console](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) to browse plugins and generators in your IDE.
-
-[Learn more about Nx plugins &raquo;](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) | [Browse the plugin registry &raquo;](https://nx.dev/plugin-registry?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-[Learn more about Nx on CI](https://nx.dev/ci/intro/ci-with-nx#ready-get-started-with-your-provider?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Install Nx Console
-
-Nx Console is an editor extension that enriches your developer experience. It lets you run tasks, generate code, and improves code autocompletion in your IDE. It is available for VSCode and IntelliJ.
-
-[Install Nx Console &raquo;](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Useful links
-
-Learn more:
-
-- [Learn more about this workspace setup](https://nx.dev/getting-started/tutorials/angular-monorepo-tutorial?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Learn about Nx on CI](https://nx.dev/ci/intro/ci-with-nx?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Releasing Packages with Nx release](https://nx.dev/features/manage-releases?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [What are Nx plugins?](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-And join the Nx community:
-
-- [Discord](https://go.nx.dev/community)
-- [Follow us on X](https://twitter.com/nxdevtools) or [LinkedIn](https://www.linkedin.com/company/nrwl)
-- [Our Youtube channel](https://www.youtube.com/@nxdevtools)
-- [Our blog](https://nx.dev/blog?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+[SplitCode](https://github.com/SplitCode)
