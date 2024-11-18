@@ -13,6 +13,7 @@ import { EdamamService } from "../../api/services/edamam.service";
 import type { Recipe } from "../models/recipe.interface";
 import { RecipeCardComponent } from "../components/recipe-card/recipe-card.component";
 import type { RecipeResponse } from "../../api/models/edamam.interface";
+import { Logger } from "../../core/logger/logger.models";
 
 @Component({
   selector: "app-recipes-page",
@@ -39,15 +40,22 @@ export class RecipesPageComponent {
   isSearched = false;
 
   private readonly edamamService = inject(EdamamService);
+  private readonly logger = inject(Logger);
 
   onSearch() {
     const query = this.searchForm.get("searchControl")?.value;
 
     if (query?.trim()) {
       this.isSearched = true;
+
       this.recipes$ = this.edamamService.searchRecipes(query).pipe(
-        map((data: RecipeResponse) =>
-          data.hits.map((hit) => ({
+        map((data: RecipeResponse) => {
+          this.logger.logInfo({
+            name: "SearchSuccess",
+            params: { query, totalResults: data.hits.length },
+          });
+
+          return data.hits.map((hit) => ({
             ...hit.recipe,
             uri: hit.recipe.uri,
             label: hit.recipe.label,
@@ -57,10 +65,13 @@ export class RecipesPageComponent {
             fat: hit.recipe.digest[0]?.total || 0,
             carbs: hit.recipe.digest[1]?.total || 0,
             protein: hit.recipe.digest[2]?.total || 0,
-          }))
-        ),
+          }));
+        }),
         catchError((error) => {
-          console.error("Ошибка при получении рецептов:", error);
+          this.logger.logError({
+            name: "SearchFailed",
+            params: { query, error },
+          });
           this.isSearched = true;
           return of([]);
         })
