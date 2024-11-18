@@ -9,7 +9,7 @@
           class="search__input"
         >
           Поиск рецепта...
-          <input tuiTextfield autofocus />
+          <input tuiTextfield autofocus [disabled]="loading()" />
         </tui-input>
 
         <button
@@ -19,6 +19,8 @@
           appearance="primary"
           size="m"
           class="search__button"
+          [disabled]="loading()"
+          [showLoader]="loading()"
         >
           Искать
         </button>

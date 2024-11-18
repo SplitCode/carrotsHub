@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, inject } from "@angular/core";
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  signal,
+} from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormControl, FormGroup, ReactiveFormsModule } from "@angular/forms";
 import type { Observable } from "rxjs";
@@ -32,24 +37,27 @@ import { Logger } from "../../core/logger/logger.models";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RecipesPageComponent {
-  searchForm = new FormGroup({
-    searchControl: new FormControl(""),
-  });
-
   recipes$: Observable<Recipe[]> = of([]);
   isSearched = false;
 
   private readonly edamamService = inject(EdamamService);
   private readonly logger = inject(Logger);
+  readonly loading = signal(false);
+
+  searchForm = new FormGroup({
+    searchControl: new FormControl(""),
+  });
 
   onSearch() {
     const query = this.searchForm.get("searchControl")?.value;
 
     if (query?.trim()) {
       this.isSearched = true;
+      this.loading.set(true);
 
       this.recipes$ = this.edamamService.searchRecipes(query).pipe(
         map((data: RecipeResponse) => {
+          this.loading.set(false);
           this.logger.logInfo({
             name: "SearchSuccess",
             params: { query, totalResults: data.hits.length },
@@ -68,6 +76,7 @@ export class RecipesPageComponent {
           }));
         }),
         catchError((error) => {
+          this.loading.set(false);
           this.logger.logError({
             name: "SearchFailed",
             params: { query, error },
