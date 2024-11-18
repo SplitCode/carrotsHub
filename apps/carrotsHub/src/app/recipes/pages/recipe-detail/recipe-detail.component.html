@@ -15,6 +15,7 @@
       {{ recipe.calories / recipe.yield | number : "1.0-0" }} ккал
     </p>
   </div>
+
   <div class="recipe-detail__ingredients">
     <h3>Ингредиенты:</h3>
     <ul>
@@ -23,6 +24,7 @@
       }
     </ul>
   </div>
+
   <div class="recipe-detail__data">
     <div class="recipe-detail__nutrition">
       <h3>Пищевая ценность:</h3>
@@ -40,8 +42,8 @@
   </div>
 
   } @else {
-  <ng-template #loading>
-    <p>Загрузка данных...</p>
-  </ng-template>
+    <div class="loading">
+      <p>Загрузка данных...</p>
+    </div>
   }
 </section>
