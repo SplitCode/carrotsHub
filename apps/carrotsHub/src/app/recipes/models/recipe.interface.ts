@@ -7,5 +7,4 @@ export interface Recipe {
   fat: number;
   carbs: number;
   protein: number;
-  // digest?: DigestDetail[];
 }

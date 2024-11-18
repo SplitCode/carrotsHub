@@ -1,7 +1,7 @@
 <section class="recipe-detail" *ngIf="recipe$ | async as recipe; else loading">
   <div class="recipe-detail__header">
     <img
-      [src]="recipe.images?.REGULAR?.url || recipe.image"
+      [src]="recipe.images.REGULAR?.url || recipe.image"
       [alt]="recipe.label"
       class="recipe-detail__image"
     />
@@ -24,9 +24,9 @@
   </div>
   <div class="recipe-detail__nutrition">
     <h3>Пищевая ценность:</h3>
-    <p>Белки: {{ recipe.digest[2].total | number : "1.0-0" }} г</p>
-    <p>Жиры: {{ recipe.digest[0].total | number : "1.0-0" }} г</p>
-    <p>Углеводы: {{ recipe.digest[1].total | number : "1.0-0" }} г</p>
+    <p>Белки: {{ recipe.protein | number : "1.0-0" }} г</p>
+    <p>Жиры: {{ recipe.fat | number : "1.0-0" }} г</p>
+    <p>Углеводы: {{ recipe.carbs | number : "1.0-0" }} г</p>
   </div>
 
   <div class="recipe-detail__tags">

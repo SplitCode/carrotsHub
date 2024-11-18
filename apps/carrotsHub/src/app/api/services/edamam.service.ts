@@ -2,10 +2,7 @@ import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Injectable, inject } from "@angular/core";
 import { map, type Observable } from "rxjs";
 import { environment } from "../../../environments/environment";
-import type {
-  // RecipeDetailResponse,
-  RecipeResponse,
-} from "../models/edamam.interface";
+import type { RecipeResponse } from "../models/edamam.interface";
 import type { RecipeDetail } from "../../recipes/models/recipe-detail.interface";
 
 @Injectable({
@@ -43,11 +40,8 @@ export class EdamamService {
       "Edamam-Account-User": this.apiId,
     });
 
-    // return this.http.get<RecipeDetail>(url, { headers, params });
     return this.http
       .get<{ recipe: RecipeDetail }>(url, { headers, params })
-      .pipe(
-        map((response) => response.recipe) // Вернем сразу RecipeDetail, а не обертку
-      );
+      .pipe(map((response) => response.recipe));
   }
 }

@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, inject } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { ActivatedRoute } from "@angular/router";
 import type { Observable } from "rxjs";
-import { of, switchMap } from "rxjs";
+import { map, of, switchMap } from "rxjs";
 import { EdamamService } from "../../../api/services/edamam.service";
 import type { RecipeDetail } from "../../models/recipe-detail.interface";
 
@@ -26,16 +26,17 @@ export class RecipeDetailComponent implements OnInit {
       switchMap((params) => {
         const recipeId = params.get("id");
         if (recipeId) {
-          return this.edamamService.getRecipeDetail(recipeId);
+          return this.edamamService.getRecipeDetail(recipeId).pipe(
+            map((recipe) => ({
+              ...recipe,
+              fat: recipe.digest[0].total || 0,
+              protein: recipe.digest[2].total || 0,
+              carbs: recipe.digest[1].total || 0,
+            }))
+          );
         }
         return of(null);
       })
     );
-
-    this.recipe$.subscribe((recipe) => {
-      if (recipe) {
-        console.info("Recipe data:", recipe);
-      }
-    });
   }
 }
