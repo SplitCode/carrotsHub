@@ -29,13 +29,20 @@ export class EdamamService {
   }
 
   getRecipeDetail(recipeId: string): Observable<any> {
-    const url = "https://api.edamam.com/search";
+    // const url = "https://api.edamam.com/api/recipes/v2";
+    const url = `https://api.edamam.com/api/recipes/v2/${recipeId}`;
+
     const params = new HttpParams()
-      .set("r", recipeId)
+      // .set("r", recipeId)
       .set("app_id", this.apiId)
-      .set("app_key", this.apiKey);
+      .set("app_key", this.apiKey)
+      .set("type", "public");
+
+    const headers = new HttpHeaders({
+      "Edamam-Account-User": this.apiId,
+    });
 
     // const url = `https://api.edamam.com/search?r=${recipeId}&app_id=${this.apiId}&app_key=${this.apiKey}`;
-    return this.http.get<any>(url, { params });
+    return this.http.get<any>(url, { headers, params });
   }
 }

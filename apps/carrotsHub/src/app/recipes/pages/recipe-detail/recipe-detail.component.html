@@ -1,10 +1,47 @@
-<section class="recipe-detail" *ngIf="recipe">
-  <h2>{{ recipe.label }}</h2>
-  <img [src]="recipe.image" alt="{{ recipe.label }}" />
-  <ul>
-    <li *ngFor="let ingredient of recipe.ingredientLines">
-      {{ ingredient }}
-    </li>
-  </ul>
-  <p>Калории: {{ recipe.calories | number : "1.0-0" }}</p>
+<section class="recipe-detail" *ngIf="recipe$ | async as recipe; else loading">
+  <div class="recipe-detail__header">
+    <img
+      [src]="recipe.recipe.images?.REGULAR?.url || recipe.recipe.image"
+      [alt]="recipe.label"
+      class="recipe-detail__image"
+    />
+    <h2 class="recipe-detail__title">{{ recipe.recipe.label }}</h2>
+  </div>
+  <div class="recipe-detail__info">
+    <p>Количество порций: {{ recipe.recipe.yield }}</p>
+    <p>
+      Калорийность на порцию:
+      {{ recipe.recipe.calories / recipe.recipe.yield | number : "1.0-0" }} ккал
+    </p>
+  </div>
+  <div class="recipe-detail__ingredients">
+    <h3>Ингредиенты:</h3>
+    <ul>
+      <li *ngFor="let ingredient of recipe.recipe.ingredientLines">
+        ⁃ {{ ingredient }}
+      </li>
+    </ul>
+  </div>
+  <div class="recipe-detail__nutrition">
+    <h3>Пищевая ценность:</h3>
+    <p>Белки: {{ recipe.recipe.digest[2].total | number : "1.0-0" }} г</p>
+    <p>Жиры: {{ recipe.recipe.digest[0].total | number : "1.0-0" }} г</p>
+    <p>Углеводы: {{ recipe.recipe.digest[1].total | number : "1.0-0" }} г</p>
+  </div>
+
+  <div class="recipe-detail__tags">
+    <h3>Диета:</h3>
+    <ul>
+      <li *ngFor="let diet of recipe.recipe.dietLabels">⁃{{ diet }}</li>
+    </ul>
+  </div>
+
+  <div class="recipe-detail__tags">
+    <h3>Тэг:</h3>
+    <span *ngFor="let label of recipe.recipe.healthLabels"># {{ label }}</span>
+  </div>
 </section>
+
+<ng-template #loading>
+  <p>Загрузка данных...</p>
+</ng-template>

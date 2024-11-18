@@ -49,7 +49,6 @@ export class RecipesPageComponent {
           console.error("Ошибка при получении рецептов:", error);
           return of({ hits: [] });
         }),
-        // map((data) => data.hits.map((hit: any) => hit.recipe))
         map((data) =>
           data.hits.map((hit: any) => ({
             uri: hit.recipe.uri,
@@ -64,10 +63,5 @@ export class RecipesPageComponent {
         )
       );
     }
-  }
-
-  openRecipeDetail(recipeUri: string) {
-    const recipeId = encodeURIComponent(recipeUri);
-    this.router.navigate(["/recipe", recipeId]);
   }
 }

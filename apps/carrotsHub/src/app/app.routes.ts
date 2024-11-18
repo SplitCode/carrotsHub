@@ -36,7 +36,7 @@ export const appRoutes: Route[] = [
     component: RecipesPageComponent,
   },
   {
-    path: PageRoutes.RecipeDetail,
+    path: "recipes/:id",
     component: RecipeDetailComponent,
   },
   {

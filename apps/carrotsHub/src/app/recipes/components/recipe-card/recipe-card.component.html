@@ -1,5 +1,4 @@
-<!-- <div class="recipe-card" (click)="openRecipeDetail(recipe.uri)"> -->
-<div class="recipe-card">
+<div class="recipe-card" (click)="onCardClick()">
   <img
     class="recipe-card__image"
     [src]="recipe.image"
@@ -12,13 +11,10 @@
       Калорийность на 1 порцию -
       {{ recipe.calories / recipe.yield | number : "1.0-0" }}ккал
     </p>
-    <div>
-      <div class="recipe-card__macronutrients">
-        <p>Белки - {{ recipe.protein | number : "1.0-0" }}г</p>
-        <p>Жиры - {{ recipe.fat | number : "1.0-0" }}г</p>
-        <p>Углеводы - {{ recipe.carbs | number : "1.0-0" }}г</p>
-      </div>
-      <button>[routerLink]="['/main/details', cardItem.id.videoId]"</button>
+    <div class="recipe-card__macronutrients">
+      <p>Белки - {{ recipe.protein | number : "1.0-0" }}г</p>
+      <p>Жиры - {{ recipe.fat | number : "1.0-0" }}г</p>
+      <p>Углеводы - {{ recipe.carbs | number : "1.0-0" }}г</p>
     </div>
   </div>
 </div>

@@ -29,9 +29,6 @@
 
 <section class="recipes">
   @for ( recipe of recipes$ | async; track $index) {
-  <app-recipe-card
-    [recipe]="recipe"
-    (click)="openRecipeDetail(recipe.uri)"
-  ></app-recipe-card>
+  <app-recipe-card [recipe]="recipe"></app-recipe-card>
   }
 </section>
