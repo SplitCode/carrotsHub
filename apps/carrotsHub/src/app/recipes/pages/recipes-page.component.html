@@ -1,1 +1,52 @@
-<p>recipes-page works!</p>
+<section class="search">
+  <div class="search__container">
+    <form class="search__form" [formGroup]="searchForm" (ngSubmit)="onSearch()">
+      <div class="search__field">
+        <tui-input
+          formControlName="searchControl"
+          [tuiTextfieldCleaner]="true"
+          tuiTextfieldSize="m"
+          class="search__input"
+        >
+          Поиск рецепта...
+          <input tuiTextfield autofocus />
+        </tui-input>
+
+        <button
+          type="submit"
+          tuiIconButton
+          icon="tuiIconSearch"
+          appearance="primary"
+          size="m"
+          class="search__button"
+        >
+          Искать
+        </button>
+      </div>
+    </form>
+  </div>
+</section>
+
+@if (!isSearched) {
+<section class="recipes__prompt-container">
+  <p class="recipes__prompt">
+    Начните поиск, введя название рецепта или продукта в поле выше.
+  </p>
+</section>
+} @if (isSearched) {
+<section
+  class="recipes"
+  [ngClass]="{
+    'recipes--no-results': isSearched && (recipes$ | async)?.length === 0
+  }"
+>
+  @if (recipes$ | async; as recipes) { @if (recipes.length > 0) { @for (recipe
+  of recipes; track $index) {
+  <app-recipe-card [recipe]="recipe"></app-recipe-card>
+  } } @else {
+  <p class="recipes__not-found">
+    Извините, ничего не нашлось. Попробуйте найти другой рецепт.
+  </p>
+  } }
+</section>
+}

@@ -7,7 +7,8 @@ import { RecipesPageComponent } from "./recipes/pages/recipes-page.component";
 import { ProfilePageComponent } from "./profile/profile-page.component";
 import { JournalPageComponent } from "./journal/pages/journal-page.component";
 import { NotFoundPageComponent } from "./core/pages/not-found-page.component";
-import { PageRoutes } from "./app.routes-path";
+import { RecipeDetailComponent } from "./recipes/pages/recipe-detail/recipe-detail.component";
+import { PageRoutes } from "./shared/constants/app.routes-path";
 import {
   redirectUnauthorizedToLogin,
   redirectLoggedInToHome,
@@ -33,6 +34,10 @@ export const appRoutes: Route[] = [
   {
     path: PageRoutes.Recipes,
     component: RecipesPageComponent,
+  },
+  {
+    path: "recipes/:id",
+    component: RecipeDetailComponent,
   },
   {
     path: PageRoutes.Profile,
