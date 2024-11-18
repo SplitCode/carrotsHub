@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormControl, FormGroup, ReactiveFormsModule } from "@angular/forms";
-import { Router } from "@angular/router";
 import type { Observable } from "rxjs";
 import { catchError, of, map } from "rxjs";
 import {
@@ -13,6 +12,7 @@ import { TuiInputModule } from "@taiga-ui/kit";
 import { EdamamService } from "../../api/services/edamam.service";
 import type { Recipe } from "../models/recipe.interface";
 import { RecipeCardComponent } from "../components/recipe-card/recipe-card.component";
+import type { RecipeResponse } from "../../api/models/edamam.interface";
 
 @Component({
   selector: "app-recipes-page",
@@ -38,7 +38,6 @@ export class RecipesPageComponent {
   recipes$: Observable<Recipe[]> = of([]);
 
   private readonly edamamService = inject(EdamamService);
-  private readonly router = inject(Router);
 
   onSearch() {
     const query = this.searchForm.get("searchControl")?.value;
@@ -49,8 +48,9 @@ export class RecipesPageComponent {
           console.error("Ошибка при получении рецептов:", error);
           return of({ hits: [] });
         }),
-        map((data) =>
-          data.hits.map((hit: any) => ({
+        map((data: RecipeResponse) =>
+          data.hits.map((hit) => ({
+            ...hit.recipe,
             uri: hit.recipe.uri,
             label: hit.recipe.label,
             image: hit.recipe.image,

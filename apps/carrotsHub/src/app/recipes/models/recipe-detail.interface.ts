@@ -6,7 +6,6 @@ export interface RecipeDetail extends Recipe {
   dietLabels: string[];
   healthLabels: string[];
   ingredientLines: string[];
-  digest: DigestDetail[];
 }
 
 export interface ImageDetail {
@@ -20,10 +19,4 @@ export interface Images {
   SMALL?: ImageDetail;
   REGULAR?: ImageDetail;
   LARGE?: ImageDetail;
-}
-
-export interface DigestDetail {
-  label: string;
-  tag: string;
-  total: number;
 }
