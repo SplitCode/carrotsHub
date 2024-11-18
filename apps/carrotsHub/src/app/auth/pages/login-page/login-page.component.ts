@@ -28,7 +28,7 @@ import {
 import { finalize } from "rxjs";
 import { Router, RouterLink } from "@angular/router";
 import { Logger } from "../../../core/logger/logger.models";
-import { PageRoutes } from "../../../app.routes-path";
+import { PageRoutes } from "../../../shared/constants/app.routes-path";
 import { AuthService } from "../../services/auth.service";
 import { NotificationService } from "../../../shared/services/notification.service";
 import { VALIDATION_ERRORS } from "../../constants/validation-errors";

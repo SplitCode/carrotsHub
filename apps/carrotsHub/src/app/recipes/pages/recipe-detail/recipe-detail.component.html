@@ -1,0 +1,49 @@
+<section class="recipe-detail">
+  @if (recipe$ | async; as recipe) {
+  <div class="recipe-detail__header">
+    <img
+      [src]="recipe.images.REGULAR?.url || recipe.image"
+      [alt]="recipe.label"
+      class="recipe-detail__image"
+    />
+    <h2 class="recipe-detail__title">{{ recipe.label }}</h2>
+  </div>
+  <div class="recipe-detail__info">
+    <p>Количество порций: {{ recipe.yield }}</p>
+    <p>
+      Калорийность на порцию:
+      {{ recipe.calories / recipe.yield | number : "1.0-0" }} ккал
+    </p>
+  </div>
+
+  <div class="recipe-detail__ingredients">
+    <h3>Ингредиенты:</h3>
+    <ul>
+      @for (ingredient of recipe.ingredientLines; track $index) {
+      <li>⁃ {{ ingredient }}</li>
+      }
+    </ul>
+  </div>
+
+  <div class="recipe-detail__data">
+    <div class="recipe-detail__nutrition">
+      <h3>Пищевая ценность:</h3>
+      <p>Белки: {{ recipe.protein | number : "1.0-0" }}г</p>
+      <p>Жиры: {{ recipe.fat | number : "1.0-0" }}г</p>
+      <p>Углеводы: {{ recipe.carbs | number : "1.0-0" }}г</p>
+    </div>
+
+    <div class="recipe-detail__tags">
+      <h3>Тэги:</h3>
+      @for (label of recipe.healthLabels; track $index) {
+      <span>#{{ label }} </span>
+      }
+    </div>
+  </div>
+
+  } @else {
+  <div class="loading">
+    <p>Загрузка данных...</p>
+  </div>
+  }
+</section>
