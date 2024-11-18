@@ -4,13 +4,26 @@ import { FormControl, FormGroup, ReactiveFormsModule } from "@angular/forms";
 import { Router } from "@angular/router";
 import type { Observable } from "rxjs";
 import { catchError, of, map } from "rxjs";
+import {
+  TuiButtonModule,
+  TuiSvgModule,
+  TuiTextfieldControllerModule,
+} from "@taiga-ui/core";
+import { TuiInputModule } from "@taiga-ui/kit";
 import { EdamamService } from "../../api/services/edamam.service";
 import type { Recipe } from "../models/recipe.interface";
 
 @Component({
   selector: "app-recipes-page",
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    TuiButtonModule,
+    TuiInputModule,
+    TuiTextfieldControllerModule,
+    TuiSvgModule,
+  ],
   templateUrl: "./recipes-page.component.html",
   styleUrl: "./recipes-page.component.less",
   changeDetection: ChangeDetectionStrategy.OnPush,
