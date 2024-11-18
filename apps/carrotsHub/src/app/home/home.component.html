@@ -1,5 +1,50 @@
-<p>HOME PAGE</p>
+<section class="app">
+  <!-- @if (user$ | async; as user) {
+  <h1 class="app__title">Добро пожаловать на Carrot's Hub, {{ user.displayName }}!</h1>
+  } -->
 
-@if (user$ | async; as user) {
-<h2>Welcome to Carrot's Hub, {{ user.displayName }}!</h2>
-}
+  <h1 class="app__title">Добро пожаловать на Carrot's Hub!</h1>
+
+  <h2 class="app__subtitle">Простые инструменты для достижения вашей цели.</h2>
+  <!-- <h2 class="app__subtitle2">Ешь вкусно, живи ярко!</h2> -->
+
+  <!-- <p class="app__login-prompt">Получите доступ ко всем функциям - <a href="/login" class="app__login-link">Войти</a></p> -->
+
+  <div class="app__functions">
+    <a href="/journal" class="app__function-link">
+      <div class="app__function">
+        <p class="app__function-title">ДНЕВНИК ПИТАНИЯ</p>
+        <tui-avatar
+          avatarUrl="tuiIconCalendarLarge"
+          new
+          size="xxl"
+          class="function"
+        ></tui-avatar>
+      </div>
+    </a>
+
+    <a href="/recipes" class="app__function-link">
+      <div class="app__function">
+        <p class="app__function-title">РЕЦЕПТЫ</p>
+        <tui-avatar
+          avatarUrl="tuiIconImageLarge"
+          new
+          size="xxl"
+          class="function"
+        ></tui-avatar>
+      </div>
+    </a>
+
+    <a href="/profile" class="app__function-link">
+      <div class="app__function">
+        <p class="app__function-title">РАСЧЕТ РСК</p>
+        <tui-avatar
+          avatarUrl="tuiIconLifeBuoyLarge"
+          new
+          size="xxl"
+          class="function"
+        ></tui-avatar>
+      </div>
+    </a>
+  </div>
+</section>
