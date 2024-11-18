@@ -27,8 +27,26 @@
   </div>
 </section>
 
-<section class="recipes">
-  @for ( recipe of recipes$ | async; track $index) {
-  <app-recipe-card [recipe]="recipe"></app-recipe-card>
-  }
+@if (!isSearched) {
+<section class="recipes__prompt-container">
+  <p class="recipes__prompt">
+    Начните поиск, введя название рецепта или продукта в поле выше.
+  </p>
 </section>
+} @if (isSearched) {
+<section
+  class="recipes"
+  [ngClass]="{
+    'recipes--no-results': isSearched && (recipes$ | async)?.length === 0
+  }"
+>
+  @if (recipes$ | async; as recipes) { @if (recipes.length > 0) { @for (recipe
+  of recipes; track $index) {
+  <app-recipe-card [recipe]="recipe"></app-recipe-card>
+  } } @else {
+  <p class="recipes__not-found">
+    Извините, ничего не нашлось. Попробуйте найти другой рецепт.
+  </p>
+  } }
+</section>
+}

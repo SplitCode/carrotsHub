@@ -25,6 +25,17 @@
   grid-template-columns: repeat(auto-fill, minmax(15.625rem, 1fr));
   gap: 1.25rem;
   padding: 1.25rem;
+  justify-content: center;
+
+  &__prompt-container,
+  &--no-results {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 20vh;
+    font-size: 1.2rem;
+    text-align: center;
+  }
 }
 
 @media (max-width: 680px) {

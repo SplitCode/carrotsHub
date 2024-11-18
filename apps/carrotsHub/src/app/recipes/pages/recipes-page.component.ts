@@ -36,6 +36,7 @@ export class RecipesPageComponent {
   });
 
   recipes$: Observable<Recipe[]> = of([]);
+  isSearched = false;
 
   private readonly edamamService = inject(EdamamService);
 
@@ -43,11 +44,8 @@ export class RecipesPageComponent {
     const query = this.searchForm.get("searchControl")?.value;
 
     if (query?.trim()) {
+      this.isSearched = true;
       this.recipes$ = this.edamamService.searchRecipes(query).pipe(
-        catchError((error) => {
-          console.error("Ошибка при получении рецептов:", error);
-          return of({ hits: [] });
-        }),
         map((data: RecipeResponse) =>
           data.hits.map((hit) => ({
             ...hit.recipe,
@@ -60,8 +58,16 @@ export class RecipesPageComponent {
             carbs: hit.recipe.digest[1]?.total || 0,
             protein: hit.recipe.digest[2]?.total || 0,
           }))
-        )
+        ),
+        catchError((error) => {
+          console.error("Ошибка при получении рецептов:", error);
+          this.isSearched = true;
+          return of([]);
+        })
       );
+    } else {
+      this.isSearched = false;
+      this.recipes$ = of([]);
     }
   }
 }
