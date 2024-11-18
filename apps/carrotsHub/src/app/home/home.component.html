@@ -3,7 +3,7 @@
   <h2 class="app__subtitle">Простые инструменты для достижения вашей цели.</h2>
 
   <div class="app__functions">
-    <a href="/journal" class="app__function-link">
+    <a [routerLink]="pageRoutes.Journal" class="app__function-link">
       <div class="app__function">
         <p class="app__function-title">ДНЕВНИК ПИТАНИЯ</p>
         <img
@@ -15,7 +15,7 @@
       </div>
     </a>
 
-    <a href="/recipes" class="app__function-link">
+    <a [routerLink]="pageRoutes.Recipes" class="app__function-link">
       <div class="app__function">
         <p class="app__function-title">РЕЦЕПТЫ</p>
         <img
@@ -27,7 +27,7 @@
       </div>
     </a>
 
-    <a href="/profile" class="app__function-link">
+    <a [routerLink]="pageRoutes.Profile" class="app__function-link">
       <div class="app__function">
         <p class="app__function-title">РАСЧЕТ РСК</p>
         <img
