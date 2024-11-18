@@ -1,5 +1,42 @@
-<p>HOME PAGE</p>
+<section class="app">
+  <h1 class="app__title">Добро пожаловать на Carrot's Hub!</h1>
+  <h2 class="app__subtitle">Простые инструменты для достижения вашей цели.</h2>
 
-@if (user$ | async; as user) {
-<h2>Welcome to Carrot's Hub, {{ user.displayName }}!</h2>
-}
+  <div class="app__functions">
+    <a [routerLink]="pageRoutes.Journal" class="app__function-link">
+      <div class="app__function">
+        <p class="app__function-title">ДНЕВНИК ПИТАНИЯ</p>
+        <img
+          src="assets/icons/journal.png"
+          class="app__function-icon"
+          alt="journal"
+          draggable="false"
+        />
+      </div>
+    </a>
+
+    <a [routerLink]="pageRoutes.Recipes" class="app__function-link">
+      <div class="app__function">
+        <p class="app__function-title">РЕЦЕПТЫ</p>
+        <img
+          src="assets/icons/recipe.png"
+          class="app__function-icon"
+          alt="recipe"
+          draggable="false"
+        />
+      </div>
+    </a>
+
+    <a [routerLink]="pageRoutes.Profile" class="app__function-link">
+      <div class="app__function">
+        <p class="app__function-title">РАСЧЕТ РСК</p>
+        <img
+          src="assets/icons/rsk.png"
+          class="app__function-icon"
+          alt="rsk"
+          draggable="false"
+        />
+      </div>
+    </a>
+  </div>
+</section>
