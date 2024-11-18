@@ -13,11 +13,13 @@ export class EdamamService {
   private readonly http = inject(HttpClient);
 
   searchRecipes(query: string): Observable<EdamamResponse> {
-    const url = "https://api.edamam.com/search";
+    // const url = "https://api.edamam.com/search";
+    const url = "https://api.edamam.com/api/recipes/v2";
     const params = new HttpParams()
       .set("q", query)
       .set("app_id", this.apiId)
-      .set("app_key", this.apiKey);
+      .set("app_key", this.apiKey)
+      .set("type", "public");
 
     const headers = new HttpHeaders({
       "Edamam-Account-User": this.apiId,
