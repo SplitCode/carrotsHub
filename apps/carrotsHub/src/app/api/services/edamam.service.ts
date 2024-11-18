@@ -15,7 +15,6 @@ export class EdamamService {
   private readonly http = inject(HttpClient);
 
   searchRecipes(query: string): Observable<RecipeResponse> {
-    // const url = "https://api.edamam.com/api/recipes/v2";
     const params = new HttpParams()
       .set("q", query)
       .set("app_id", this.apiId)
@@ -30,7 +29,6 @@ export class EdamamService {
   }
 
   getRecipeDetail(recipeId: string): Observable<RecipeDetail> {
-    // const url = `https://api.edamam.com/api/recipes/v2/${recipeId}`;
     const url = `${API_URL}/${recipeId}`;
 
     const params = new HttpParams()
