@@ -5,6 +5,7 @@ import { ActivatedRoute } from "@angular/router";
 import type { Observable } from "rxjs";
 import { of, switchMap } from "rxjs";
 import { EdamamService } from "../../../api/services/edamam.service";
+import type { RecipeDetail } from "../../models/recipe-detail.interface";
 
 @Component({
   selector: "app-recipe-detail",
@@ -15,7 +16,7 @@ import { EdamamService } from "../../../api/services/edamam.service";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RecipeDetailComponent implements OnInit {
-  recipe$!: Observable<any>;
+  recipe$!: Observable<RecipeDetail | null>;
 
   private readonly route = inject(ActivatedRoute);
   private readonly edamamService = inject(EdamamService);
@@ -38,15 +39,3 @@ export class RecipeDetailComponent implements OnInit {
     });
   }
 }
-
-// ngOnInit() {
-//   this.recipe$ = this.route.paramMap.pipe(
-//     switchMap((params) => {
-//       const recipeId = params.get("id");
-//       if (recipeId) {
-//         return this.edamamService.getRecipeDetail(recipeId);
-//       }
-//       return [];
-//     })
-//   );
-// }

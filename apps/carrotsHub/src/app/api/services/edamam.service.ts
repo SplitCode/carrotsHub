@@ -1,8 +1,12 @@
 import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Injectable, inject } from "@angular/core";
-import type { Observable } from "rxjs";
+import { map, type Observable } from "rxjs";
 import { environment } from "../../../environments/environment";
-import type { EdamamResponse } from "../models/edamam.interface";
+import type {
+  // RecipeDetailResponse,
+  RecipeResponse,
+} from "../models/edamam.interface";
+import type { RecipeDetail } from "../../recipes/models/recipe-detail.interface";
 
 @Injectable({
   providedIn: "root",
@@ -12,8 +16,7 @@ export class EdamamService {
   private readonly apiKey = environment.edamam.apiKey;
   private readonly http = inject(HttpClient);
 
-  searchRecipes(query: string): Observable<EdamamResponse> {
-    // const url = "https://api.edamam.com/search";
+  searchRecipes(query: string): Observable<RecipeResponse> {
     const url = "https://api.edamam.com/api/recipes/v2";
     const params = new HttpParams()
       .set("q", query)
@@ -25,15 +28,13 @@ export class EdamamService {
       "Edamam-Account-User": this.apiId,
     });
 
-    return this.http.get<EdamamResponse>(url, { headers, params });
+    return this.http.get<RecipeResponse>(url, { headers, params });
   }
 
-  getRecipeDetail(recipeId: string): Observable<any> {
-    // const url = "https://api.edamam.com/api/recipes/v2";
+  getRecipeDetail(recipeId: string): Observable<RecipeDetail> {
     const url = `https://api.edamam.com/api/recipes/v2/${recipeId}`;
 
     const params = new HttpParams()
-      // .set("r", recipeId)
       .set("app_id", this.apiId)
       .set("app_key", this.apiKey)
       .set("type", "public");
@@ -42,7 +43,11 @@ export class EdamamService {
       "Edamam-Account-User": this.apiId,
     });
 
-    // const url = `https://api.edamam.com/search?r=${recipeId}&app_id=${this.apiId}&app_key=${this.apiKey}`;
-    return this.http.get<any>(url, { headers, params });
+    // return this.http.get<RecipeDetail>(url, { headers, params });
+    return this.http
+      .get<{ recipe: RecipeDetail }>(url, { headers, params })
+      .pipe(
+        map((response) => response.recipe) // Вернем сразу RecipeDetail, а не обертку
+      );
   }
 }
