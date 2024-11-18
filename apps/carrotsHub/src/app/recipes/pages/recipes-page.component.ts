@@ -12,6 +12,7 @@ import {
 import { TuiInputModule } from "@taiga-ui/kit";
 import { EdamamService } from "../../api/services/edamam.service";
 import type { Recipe } from "../models/recipe.interface";
+import { RecipeCardComponent } from "../components/recipe-card/recipe-card.component";
 
 @Component({
   selector: "app-recipes-page",
@@ -23,6 +24,7 @@ import type { Recipe } from "../models/recipe.interface";
     TuiInputModule,
     TuiTextfieldControllerModule,
     TuiSvgModule,
+    RecipeCardComponent,
   ],
   templateUrl: "./recipes-page.component.html",
   styleUrl: "./recipes-page.component.less",
