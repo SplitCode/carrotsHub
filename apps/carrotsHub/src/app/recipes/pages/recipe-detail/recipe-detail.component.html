@@ -1,4 +1,5 @@
-<section class="recipe-detail" *ngIf="recipe$ | async as recipe; else loading">
+<section class="recipe-detail">
+  @if (recipe$ | async; as recipe) {
   <div class="recipe-detail__header">
     <img
       [src]="recipe.images.REGULAR?.url || recipe.image"
@@ -17,9 +18,9 @@
   <div class="recipe-detail__ingredients">
     <h3>Ингредиенты:</h3>
     <ul>
-      <li *ngFor="let ingredient of recipe.ingredientLines">
-        ⁃ {{ ingredient }}
-      </li>
+      @for (ingredient of recipe.ingredientLines; track $index) {
+      <li>⁃ {{ ingredient }}</li>
+      }
     </ul>
   </div>
   <div class="recipe-detail__nutrition">
@@ -32,16 +33,21 @@
   <div class="recipe-detail__tags">
     <h3>Диета:</h3>
     <ul>
-      <li *ngFor="let diet of recipe.dietLabels">⁃{{ diet }}</li>
+      @for (diet of recipe.dietLabels; track $index) {
+      <li>⁃{{ diet }}</li>
+      }
     </ul>
   </div>
 
   <div class="recipe-detail__tags">
     <h3>Тэг:</h3>
-    <span *ngFor="let label of recipe.healthLabels"># {{ label }}</span>
+    @for (label of recipe.healthLabels; track $index) {
+    <span># {{ label }}</span>
+    }
   </div>
+  } @else {
+  <ng-template #loading>
+    <p>Загрузка данных...</p>
+  </ng-template>
+  }
 </section>
-
-<ng-template #loading>
-  <p>Загрузка данных...</p>
-</ng-template>
