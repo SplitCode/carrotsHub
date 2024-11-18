@@ -3,28 +3,25 @@
     <form class="search__form" [formGroup]="searchForm" (ngSubmit)="onSearch()">
       <div class="search__field">
         <tui-input
-        formControlName="searchControl"
-        [tuiTextfieldCleaner]="true"
-        tuiTextfieldSize="m"
-        class="search__input"
-      >
-        Поиск рецепта...
-        <input
-          tuiTextfield
-          autofocus
-        />
-      </tui-input>
+          formControlName="searchControl"
+          [tuiTextfieldCleaner]="true"
+          tuiTextfieldSize="m"
+          class="search__input"
+        >
+          Поиск рецепта...
+          <input tuiTextfield autofocus />
+        </tui-input>
 
-      <button
-      type="submit"
-      tuiIconButton
-      icon="tuiIconSearch"
-      appearance="primary"
-      size="m"
-      class="search__button"
-    >
-      Искать
-    </button>
+        <button
+          type="submit"
+          tuiIconButton
+          icon="tuiIconSearch"
+          appearance="primary"
+          size="m"
+          class="search__button"
+        >
+          Искать
+        </button>
       </div>
     </form>
   </div>
