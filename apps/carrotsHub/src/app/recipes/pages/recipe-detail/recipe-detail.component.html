@@ -23,28 +23,22 @@
       }
     </ul>
   </div>
-  <div class="recipe-detail__nutrition">
-    <h3>Пищевая ценность:</h3>
-    <p>Белки: {{ recipe.protein | number : "1.0-0" }} г</p>
-    <p>Жиры: {{ recipe.fat | number : "1.0-0" }} г</p>
-    <p>Углеводы: {{ recipe.carbs | number : "1.0-0" }} г</p>
-  </div>
+  <div class="recipe-detail__data">
+    <div class="recipe-detail__nutrition">
+      <h3>Пищевая ценность:</h3>
+      <p>Белки: {{ recipe.protein | number : "1.0-0" }}г</p>
+      <p>Жиры: {{ recipe.fat | number : "1.0-0" }}г</p>
+      <p>Углеводы: {{ recipe.carbs | number : "1.0-0" }}г</p>
+    </div>
 
-  <div class="recipe-detail__tags">
-    <h3>Диета:</h3>
-    <ul>
-      @for (diet of recipe.dietLabels; track $index) {
-      <li>⁃{{ diet }}</li>
+    <div class="recipe-detail__tags">
+      <h3>Тэги:</h3>
+      @for (label of recipe.healthLabels; track $index) {
+      <span>#{{ label }} </span>
       }
-    </ul>
+    </div>
   </div>
 
-  <div class="recipe-detail__tags">
-    <h3>Тэг:</h3>
-    @for (label of recipe.healthLabels; track $index) {
-    <span># {{ label }}</span>
-    }
-  </div>
   } @else {
   <ng-template #loading>
     <p>Загрузка данных...</p>
