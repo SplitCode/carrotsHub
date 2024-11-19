@@ -4,6 +4,8 @@ import {
   Component,
   inject,
   signal,
+  ViewChild,
+  ElementRef,
 } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormControl, FormGroup, ReactiveFormsModule } from "@angular/forms";
@@ -43,6 +45,8 @@ import { LoaderComponent } from "../../shared/components/loader/loader.component
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RecipesPageComponent implements OnInit {
+  @ViewChild("searchInput") searchInput!: ElementRef<HTMLInputElement>;
+
   recipes$: Observable<Recipe[]> = of([]);
   readonly loading = signal(false);
   isSearched = false;
@@ -75,6 +79,8 @@ export class RecipesPageComponent implements OnInit {
             params: { query, totalResults: data.hits.length },
           });
 
+          setTimeout(() => this.searchInput.nativeElement.focus(), 100);
+
           return data.hits.map((hit) => ({
             ...hit.recipe,
             uri: hit.recipe.uri,
@@ -94,12 +100,16 @@ export class RecipesPageComponent implements OnInit {
             params: { query, error },
           });
           this.isSearched = true;
+
+          setTimeout(() => this.searchInput.nativeElement.focus(), 100);
           return of([]);
         })
       );
     } else {
       this.isSearched = false;
       this.recipes$ = of([]);
+
+      setTimeout(() => this.searchInput.nativeElement.focus(), 100);
     }
   }
 
