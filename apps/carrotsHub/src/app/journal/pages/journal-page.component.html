@@ -1,6 +1,7 @@
-<section class="journal">
+<!-- <section class="journal"> -->
+
   <!-- nutritional -->
-  <div class="nutritional">
+  <section class="nutritional">
     <div class="calories">
       <div class="calories__consumed">
         <p class="calories__value">{{ caloriesConsumed() }}</p>
@@ -61,24 +62,33 @@
         >
       </div>
     </div>
-  </div>
+  </section>
+
+  <!-- calendar -->
+   <section class="calendar">
+    <tui-input-date
+    [formControl]="dateControl"
+    [tuiTextfieldCleaner]="true"
+    [tuiTextfieldSize]="'m'"
+  >Выберите дату</tui-input-date>
+   </section>
+
 
   <!-- meals -->
-  <p>meals works!</p>
+  <!-- <p>meals works!</p>
   <div class="meals">
     <div *ngFor="let meal of meals" class="meal">
       <h3>{{ meal.type }}</h3>
       <span>{{ meal.totalCalories }} ккал</span>
       <button (click)="onAddFood(meal.type)">+</button>
     </div>
-  </div>
+  </div> -->
 
   <!-- water-tracker -->
   <div class="water-tracker">
     <div class="water-tracker__header">
-      <p class="water-tracker__total">{{ totalWater }} л</p>
-      <p class="water-tracker__title">Вода</p>
-      <p class="water-tracker__hidden">...</p>
+      <h3 class="water-tracker__total">{{ totalWater }} л</h3>
+      <h3 class="water-tracker__title">Вода</h3>
     </div>
     <div class="water-tracker__glasses">
       @for (glass of waterGlasses; ; track $index) {
@@ -96,4 +106,4 @@
       }
     </div>
   </div>
-</section>
+<!-- </section> -->
