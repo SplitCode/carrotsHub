@@ -5,25 +5,13 @@
         <tui-input
           formControlName="searchControl"
           [tuiTextfieldCleaner]="true"
+          tuiTextfieldIcon="tuiIconSearchLarge"
           tuiTextfieldSize="m"
           class="search__input"
         >
           Поиск рецепта...
           <input tuiTextfield autofocus [disabled]="loading()" />
         </tui-input>
-
-        <button
-          type="submit"
-          tuiIconButton
-          icon="tuiIconSearch"
-          appearance="primary"
-          size="m"
-          class="search__button"
-          [disabled]="loading()"
-          [showLoader]="loading()"
-        >
-          Искать
-        </button>
       </div>
     </form>
   </div>

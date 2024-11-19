@@ -8,7 +8,15 @@ import {
 import { CommonModule } from "@angular/common";
 import { FormControl, FormGroup, ReactiveFormsModule } from "@angular/forms";
 import type { Observable } from "rxjs";
-import { catchError, of, map } from "rxjs";
+import {
+  catchError,
+  of,
+  map,
+  debounceTime,
+  filter,
+  distinctUntilChanged,
+  switchMap,
+} from "rxjs";
 import {
   TuiButtonModule,
   TuiSvgModule,
@@ -102,10 +110,57 @@ export class RecipesPageComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.searchForm
+      .get("searchControl")
+      ?.valueChanges.pipe(
+        debounceTime(300),
+        filter((query) => query !== null && query.length >= 3),
+        distinctUntilChanged(),
+        switchMap((query) => {
+          this.isSearched = true;
+          this.loading.set(true);
+          return this.edamamService.searchRecipes(query || "").pipe(
+            map((data: RecipeResponse) => {
+              this.loading.set(false);
+              this.logger.logInfo({
+                name: "SearchSuccess",
+                params: { query: query || "", totalResults: data.hits.length },
+              });
+              return data.hits.map((hit) => ({
+                ...hit.recipe,
+                uri: hit.recipe.uri,
+                label: hit.recipe.label,
+                image: hit.recipe.image,
+                calories: hit.recipe.calories,
+                yield: hit.recipe.yield,
+                fat: hit.recipe.digest[0]?.total || 0,
+                carbs: hit.recipe.digest[1]?.total || 0,
+                protein: hit.recipe.digest[2]?.total || 0,
+              }));
+            }),
+            catchError((error) => {
+              this.loading.set(false);
+              this.logger.logError({
+                name: "SearchFailed",
+                params: { query: query || "", error },
+              });
+              this.isSearched = true;
+              return of([]);
+            })
+          );
+        })
+      )
+      .subscribe((recipes) => {
+        this.recipes$ = of(recipes);
+      });
+
     this.route.queryParams.subscribe((params) => {
       const { search: query = "" } = params;
       if (query) {
-        this.searchForm.setValue({ searchControl: query });
+        this.searchForm.setValue(
+          { searchControl: query },
+          { emitEvent: false }
+        );
         this.isSearched = true;
         this.onSearch(query);
       }
