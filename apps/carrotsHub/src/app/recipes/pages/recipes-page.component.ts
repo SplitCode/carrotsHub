@@ -1,3 +1,4 @@
+import type { OnInit } from "@angular/core";
 import {
   ChangeDetectionStrategy,
   Component,
@@ -14,6 +15,7 @@ import {
   TuiTextfieldControllerModule,
 } from "@taiga-ui/core";
 import { TuiInputModule } from "@taiga-ui/kit";
+import { Router, ActivatedRoute } from "@angular/router";
 import { EdamamService } from "../../api/services/edamam.service";
 import type { Recipe } from "../models/recipe.interface";
 import { RecipeCardComponent } from "../components/recipe-card/recipe-card.component";
@@ -36,10 +38,12 @@ import { Logger } from "../../core/logger/logger.models";
   styleUrl: "./recipes-page.component.less",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RecipesPageComponent {
+export class RecipesPageComponent implements OnInit {
   recipes$: Observable<Recipe[]> = of([]);
   isSearched = false;
 
+  private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
   private readonly edamamService = inject(EdamamService);
   private readonly logger = inject(Logger);
   readonly loading = signal(false);
@@ -48,12 +52,18 @@ export class RecipesPageComponent {
     searchControl: new FormControl(""),
   });
 
-  onSearch() {
-    const query = this.searchForm.get("searchControl")?.value;
+  onSearch(queryOverride?: string) {
+    const query = queryOverride || this.searchForm.get("searchControl")?.value;
 
     if (query?.trim()) {
       this.isSearched = true;
       this.loading.set(true);
+
+      this.router.navigate([], {
+        relativeTo: this.route,
+        queryParams: { search: query },
+        queryParamsHandling: "merge",
+      });
 
       this.recipes$ = this.edamamService.searchRecipes(query).pipe(
         map((data: RecipeResponse) => {
@@ -89,5 +99,16 @@ export class RecipesPageComponent {
       this.isSearched = false;
       this.recipes$ = of([]);
     }
+  }
+
+  ngOnInit() {
+    this.route.queryParams.subscribe((params) => {
+      const { search: query = "" } = params;
+      if (query) {
+        this.searchForm.setValue({ searchControl: query });
+        this.isSearched = true;
+        this.onSearch(query);
+      }
+    });
   }
 }
