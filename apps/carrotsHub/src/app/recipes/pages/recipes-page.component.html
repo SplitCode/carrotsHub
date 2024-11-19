@@ -24,10 +24,8 @@
   </p>
 </section>
 } @if (loading()) {
-  <app-loader></app-loader>
-}
-
-@if (isSearched) {
+<app-loader></app-loader>
+} @if (isSearched) {
 <section
   class="recipes"
   [ngClass]="{
