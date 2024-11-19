@@ -1,0 +1,61 @@
+.water-tracker {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 2rem;
+  border-radius: 0.5rem;
+  background-color: var(--tui-base-01);
+  box-shadow: var(--tui-shadow-navigation);
+
+  &__title {
+    font-size: 1.5rem;
+    color: var(--tui-primary);
+  }
+
+  &__glasses {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  &__glass {
+    width: 3rem;
+    height: 3rem;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+
+    &:hover {
+      transform: scale(1.1);
+    }
+
+    &-image {
+      width: 3rem;
+      height: 3rem;
+      object-fit: contain;
+    }
+  }
+
+  &__total {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--tui-primary);
+  }
+}
+
+@media (max-width: 544px) {
+  .water-tracker {
+    padding: 1rem;
+    gap: 1rem;
+
+    &__glasses {
+      gap: 0.5rem;
+    }
+
+    &__glass {
+      width: 2.5rem;
+      height: 2.5rem;
+    }
+  }
+}
