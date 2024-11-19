@@ -1,8 +1,6 @@
 <p>calories-chart works!</p>
 <div class="calories-chart">
-  <tui-ring-chart
-    [value]="[caloriesConsumed(), caloriesLeft]"
-  ></tui-ring-chart>
+  <tui-ring-chart [value]="[caloriesConsumed(), caloriesLeft]"></tui-ring-chart>
 
   <div class="calories-left">{{ caloriesLeft }} ккал осталось</div>
   <div class="calories-consumed">{{ caloriesConsumed() }} потребление</div>
