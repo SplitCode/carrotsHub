@@ -33,11 +33,13 @@ lint:
     - npm run format:check
     - npm run lint
     - npm run stylelint
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
+  dependencies:
+    - install
   only:
     - branches
     - merge_requests
-  dependencies:
-    - install
 
 build:
   stage: build
@@ -46,28 +48,34 @@ build:
   artifacts:
     paths:
       - dist/apps/carrotsHub/browser/
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
+  dependencies:
+    - install
   only:
     - merge_requests
     - master
-  dependencies:
-    - install
 
 deploy-staging:
   stage: deploy-staging
   script:
     - npm install -g firebase-tools
     - firebase deploy --only hosting:carrot-s-hub --token "$FIREBASE_DEPLOY_TOKEN"
-  only:
-    - merge_requests
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
   dependencies:
     - build
+  only:
+    - merge_requests
 
 deploy-production:
   stage: deploy-production
   script:
     - npm install -g firebase-tools
     - firebase deploy --only hosting:morkovka --token "$FIREBASE_DEPLOY_TOKEN"
-  only:
-    - master
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
   dependencies:
     - build
+  only:
+    - master
