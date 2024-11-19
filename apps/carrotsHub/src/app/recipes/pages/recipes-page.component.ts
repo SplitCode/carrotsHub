@@ -15,7 +15,6 @@ import {
   debounceTime,
   filter,
   distinctUntilChanged,
-  switchMap,
 } from "rxjs";
 import {
   TuiButtonModule,
@@ -48,8 +47,8 @@ import { Logger } from "../../core/logger/logger.models";
 })
 export class RecipesPageComponent implements OnInit {
   recipes$: Observable<Recipe[]> = of([]);
-  isSearched = false;
   readonly loading = signal(false);
+  isSearched = false;
 
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
@@ -60,9 +59,7 @@ export class RecipesPageComponent implements OnInit {
     searchControl: new FormControl(""),
   });
 
-  onSearch(queryOverride?: string) {
-    const query = queryOverride || this.searchForm.get("searchControl")?.value;
-
+  onSearch(query: string) {
     if (query?.trim()) {
       this.isSearched = true;
       this.loading.set(true);
@@ -114,45 +111,11 @@ export class RecipesPageComponent implements OnInit {
       .get("searchControl")
       ?.valueChanges.pipe(
         debounceTime(300),
-        filter((query) => query !== null && query.length >= 3),
-        distinctUntilChanged(),
-        switchMap((query) => {
-          this.isSearched = true;
-          this.loading.set(true);
-          return this.edamamService.searchRecipes(query || "").pipe(
-            map((data: RecipeResponse) => {
-              this.loading.set(false);
-              this.logger.logInfo({
-                name: "SearchSuccess",
-                params: { query: query || "", totalResults: data.hits.length },
-              });
-              return data.hits.map((hit) => ({
-                ...hit.recipe,
-                uri: hit.recipe.uri,
-                label: hit.recipe.label,
-                image: hit.recipe.image,
-                calories: hit.recipe.calories,
-                yield: hit.recipe.yield,
-                fat: hit.recipe.digest[0]?.total || 0,
-                carbs: hit.recipe.digest[1]?.total || 0,
-                protein: hit.recipe.digest[2]?.total || 0,
-              }));
-            }),
-            catchError((error) => {
-              this.loading.set(false);
-              this.logger.logError({
-                name: "SearchFailed",
-                params: { query: query || "", error },
-              });
-              this.isSearched = true;
-              return of([]);
-            })
-          );
-        })
+        map((query) => query || ""),
+        filter((query: string) => query.trim().length >= 3),
+        distinctUntilChanged()
       )
-      .subscribe((recipes) => {
-        this.recipes$ = of(recipes);
-      });
+      .subscribe((query) => this.onSearch(query));
 
     this.route.queryParams.subscribe((params) => {
       const { search: query = "" } = params;
