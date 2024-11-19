@@ -1,0 +1,10 @@
+<p>water-tracker works!</p>
+<div class="water-tracker">
+  <h3>Вода</h3>
+  <div class="water-glasses">
+    <div *ngFor="let glass of waterGlasses; let i = index" class="glass" (click)="onToggleWater(i)">
+      <img [src]="glass.filled ? 'assets/icons/water-filled.png' : 'assets/icons/water-empty.png'" alt="glass" />
+    </div>
+  </div>
+  <div class="total-water">{{ totalWater }} л</div>
+</div>
