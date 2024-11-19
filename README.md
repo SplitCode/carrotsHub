@@ -46,6 +46,6 @@ password - admin2
 
 - Jira
 
-## Контрибьюторы
+## Создатели проекта
 
-[SplitCode](https://github.com/SplitCode)
+[Бандурова Наталья Юрьевна ](https://github.com/SplitCode)

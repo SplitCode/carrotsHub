@@ -1,40 +1,31 @@
 <section class="search">
   <div class="search__container">
-    <form class="search__form" [formGroup]="searchForm" (ngSubmit)="onSearch()">
+    <form class="search__form" [formGroup]="searchForm">
       <div class="search__field">
         <tui-input
           formControlName="searchControl"
+          #searchInput
           [tuiTextfieldCleaner]="true"
+          tuiTextfieldIcon="tuiIconSearchLarge"
           tuiTextfieldSize="m"
           class="search__input"
         >
           Поиск рецепта...
           <input tuiTextfield autofocus [disabled]="loading()" />
         </tui-input>
-
-        <button
-          type="submit"
-          tuiIconButton
-          icon="tuiIconSearch"
-          appearance="primary"
-          size="m"
-          class="search__button"
-          [disabled]="loading()"
-          [showLoader]="loading()"
-        >
-          Искать
-        </button>
       </div>
     </form>
   </div>
 </section>
 
-@if (!isSearched) {
+@if (!isSearched && !loading()) {
 <section class="recipes__prompt-container">
   <p class="recipes__prompt">
     Начните поиск, введя название рецепта или продукта в поле выше.
   </p>
 </section>
+} @if (loading()) {
+<app-loader></app-loader>
 } @if (isSearched) {
 <section
   class="recipes"
