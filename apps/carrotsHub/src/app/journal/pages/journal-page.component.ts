@@ -121,7 +121,7 @@ export class JournalPageComponent implements OnInit {
     this.authService.currentUser$.subscribe((user) => {
       if (user) {
         this.userId = user.uid;
-        // this.loadUserData(this.userId, this.selectedDate);
+        this.loadUserData(this.userId);
       }
     });
   }
@@ -155,10 +155,10 @@ export class JournalPageComponent implements OnInit {
       .getUserData(uid)
       .subscribe((userData: UserData | null) => {
         if (userData) {
-          this.caloriesMax.set(userData.calculatedCalories ?? 2000);
-          this.proteinMax.set(userData.protein ?? 65);
-          this.fatMax.set(userData.fat ?? 44);
-          this.carbsMax.set(userData.carbohydrates ?? 160);
+          this.caloriesMax.set(userData.caloriesMax ?? 2000);
+          this.proteinMax.set(userData.proteinMax ?? 65);
+          this.fatMax.set(userData.fatMax ?? 44);
+          this.carbsMax.set(userData.carbsMax ?? 160);
         }
       });
   }

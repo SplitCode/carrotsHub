@@ -13,8 +13,8 @@ export interface UserData {
   gender?: GENDER;
   goal?: GOAL;
   lifestyle?: LIFESTYLE;
-  calculatedCalories?: number;
-  protein?: number;
-  fat?: number;
-  carbohydrates?: number;
+  caloriesMax?: number;
+  proteinMax?: number;
+  fatMax?: number;
+  carbsMax?: number;
 }
