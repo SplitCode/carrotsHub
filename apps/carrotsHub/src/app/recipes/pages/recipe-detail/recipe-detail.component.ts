@@ -4,13 +4,15 @@ import { CommonModule } from "@angular/common";
 import { ActivatedRoute } from "@angular/router";
 import type { Observable } from "rxjs";
 import { map, of, switchMap } from "rxjs";
+import { Location } from "@angular/common";
+import { TuiLinkModule } from "@taiga-ui/core";
 import { EdamamService } from "../../../api/services/edamam.service";
 import type { RecipeDetail } from "../../models/recipe-detail.interface";
 
 @Component({
   selector: "app-recipe-detail",
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TuiLinkModule],
   templateUrl: "./recipe-detail.component.html",
   styleUrl: "./recipe-detail.component.less",
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -18,6 +20,7 @@ import type { RecipeDetail } from "../../models/recipe-detail.interface";
 export class RecipeDetailComponent implements OnInit {
   recipe$!: Observable<RecipeDetail | null>;
 
+  readonly location = inject(Location);
   private readonly route = inject(ActivatedRoute);
   private readonly edamamService = inject(EdamamService);
 

@@ -1,4 +1,12 @@
 <section class="recipe-detail">
+  <a
+    (click)="location.back()"
+    mode="positive"
+    tuiLink
+    class="recipe-detail__link"
+    >Назад</a
+  >
+
   @if (recipe$ | async; as recipe) {
   <div class="recipe-detail__header">
     <img
