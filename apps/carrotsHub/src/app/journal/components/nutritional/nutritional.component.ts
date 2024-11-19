@@ -7,24 +7,29 @@ import {
 } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { TuiRingChartModule } from "@taiga-ui/addon-charts";
+import { TuiProgressModule } from "@taiga-ui/kit";
 import { AuthService } from "../../../auth/services/auth.service";
 import { UserDataService } from "../../../profile/services/user-data.service";
 import type { UserData } from "../../../profile/models/user-data.interface";
 
 @Component({
-  selector: "app-calories-chart",
+  selector: "app-nutritional",
   standalone: true,
-  imports: [CommonModule, TuiRingChartModule],
-  templateUrl: "./calories-chart.component.html",
-  styleUrl: "./calories-chart.component.less",
+  imports: [CommonModule, TuiRingChartModule, TuiProgressModule],
+  templateUrl: "./nutritional.component.html",
+  styleUrl: "./nutritional.component.less",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CaloriesChartComponent implements OnInit {
+export class NutritionalComponent implements OnInit {
   readonly caloriesMax = signal<number>(2000);
   readonly caloriesConsumed = signal<number>(200); // 0 по умолчанию
-  readonly protein = signal<number>(0);
-  readonly fat = signal<number>(0);
-  readonly carbohydrates = signal<number>(0);
+  readonly proteinMax = signal(65);
+  readonly fatMax = signal(44);
+  readonly carbsMax = signal(160);
+
+  proteinCurrent = 10;
+  fatCurrent = 30;
+  carbsCurrent = 250;
 
   private readonly authService = inject(AuthService);
   private readonly userDataService = inject(UserDataService);
@@ -43,9 +48,9 @@ export class CaloriesChartComponent implements OnInit {
       .subscribe((userData: UserData | null) => {
         if (userData) {
           this.caloriesMax.set(userData.calculatedCalories ?? 2000);
-          this.protein.set(userData.protein ?? 0);
-          this.fat.set(userData.fat ?? 0);
-          this.carbohydrates.set(userData.carbohydrates ?? 0);
+          this.proteinMax.set(userData.protein ?? 65);
+          this.fatMax.set(userData.fat ?? 44);
+          this.carbsMax.set(userData.carbohydrates ?? 160);
         }
       });
   }

@@ -1,0 +1,92 @@
+.nutritional {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  gap: 3rem;
+  max-width: 35rem;
+  margin: 2rem auto 0;
+  padding: 2rem 3rem 3rem;
+  border-radius: 0.5rem;
+  background-color: var(--tui-base-01);
+  box-shadow: var(--tui-shadow-navigation);
+}
+
+.calories {
+  display: flex;
+  gap: 3rem;
+
+  &__consumed,
+  &__spent {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__value {
+    font-size: 1rem;
+  }
+
+  &__label {
+    margin: 0;
+  }
+}
+
+.macronutrients {
+  display: flex;
+  gap: 5rem;
+}
+
+.macronutrient {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+progress[tuiProgressBar] {
+  width: 5rem;
+}
+
+@media (max-width: 544px) {
+  .nutritional {
+    padding: 1.5rem;
+    gap: 2rem;
+  }
+
+  .calories {
+    flex-direction: column;
+    gap: 1rem;
+
+    &__consumed,
+    &__spent {
+      flex-direction: row;
+    }
+  }
+
+  .macronutrients {
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+  }
+
+  .macronutrient {
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 0.7rem;
+
+    &__item {
+      min-width: 4rem;
+    }
+
+    &__value {
+      min-width: 5rem;
+    }
+  }
+
+  progress[tuiProgressBar] {
+    flex: 1;
+  }
+}

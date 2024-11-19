@@ -5,10 +5,9 @@ import {
   signal,
 } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { MacronutrientsComponent } from "../components/macronutrients/macronutrients.component";
 import { MealsComponent } from "../components/meals/meals.component";
 import { WaterTrackerComponent } from "../components/water-tracker/water-tracker.component";
-import { CaloriesChartComponent } from "../components/calories-chart/calories-chart.component";
+import { NutritionalComponent } from "../components/nutritional/nutritional.component";
 import { EdamamService } from "../../api/services/edamam.service";
 import { UserDataService } from "../../profile/services/user-data.service";
 
@@ -18,9 +17,8 @@ import { UserDataService } from "../../profile/services/user-data.service";
   imports: [
     CommonModule,
     WaterTrackerComponent,
-    MacronutrientsComponent,
     MealsComponent,
-    CaloriesChartComponent,
+    NutritionalComponent,
   ],
   templateUrl: "./journal-page.component.html",
   styleUrl: "./journal-page.component.less",
