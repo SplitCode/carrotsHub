@@ -17,13 +17,17 @@
   </div>
 </section>
 
-@if (!isSearched) {
+@if (!isSearched && !loading()) {
 <section class="recipes__prompt-container">
   <p class="recipes__prompt">
     Начните поиск, введя название рецепта или продукта в поле выше.
   </p>
 </section>
-} @if (isSearched) {
+} @if (loading()) {
+  <app-loader></app-loader>
+}
+
+@if (isSearched) {
 <section
   class="recipes"
   [ngClass]="{

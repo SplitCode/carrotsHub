@@ -16,11 +16,7 @@ import {
   filter,
   distinctUntilChanged,
 } from "rxjs";
-import {
-  TuiButtonModule,
-  TuiSvgModule,
-  TuiTextfieldControllerModule,
-} from "@taiga-ui/core";
+import { TuiButtonModule, TuiTextfieldControllerModule } from "@taiga-ui/core";
 import { TuiInputModule } from "@taiga-ui/kit";
 import { Router, ActivatedRoute } from "@angular/router";
 import { EdamamService } from "../../api/services/edamam.service";
@@ -28,6 +24,7 @@ import type { Recipe } from "../models/recipe.interface";
 import { RecipeCardComponent } from "../components/recipe-card/recipe-card.component";
 import type { RecipeResponse } from "../../api/models/edamam.interface";
 import { Logger } from "../../core/logger/logger.models";
+import { LoaderComponent } from "../../shared/components/loader/loader.component";
 
 @Component({
   selector: "app-recipes-page",
@@ -38,8 +35,8 @@ import { Logger } from "../../core/logger/logger.models";
     TuiButtonModule,
     TuiInputModule,
     TuiTextfieldControllerModule,
-    TuiSvgModule,
     RecipeCardComponent,
+    LoaderComponent,
   ],
   templateUrl: "./recipes-page.component.html",
   styleUrl: "./recipes-page.component.less",

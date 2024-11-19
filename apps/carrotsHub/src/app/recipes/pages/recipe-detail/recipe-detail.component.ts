@@ -8,11 +8,12 @@ import { Location } from "@angular/common";
 import { TuiLinkModule } from "@taiga-ui/core";
 import { EdamamService } from "../../../api/services/edamam.service";
 import type { RecipeDetail } from "../../models/recipe-detail.interface";
+import { LoaderComponent } from "../../../shared/components/loader/loader.component";
 
 @Component({
   selector: "app-recipe-detail",
   standalone: true,
-  imports: [CommonModule, TuiLinkModule],
+  imports: [CommonModule, TuiLinkModule, LoaderComponent],
   templateUrl: "./recipe-detail.component.html",
   styleUrl: "./recipe-detail.component.less",
   changeDetection: ChangeDetectionStrategy.OnPush,
