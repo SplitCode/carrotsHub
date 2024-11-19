@@ -1,5 +1,193 @@
 .journal {
   display: flex;
-  // padding: 0 2rem 2rem;
+  justify-content: center;
   flex-direction: column;
+  align-items: center;
+  gap: 3rem;
+  max-width: 35rem;
+  margin: 2rem auto 0;
+  padding: 2rem 3rem 3rem;
+  border-radius: 0.5rem;
+  background-color: var(--tui-base-01);
+  box-shadow: var(--tui-shadow-navigation);
+}
+
+@media (max-width: 544px) {
+  .journal {
+    padding: 1rem
+  };
+}
+
+// nutrition section
+
+.nutritional {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  gap: 3rem;
+  // max-width: 35rem;
+  // margin: 2rem auto 0;
+  // padding: 2rem 3rem 3rem;
+  // border-radius: 0.5rem;
+  // background-color: var(--tui-base-01);
+  // box-shadow: var(--tui-shadow-navigation);
+}
+
+.calories {
+  display: flex;
+  gap: 3rem;
+
+  &__consumed,
+  &__spent {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__value {
+    font-size: 1rem;
+  }
+
+  &__label {
+    margin: 0;
+  }
+}
+
+.macronutrients {
+  display: flex;
+  gap: 5rem;
+}
+
+.macronutrient {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+progress[tuiProgressBar] {
+  width: 5rem;
+}
+
+@media (max-width: 544px) {
+  .nutritional {
+    padding: 1.5rem;
+    gap: 2rem;
+  }
+
+  .calories {
+    flex-direction: column;
+    gap: 1rem;
+
+    &__consumed,
+    &__spent {
+      flex-direction: row;
+    }
+  }
+
+  .macronutrients {
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+  }
+
+  .macronutrient {
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 0.7rem;
+
+    &__item {
+      min-width: 4rem;
+    }
+
+    &__value {
+      min-width: 5rem;
+    }
+  }
+
+  progress[tuiProgressBar] {
+    flex: 1;
+  }
+}
+
+
+// water-tracker
+
+.water-tracker {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  // align-items: center;
+  // gap: 1.5rem;
+  // padding: 2rem;
+  // max-width: 35rem;
+  // border-radius: 0.5rem;
+  // margin: 2rem auto 0;
+  // background-color: var(--tui-base-01);
+  // box-shadow: var(--tui-shadow-navigation);
+
+ &__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+ }
+
+ &__total {
+  font-size: 1.2rem;
+  font-weight: bold;
+  min-width: 5rem;
+  color: var(--tui-primary);
+}
+
+  &__title {
+    font-size: 1.2rem;
+    // color: var(--tui-primary);
+  }
+
+  &__hidden {
+    visibility: hidden;
+  }
+
+  &__glasses {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  &__glass {
+    width: 3rem;
+    height: 3rem;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+
+    &:hover {
+      transform: scale(1.1);
+    }
+
+    &-image {
+      width: 3rem;
+      height: 3rem;
+      object-fit: contain;
+    }
+  }
+}
+
+@media (max-width: 544px) {
+  .water-tracker {
+    padding: 1rem;
+    gap: 1rem;
+
+    // &__glasses {
+    //   gap: 0.5rem;
+    // }
+
+    &__glass {
+      width: 2.5rem;
+      height: 2.5rem;
+    }
+  }
 }

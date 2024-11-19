@@ -31,14 +31,6 @@ export class WaterTrackerComponent {
     });
   }
 
-  // onToggleWater(index: number) {
-  //   this.waterGlasses[index].filled = !this.waterGlasses[index].filled;
-  //   this.totalWater =
-  //     this.waterGlasses.filter((glass) => glass.filled).length * 0.25;
-  //   console.info(this.totalWater);
-  //   this.saveWaterData();
-  // }
-
   onToggleWater(index: number) {
     if (!this.waterGlasses[index].filled) {
       if (index === 0 || this.waterGlasses[index - 1].filled) {

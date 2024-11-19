@@ -1,3 +1,4 @@
+import type { OnInit } from "@angular/core";
 import {
   ChangeDetectionStrategy,
   Component,
@@ -5,40 +6,36 @@ import {
   signal,
 } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { MealsComponent } from "../components/meals/meals.component";
-import { WaterTrackerComponent } from "../components/water-tracker/water-tracker.component";
-import { NutritionalComponent } from "../components/nutritional/nutritional.component";
+import { TuiRingChartModule } from "@taiga-ui/addon-charts";
+import { TuiProgressModule } from "@taiga-ui/kit";
 import { EdamamService } from "../../api/services/edamam.service";
 import { UserDataService } from "../../profile/services/user-data.service";
+import { AuthService } from "../../auth/services/auth.service";
+import type { UserData } from "../../profile/models/user-data.interface";
 
 @Component({
   selector: "app-journal-page",
   standalone: true,
-  imports: [
-    CommonModule,
-    WaterTrackerComponent,
-    MealsComponent,
-    NutritionalComponent,
-  ],
+  imports: [CommonModule, TuiRingChartModule, TuiProgressModule],
   templateUrl: "./journal-page.component.html",
   styleUrl: "./journal-page.component.less",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class JournalPageComponent {
-  readonly caloriesMax = signal(2000);
+export class JournalPageComponent implements OnInit {
+  userId!: string;
+  readonly caloriesMax = signal<number>(2000);
+  readonly caloriesConsumed = signal<number>(200); // 0 по умолчанию
   readonly proteinMax = signal(65);
   readonly fatMax = signal(44);
   readonly carbsMax = signal(160);
 
-  // Текущие данные
-  caloriesConsumed = 0;
-  proteinCurrent = 0;
-  fatCurrent = 0;
-  carbsCurrent = 0;
+  proteinCurrent = 10;
+  fatCurrent = 30;
+  carbsCurrent = 250;
 
-  // Вода
-  waterGlasses = Array(8).fill({ filled: false });
-  totalWater = 0;
+  private readonly authService = inject(AuthService);
+  private readonly userDataService = inject(UserDataService);
+  private readonly edamamService = inject(EdamamService);
 
   // Приемы пищи
   meals = [
@@ -48,8 +45,31 @@ export class JournalPageComponent {
     { type: "Перекус", totalCalories: 0 },
   ];
 
-  private readonly edamamService = inject(EdamamService);
-  private readonly userDataService = inject(UserDataService);
+  // Вода
+  waterGlasses: Array<{ filled: boolean }> = Array.from({ length: 8 }, () => ({
+    filled: false,
+  }));
+
+  totalWater = 0;
+
+  onToggleWater(index: number) {
+    if (!this.waterGlasses[index].filled) {
+      if (index === 0 || this.waterGlasses[index - 1].filled) {
+        this.waterGlasses[index].filled = true;
+      }
+    } else if (
+      index === this.waterGlasses.length - 1 ||
+      !this.waterGlasses[index + 1].filled
+    ) {
+      this.waterGlasses[index].filled = false;
+    }
+
+    this.totalWater =
+      this.waterGlasses.filter((glass) => glass.filled).length * 0.25;
+
+    console.info(this.totalWater);
+    // this.saveWaterData();
+  }
 
   // Добавление приема пищи
   onAddFood(mealType: string) {
@@ -58,11 +78,29 @@ export class JournalPageComponent {
     console.info(mealType);
   }
 
-  // Трекер воды
-  onToggleWater(index: number) {
-    this.waterGlasses[index].filled = !this.waterGlasses[index].filled;
-    this.totalWater =
-      this.waterGlasses.filter((glass) => glass.filled).length * 0.25;
-    // сохранить в дб
+  ngOnInit(): void {
+    this.authService.currentUser$.subscribe((user) => {
+      if (user) {
+        this.userId = user.uid;
+        this.loadUserData(user.uid);
+      }
+    });
+  }
+
+  loadUserData(uid: string) {
+    this.userDataService
+      .getUserData(uid)
+      .subscribe((userData: UserData | null) => {
+        if (userData) {
+          this.caloriesMax.set(userData.calculatedCalories ?? 2000);
+          this.proteinMax.set(userData.protein ?? 65);
+          this.fatMax.set(userData.fat ?? 44);
+          this.carbsMax.set(userData.carbohydrates ?? 160);
+        }
+      });
+  }
+
+  get caloriesLeft(): number {
+    return this.caloriesMax() - this.caloriesConsumed();
   }
 }
