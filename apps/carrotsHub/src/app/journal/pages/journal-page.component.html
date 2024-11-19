@@ -1,5 +1,4 @@
 <section class="journal">
-
   <!-- nutritional -->
   <div class="nutritional">
     <div class="calories">
@@ -64,30 +63,26 @@
     </div>
   </div>
 
-<!-- meals -->
-<p>meals works!</p>
-<div class="meals">
-  <div *ngFor="let meal of meals" class="meal">
-    <h3>{{ meal.type }}</h3>
-    <span>{{ meal.totalCalories }} ккал</span>
-    <button (click)="onAddFood(meal.type)">+</button>
+  <!-- meals -->
+  <p>meals works!</p>
+  <div class="meals">
+    <div *ngFor="let meal of meals" class="meal">
+      <h3>{{ meal.type }}</h3>
+      <span>{{ meal.totalCalories }} ккал</span>
+      <button (click)="onAddFood(meal.type)">+</button>
+    </div>
   </div>
-</div>
 
-
-<!-- water-tracker -->
-<div class="water-tracker">
-  <div class="water-tracker__header">
-    <p class="water-tracker__total">{{ totalWater }} л</p>
-    <p class="water-tracker__title">Вода</p>
-    <p class="water-tracker__hidden">...</p>
-  </div>
-  <div class="water-tracker__glasses">
-    @for (glass of waterGlasses; ; track $index) {
-      <div
-        class="water-tracker__glass"
-        (click)="onToggleWater($index)"
-      >
+  <!-- water-tracker -->
+  <div class="water-tracker">
+    <div class="water-tracker__header">
+      <p class="water-tracker__total">{{ totalWater }} л</p>
+      <p class="water-tracker__title">Вода</p>
+      <p class="water-tracker__hidden">...</p>
+    </div>
+    <div class="water-tracker__glasses">
+      @for (glass of waterGlasses; ; track $index) {
+      <div class="water-tracker__glass" (click)="onToggleWater($index)">
         <img
           [src]="
             glass.filled
@@ -98,8 +93,7 @@
           class="water-tracker__glass-image"
         />
       </div>
-    }
+      }
+    </div>
   </div>
-</div>
-
 </section>
