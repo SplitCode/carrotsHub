@@ -41,12 +41,12 @@ import { Logger } from "../../core/logger/logger.models";
 export class RecipesPageComponent implements OnInit {
   recipes$: Observable<Recipe[]> = of([]);
   isSearched = false;
+  readonly loading = signal(false);
 
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
   private readonly edamamService = inject(EdamamService);
   private readonly logger = inject(Logger);
-  readonly loading = signal(false);
 
   searchForm = new FormGroup({
     searchControl: new FormControl(""),
