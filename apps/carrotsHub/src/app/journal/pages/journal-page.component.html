@@ -27,11 +27,16 @@
       class="meal-panel__header"
       (click)="meal.isExpanded = !meal.isExpanded"
     >
-    <div class="meal__text">
-      <h3>{{ meal.type }}</h3>
-      <span>{{ meal.totalCalories | number : "1.0-0" }} ккал</span>
-    </div>
-      <button сlass="meal__button" tuiIconButton icon="tuiIconPlus" appearance="primary"></button>
+      <div class="meal__text">
+        <h3>{{ meal.type }}</h3>
+        <span>{{ meal.totalCalories | number : "1.0-0" }} ккал</span>
+      </div>
+      <button
+        сlass="meal__button"
+        tuiIconButton
+        icon="tuiIconPlus"
+        appearance="primary"
+      ></button>
     </div>
 
     <!-- аккордеон -->
@@ -67,22 +72,22 @@
               ></tui-input-number>
             </div>
             <div class="search-buttons">
-            <button
-              tuiIconButton
-              size="s"
-              icon="tuiIconCheck"
-              appearance="secondary"
-              aria-label="Добавить"
-              (click)="onAddFoodToMeal(meal, result)"
-            ></button>
-            <button
-              tuiIconButton
-              icon="tuiIconClose"
-              size="s"
-              appearance="secondary-destructive"
-              (click)="clearSearch(meal)"
-              aria-label="Отмена"
-            ></button>
+              <button
+                tuiIconButton
+                size="s"
+                icon="tuiIconCheck"
+                appearance="secondary"
+                aria-label="Добавить"
+                (click)="onAddFoodToMeal(meal, result)"
+              ></button>
+              <button
+                tuiIconButton
+                icon="tuiIconClose"
+                size="s"
+                appearance="secondary-destructive"
+                (click)="clearSearch(meal)"
+                aria-label="Отмена"
+              ></button>
             </div>
           </div>
         </div>
@@ -92,19 +97,21 @@
       <div class="meal-items">
         <div *ngFor="let item of meal.items; let i = index" class="meal-item">
           <div class="meal-item__content">
-          <span class="meal-item__label">- {{ item.label }}</span>
-          <span class="meal-item__quantity">{{ item.quantity }}г</span>
-          <span class="meal-item__calories">{{ item.calories | number : "1.0-0" }}ккал</span>
-          <button
-            tuiIconButton
-            icon="tuiIconClose"
-            appearance="error"
-            (click)="removeFoodFromMeal(meal, i)"
-            class="meal-close"
-          ></button>
+            <span class="meal-item__label">- {{ item.label }}</span>
+            <span class="meal-item__quantity">{{ item.quantity }}г</span>
+            <span class="meal-item__calories"
+              >{{ item.calories | number : "1.0-0" }}ккал</span
+            >
+            <button
+              tuiIconButton
+              icon="tuiIconClose"
+              appearance="error"
+              (click)="removeFoodFromMeal(meal, i)"
+              class="meal-close"
+            ></button>
+          </div>
         </div>
       </div>
-    </div>
     </tui-expand>
   </div>
 
