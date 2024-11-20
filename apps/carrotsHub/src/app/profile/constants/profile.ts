@@ -1,19 +1,19 @@
 export enum GOAL {
-  weightLoss = "Снижение веса",
-  maintenance = "Поддержание веса",
-  weightGain = "Набор веса",
+  weightLoss = "Lose weight",
+  maintenance = "Maintain weight",
+  weightGain = "Gain weight",
 }
 
 export enum GENDER {
-  male = "Мужской",
-  female = "Женский",
+  male = "Male",
+  female = "Femle",
 }
 
 export enum LIFESTYLE {
-  sedentary = "Сидячий",
-  lightActive = "Малоактивный",
-  active = "Активный",
-  veryActive = "Очень активный",
+  sedentary = "Sedentary",
+  lightActive = "Light active",
+  active = "Active",
+  veryActive = "Very active",
 }
 
 export const ACTIVITY_LEVELS: Record<LIFESTYLE, number> = {

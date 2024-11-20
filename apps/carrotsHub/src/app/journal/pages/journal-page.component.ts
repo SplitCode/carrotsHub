@@ -123,8 +123,6 @@ export class JournalPageComponent implements OnInit {
     this.fatCurrent += item.fat;
     this.carbsCurrent += item.carbs;
 
-    // meal.searchResults = meal.searchResults.filter((result) => result !== food);
-    // meal.searchControl.setValue("");
     meal.searchResults = [];
     meal.searchControl.setValue("");
 
@@ -158,18 +156,17 @@ export class JournalPageComponent implements OnInit {
           distinctUntilChanged(),
           switchMap((query) => {
             if (!query || query.trim() === "") {
-              // Скрыть результаты поиска и сбросить лоадер
               meal.searchResults = [];
               meal.isLoading = false;
               return [];
             }
-            meal.isLoading = true; // Показать лоадер
+            meal.isLoading = true;
             return this.foodService.searchProduct(query);
           })
         )
         .subscribe((results) => {
           meal.searchResults = results;
-          meal.isLoading = false; // Скрыть лоадер
+          meal.isLoading = false;
         });
     });
   }
@@ -259,8 +256,8 @@ export class JournalPageComponent implements OnInit {
   }
 
   clearSearch(meal: Meal) {
-    meal.searchResults = []; // Очистка результатов поиска
-    meal.searchControl.setValue(""); // Очистка значения поля ввода
+    meal.searchResults = [];
+    meal.searchControl.setValue("");
   }
 
   createEmptyWaterGlasses() {

@@ -10,7 +10,7 @@
           tuiTextfieldSize="m"
           class="search__input"
         >
-          Поиск рецепта...
+          Recipe search...
           <input
             tuiTextfield
             #searchInput
@@ -26,7 +26,7 @@
 @if (!isSearched && !loading()) {
 <section class="recipes__prompt-container">
   <p class="recipes__prompt">
-    Начните поиск, введя название рецепта или продукта в поле выше.
+    Start your search by entering the name of a recipe or product in the field above.
   </p>
 </section>
 } @if (loading()) {
@@ -43,7 +43,7 @@
   <app-recipe-card [recipe]="recipe"></app-recipe-card>
   } } @else {
   <p class="recipes__not-found">
-    Извините, ничего не нашлось. Попробуйте найти другой рецепт.
+    Sorry, nothing was found. Please try searching for another recipe.
   </p>
   } }
 </section>

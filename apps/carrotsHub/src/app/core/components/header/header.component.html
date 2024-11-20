@@ -42,7 +42,7 @@
               [routerLink]="['/', pageRoutes.Recipes]"
               routerLinkActive="active-link"
               (click)="closeMenu()"
-              >Рецепты</a
+              >Recipes</a
             >
           </li>
           @if (user$ | async; as user) {
@@ -53,7 +53,7 @@
               [routerLink]="['/', pageRoutes.Journal]"
               routerLinkActive="active-link"
               (click)="closeMenu()"
-              >Дневник</a
+              >Journal</a
             >
           </li>
           <li>
@@ -63,7 +63,7 @@
               [routerLink]="['/', pageRoutes.Profile]"
               routerLinkActive="active-link"
               (click)="closeMenu()"
-              >Профиль</a
+              >Profile</a
             >
           </li>
           }
@@ -79,7 +79,7 @@
             [showLoader]="loading()"
             [disabled]="loading()"
           >
-            Выход
+            Logout
           </button>
         </div>
         } @else {
@@ -92,7 +92,7 @@
             (click)="closeMenu()"
             [routerLink]="['/', pageRoutes.Register]"
           >
-            Регистрация
+            Register
           </button>
           <button
             tuiButton
@@ -102,7 +102,7 @@
             (click)="closeMenu()"
             [routerLink]="['/', pageRoutes.Login]"
           >
-            Вход
+            Login
           </button>
         </div>
         }

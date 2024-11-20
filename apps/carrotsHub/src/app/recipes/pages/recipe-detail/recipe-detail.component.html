@@ -7,7 +7,7 @@
     tuiLink
     class="recipe-detail__link"
   >
-    Назад</a
+    Back</a
   >
 
   @if (recipe$ | async; as recipe) {
@@ -20,15 +20,15 @@
     <h2 class="recipe-detail__title">{{ recipe.label }}</h2>
   </div>
   <div class="recipe-detail__info">
-    <p>Количество порций: {{ recipe.yield }}</p>
+    <p>Number of servings: {{ recipe.yield }}</p>
     <p>
-      Калорийность на порцию:
-      {{ recipe.calories / recipe.yield | number : "1.0-0" }} ккал
+      Calories per serving:
+      {{ recipe.calories / recipe.yield | number : "1.0-0" }} kcal
     </p>
   </div>
 
   <div class="recipe-detail__ingredients">
-    <h3>Ингредиенты:</h3>
+    <h3>Ingredients:</h3>
     <ul>
       @for (ingredient of recipe.ingredientLines; track $index) {
       <li>⁃ {{ ingredient }}</li>
@@ -38,10 +38,10 @@
 
   <div class="recipe-detail__data">
     <div class="recipe-detail__nutrition">
-      <h3>Пищевая ценность:</h3>
-      <p>Белки: {{ recipe.protein | number : "1.0-0" }}г</p>
-      <p>Жиры: {{ recipe.fat | number : "1.0-0" }}г</p>
-      <p>Углеводы: {{ recipe.carbs | number : "1.0-0" }}г</p>
+      <h3>Nutritional value:</h3>
+      <p>Protein: {{ recipe.protein | number : "1.0-0" }}g</p>
+      <p>Fat: {{ recipe.fat | number : "1.0-0" }}g</p>
+      <p>Carbs: {{ recipe.carbs | number : "1.0-0" }}g</p>
     </div>
   </div>
 

@@ -6,15 +6,15 @@
   />
   <p class="recipe-card__label">{{ recipe.label }}</p>
   <div class="recipe-card__details">
-    <p>Количество порций - {{ recipe.yield | number : "1.0-0" }}</p>
+    <p>Number of servings - {{ recipe.yield | number : "1.0-0" }}</p>
     <p>
-      Калорийность на 1 порцию -
-      {{ recipe.calories / recipe.yield | number : "1.0-0" }}ккал
+      Calories per serving -
+      {{ recipe.calories / recipe.yield | number : "1.0-0" }}kcal
     </p>
     <div class="recipe-card__macronutrients">
-      <p>Белки - {{ recipe.protein | number : "1.0-0" }}г</p>
-      <p>Жиры - {{ recipe.fat | number : "1.0-0" }}г</p>
-      <p>Углеводы - {{ recipe.carbs | number : "1.0-0" }}г</p>
+      <p>Protein - {{ recipe.protein | number : "1.0-0" }}g</p>
+      <p>Fat - {{ recipe.fat | number : "1.0-0" }}g</p>
+      <p>Carbs - {{ recipe.carbs | number : "1.0-0" }}g</p>
     </div>
   </div>
 </div>

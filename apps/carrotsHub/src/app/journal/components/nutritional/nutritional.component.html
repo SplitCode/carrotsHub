@@ -2,23 +2,23 @@
   <div class="calories">
     <div class="calories__consumed">
       <p class="calories__value">{{ caloriesConsumed | number : "1.0-0" }}</p>
-      <p class="calories__label">&nbsp;потребление</p>
+      <p class="calories__label">&nbsp;eaten</p>
     </div>
     <tui-ring-chart [value]="[caloriesConsumed, caloriesLeft]">
       <div class="calories__left">
-        {{ caloriesLeft | number : "1.0-0" }} из {{ caloriesMax }} ккал осталось
+        {{ caloriesLeft | number : "1.0-0" }} / {{ caloriesMax }} kcal left
       </div>
     </tui-ring-chart>
 
     <div class="calories__spent">
       <p class="calories__value">0</p>
-      <p class="calories__label">&nbsp;расход</p>
+      <p class="calories__label">&nbsp;burned</p>
     </div>
   </div>
 
   <div class="macronutrients">
     <div class="macronutrient">
-      <span class="macronutrient__item">Белки</span>
+      <span class="macronutrient__item">Protein</span>
       <progress
         tuiProgressBar
         new
@@ -27,12 +27,12 @@
         [max]="proteinMax"
       ></progress>
       <span class="macronutrient__value"
-        >{{ proteinCurrent | number : "1.0-0" }} из {{ proteinMax }}г</span
+        >{{ proteinCurrent | number : "1.0-0" }} / {{ proteinMax }}g</span
       >
     </div>
 
     <div class="macronutrient">
-      <span class="macronutrient__item">Жиры</span>
+      <span class="macronutrient__item">Fat</span>
       <progress
         tuiProgressBar
         new
@@ -41,12 +41,12 @@
         [max]="fatMax"
       ></progress>
       <span class="macronutrient__value"
-        >{{ fatCurrent | number : "1.0-0" }} из {{ fatMax }}г</span
+        >{{ fatCurrent | number : "1.0-0" }} / {{ fatMax }}g</span
       >
     </div>
 
     <div class="macronutrient">
-      <span class="macronutrient__item">Углеводы</span>
+      <span class="macronutrient__item">Carbs</span>
       <progress
         tuiProgressBar
         new
@@ -55,7 +55,7 @@
         [max]="carbsMax"
       ></progress>
       <span class="macronutrient__value"
-        >{{ carbsCurrent | number : "1.0-0" }} из {{ carbsMax }}г</span
+        >{{ carbsCurrent | number : "1.0-0" }} / {{ carbsMax }}g</span
       >
     </div>
   </div>

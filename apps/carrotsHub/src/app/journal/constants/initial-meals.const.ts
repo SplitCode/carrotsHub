@@ -3,7 +3,7 @@ import type { Meal } from "../models/meals.interface";
 
 export const initialMeals: Meal[] = [
   {
-    type: "Завтрак",
+    type: "Breakfast",
     totalCalories: 0,
     searchControl: new FormControl(""),
     searchResults: [],
@@ -12,7 +12,7 @@ export const initialMeals: Meal[] = [
     isLoading: false,
   },
   {
-    type: "Обед",
+    type: "Lunch",
     totalCalories: 0,
     searchControl: new FormControl(""),
     searchResults: [],
@@ -21,7 +21,7 @@ export const initialMeals: Meal[] = [
     isLoading: false,
   },
   {
-    type: "Ужин",
+    type: "Dinner",
     totalCalories: 0,
     searchControl: new FormControl(""),
     searchResults: [],
@@ -30,7 +30,7 @@ export const initialMeals: Meal[] = [
     isLoading: false,
   },
   {
-    type: "Перекус",
+    type: "Snack",
     totalCalories: 0,
     searchControl: new FormControl(""),
     searchResults: [],

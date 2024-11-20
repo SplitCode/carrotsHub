@@ -14,7 +14,7 @@
     [formControl]="dateControl"
     [tuiTextfieldCleaner]="true"
     [tuiTextfieldSize]="'m'"
-    >Выберите дату</tui-input-date
+    >Choose a date</tui-input-date
   >
 </section>
 
@@ -29,7 +29,7 @@
     >
       <div class="meal__text">
         <h3>{{ meal.type }}</h3>
-        <span>{{ meal.totalCalories | number : "1.0-0" }} ккал</span>
+        <span>{{ meal.totalCalories | number : "1.0-0" }} kcal</span>
       </div>
       <button
         сlass="meal__button"
@@ -47,7 +47,7 @@
           tuiTextfieldSize="m"
           class="meal-search__input"
         >
-          Введите штрихкод...
+          Food...
         </tui-input>
         <div *ngIf="meal.isLoading">
           <app-loader></app-loader>
@@ -66,7 +66,7 @@
                 placeholder="г"
                 [min]="1"
                 class="quantity-input__field"
-                >кол-во</tui-input-number
+                >g</tui-input-number
               >
             </div>
             <div class="search-buttons">
@@ -75,7 +75,7 @@
                 size="s"
                 icon="tuiIconCheck"
                 appearance="secondary"
-                aria-label="Добавить"
+                aria-label="Add"
                 (click)="onAddFoodToMeal(meal, result)"
               ></button>
               <button
@@ -84,21 +84,20 @@
                 size="s"
                 appearance="secondary-destructive"
                 (click)="clearSearch(meal)"
-                aria-label="Отмена"
+                aria-label="Cancel"
               ></button>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Список добавленных продуктов -->
       <div class="meal-items">
         <div *ngFor="let item of meal.items; let i = index" class="meal-item">
           <div class="meal-item__content">
             <span class="meal-item__label">- {{ item.label }}</span>
-            <span class="meal-item__quantity">{{ item.quantity }}г</span>
+            <span class="meal-item__quantity">{{ item.quantity }}g</span>
             <span class="meal-item__calories"
-              >{{ item.calories | number : "1.0-0" }}ккал</span
+              >{{ item.calories | number : "1.0-0" }}kcal</span
             >
             <button
               tuiIconButton

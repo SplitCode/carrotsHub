@@ -2,7 +2,7 @@
 <div class="meals">
   <div *ngFor="let meal of meals" class="meal">
     <h3>{{ meal.type }}</h3>
-    <span>{{ meal.totalCalories }} ккал</span>
+    <span>{{ meal.totalCalories }} kcal</span>
     <button (click)="onAddFood(meal.type)">+</button>
   </div>
 </div>

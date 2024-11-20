@@ -15,4 +15,8 @@ export const environment = {
     apiId: "01ea880a",
     apiKey: "daaed082eb9b2c1bba652577a2e3326e",
   },
+  edamamFood: {
+    apiId: "1d01b89c",
+    apiKey: "f7c0ce18382fb4908064e61bff3477c1",
+  },
 };
