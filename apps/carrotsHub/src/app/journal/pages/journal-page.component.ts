@@ -37,6 +37,7 @@ import { UserDataService } from "../../profile/services/user-data.service";
 import { AuthService } from "../../auth/services/auth.service";
 import type { UserData } from "../../profile/models/user-data.interface";
 import { WaterTrackerComponent } from "../components/water-tracker/water-tracker.component";
+import { formatDateForFirebase } from "../../shared/components/utils/date-formatter";
 
 export interface MealItem {
   label: string;
@@ -83,6 +84,7 @@ export interface Meal {
 export class JournalPageComponent implements OnInit {
   userId!: string;
   selectedDate = TuiDay.currentLocal();
+  formattedDate: string = formatDateForFirebase(this.selectedDate);
   dateControl = new FormControl(TuiDay.currentLocal());
 
   readonly caloriesMax = signal<number>(2000);
@@ -160,10 +162,8 @@ export class JournalPageComponent implements OnInit {
 
   onDateChange(date: TuiDay) {
     this.selectedDate = date;
-    console.info(this.selectedDate);
-    const formattedDate = this.formatDateForFirebase(date);
-    // перенести в хелперс
-    this.loadUserDataByDay(this.userId, formattedDate);
+    this.formattedDate = formatDateForFirebase(date);
+    this.loadUserDataByDay(this.userId, this.formattedDate);
   }
 
   // Добавление продукта в прием пищи
@@ -239,8 +239,7 @@ export class JournalPageComponent implements OnInit {
       if (user) {
         this.userId = user.uid;
         this.loadUserData(this.userId);
-        const formattedDate = this.formatDateForFirebase(this.selectedDate);
-        this.loadUserDataByDay(this.userId, formattedDate);
+        this.loadUserDataByDay(this.userId, this.formattedDate);
       }
     });
   }
@@ -288,7 +287,7 @@ export class JournalPageComponent implements OnInit {
   }
 
   saveDailyData() {
-    const dateString = this.formatDateForFirebase(this.selectedDate);
+    // const dateString = formatDateForFirebase(this.selectedDate);
     // const dateString = this.selectedDate.toLocalNativeDate().toISOString().split("T")[0];
     const mealsData: {
       [key: string]: { items: MealItem[]; totalCalories: number };
@@ -301,8 +300,8 @@ export class JournalPageComponent implements OnInit {
     });
 
     this.userDataService
-      .updateUserDataForDate(this.userId, dateString, {
-        date: dateString,
+      .updateUserDataForDate(this.userId, this.formattedDate, {
+        date: this.formattedDate,
         caloriesConsumed: this.caloriesConsumed,
         proteinCurrent: this.proteinCurrent,
         fatCurrent: this.fatCurrent,
@@ -322,7 +321,6 @@ export class JournalPageComponent implements OnInit {
     return this.caloriesMax() - this.caloriesConsumed;
   }
 
-  // нужна ли?? не нужна
   resetData() {
     this.caloriesConsumed = 0;
     this.proteinCurrent = 0;
@@ -338,38 +336,5 @@ export class JournalPageComponent implements OnInit {
       meal.searchControl.setValue("");
       meal.isExpanded = false;
     });
-  }
-
-  // вместо них saveDailyData
-
-  // saveWaterData() {
-  //   const dateString = this.selectedDate.toString();
-  //   this.userDataService.updateUserData(this.userId, {
-  //     [`waterData/${dateString}`]: {
-  //       waterGlasses: this.waterGlasses,
-  //       totalWater: this.totalWater,
-  //     },
-  //   });
-  // }
-
-  // saveMealData(meal: Meal) {
-  //   const dateString = this.selectedDate.toString();
-  //   this.userDataService
-  //     .updateUserData(this.userId, {
-  //       [`meals/${dateString}/${meal.type}`]: {
-  //         items: meal.items,
-  //         totalCalories: meal.totalCalories,
-  //       },
-  //     })
-  //     .subscribe();
-  // }
-
-  private formatDateForFirebase(date: TuiDay): string {
-    // Преобразуем дату в формат 'YYYY-MM-DD', который не содержит запрещенных символов
-    const year = date.year;
-    const month = (date.month + 1).toString().padStart(2, "0"); // Добавляем 1, так как TuiDay использует месяц от 0 до 11
-    const day = date.day.toString().padStart(2, "0");
-
-    return `${year}-${month}-${day}`;
   }
 }
