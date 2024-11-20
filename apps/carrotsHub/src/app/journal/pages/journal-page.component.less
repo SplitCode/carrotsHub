@@ -117,7 +117,7 @@ progress[tuiProgressBar] {
 
 // calendar
 .calendar {
-  max-width: 35rem;
+  max-width: 41rem;
   margin: 2rem auto 0;
   // padding: 2rem 3rem 3rem;
   border-radius: 0.5rem;
@@ -125,141 +125,65 @@ progress[tuiProgressBar] {
   box-shadow: var(--tui-shadow-navigation);
 }
 
-// water-tracker
+// meals
 
-// .water-tracker {
+// .meals {
 //   display: flex;
 //   flex-direction: column;
 //   align-items: center;
 //   gap: 1.5rem;
-//   padding: 2rem 3rem 3rem;
-//   max-width: 35rem;
+//   padding: 2rem;
+//   max-width: 37rem;
 //   border-radius: 0.5rem;
 //   margin: 2rem auto 0;
-//   background-color: var(--tui-base-01);
+//   // background-color: var(--tui-base-01);
 //   box-shadow: var(--tui-shadow-navigation);
 
-//   &__header {
+//   &__item {
 //     display: flex;
-//     // justify-content: space-between;
 //     align-items: center;
+//     justify-content: space-between;
+//     padding: 1rem 1.5rem;
+//     border: 1px solid var(--tui-base-02);
+//     border-radius: 0.5rem;
+//     // background-color: var(--tui-base-03);
+//     // transition: background-color 0.2s ease;
+//     box-shadow: var(--tui-shadow-navigation);
 //     width: 100%;
-//   }
 
-//   &__total {
-//     // font-size: 1.2rem;
-//     // font-weight: bold;
-//     flex: 0 0 auto;
-//     min-width: 3rem;
-//     color: var(--tui-primary);
+//     // &:hover {
+//     //   background-color: var(--tui-hover);
+//     // }
 //   }
 
 //   &__title {
-//     flex-grow: 1;
-//     text-align: center;
-//     // font-size: 1.2rem;
-//     // color: var(--tui-primary);
+//     font-size: 1rem;
+//     margin: 0;
 //   }
 
-//   &__hidden {
-//     visibility: hidden;
-//   }
-
-//   &__glasses {
-//     display: flex;
-//     justify-content: center;
-//     gap: 1rem;
-//     flex-wrap: wrap;
-//   }
-
-//   &__glass {
-//     width: 3rem;
-//     height: 3rem;
-//     cursor: pointer;
-//     transition: transform 0.2s ease-in-out;
-
-//     &:hover {
-//       transform: scale(1.1);
-//     }
-
-//     &-image {
-//       width: 3rem;
-//       height: 3rem;
-//       object-fit: contain;
-//     }
+//   &__calories {
+//     font-size: 0.9rem;
+//     font-weight: 500;
+//     color: var(--tui-secondary);
+//     margin-right: 1rem;
 //   }
 // }
-
-// @media (max-width: 544px) {
-//   .water-tracker {
-//     padding: 1rem;
-//     gap: 1rem;
-
-//     // &__glasses {
-//     //   gap: 0.5rem;
-//     // }
-
-//     &__glass {
-//       width: 2.5rem;
-//       height: 2.5rem;
-//     }
-//   }
-// }
-
-// meals
-
-.meals {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1.5rem;
-  padding: 2rem;
-  max-width: 38rem;
-  border-radius: 0.5rem;
-  margin: 1rem auto 0;
-  // background-color: var(--tui-base-01);
-  // box-shadow: var(--tui-shadow-navigation);
-
-  &__item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 1rem 1.5rem;
-    border: 1px solid var(--tui-base-02);
-    border-radius: 0.5rem;
-    // background-color: var(--tui-base-03);
-    // transition: background-color 0.2s ease;
-    box-shadow: var(--tui-shadow-navigation);
-    width: 100%;
-
-    // &:hover {
-    //   background-color: var(--tui-hover);
-    // }
-  }
-
-  &__title {
-    font-size: 1rem;
-    margin: 0;
-  }
-
-  &__calories {
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: var(--tui-secondary);
-    margin-right: 1rem;
-  }
-}
 
 //accordeon
 .meals-accordion {
-  max-width: 37.5rem;
+  max-width: 37rem;
   margin: auto;
+  padding: 2rem;
+  border-radius: 0.5rem;
+  margin: 2rem auto 0;
+  background-color: var(--tui-base-01);
+  box-shadow: var(--tui-shadow-navigation);
 
   .meal-panel {
     margin-bottom: 1rem;
     padding: 1rem;
-    border: 1px solid #ddd;
     border-radius: 4px;
+    box-shadow: var(--card-shadow);
   }
 
   .meal-panel__header {
