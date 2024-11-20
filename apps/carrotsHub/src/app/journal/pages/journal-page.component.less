@@ -8,20 +8,24 @@
 }
 
 //accordeon
-.meals-accordion {
-  max-width: 37rem;
-  padding: 2rem;
-  border-radius: 0.5rem;
-  margin: 2rem auto 0;
-  background-color: var(--tui-base-01);
-  box-shadow: var(--tui-shadow-navigation);
-}
+// .meals-accordion {
+//   max-width: 37rem;
+//   padding: 2rem;
+//   border-radius: 0.5rem;
+//   margin: 2rem auto 0;
+//   background-color: var(--tui-base-01);
+//   box-shadow: var(--tui-shadow-navigation);
+// }
 
 .meal-panel {
+  max-width: 37rem;
   margin-bottom: 1rem;
-  padding: 1rem;
-  border-radius: 4px;
+  padding: 2rem 2rem 3rem;
+  margin: 2rem auto 0;
+  border-radius: 0.5rem;
+  background-color: var(--tui-base-01);
   box-shadow: var(--card-shadow);
+  box-shadow: var(--tui-shadow-navigation);
 }
 
 .meal-panel__header {
@@ -74,8 +78,12 @@
   border-bottom: 1px solid #e9ecef;
 }
 
+.search-controls {
+  display: flex;
+}
+
 .search-result:last-child {
-  border-bottom: none; /* Удаляем нижнюю границу у последнего элемента */
+  border-bottom: none;
 }
 
 .quantity-input {
