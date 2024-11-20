@@ -37,24 +37,8 @@ import type { UserData } from "../../profile/models/user-data.interface";
 import { WaterTrackerComponent } from "../components/water-tracker/water-tracker.component";
 import { formatDateForFirebase } from "../../shared/components/utils/date-formatter";
 import { NutritionalComponent } from "../components/nutritional/nutritional.component";
-
-export interface MealItem {
-  label: string;
-  quantity: number;
-  calories: number;
-  carbs: number;
-  protein: number;
-  fat: number;
-}
-
-export interface Meal {
-  type: string;
-  totalCalories: number;
-  searchControl: FormControl;
-  searchResults: any[];
-  items: MealItem[];
-  isExpanded: boolean;
-}
+import { initialMeals } from "../constants/initial-meals.const";
+import type { Meal, MealItem } from "../models/meals.interface";
 
 @Component({
   selector: "app-journal-page",
@@ -103,41 +87,14 @@ export class JournalPageComponent implements OnInit {
   private readonly userDataService = inject(UserDataService);
   private readonly foodService = inject(FoodService);
 
-  // аккордео
-  meals: Meal[] = [
-    {
-      type: "Завтрак",
-      totalCalories: 0,
-      searchControl: new FormControl(""),
-      searchResults: [],
-      items: [],
-      isExpanded: false,
-    },
-    {
-      type: "Обед",
-      totalCalories: 0,
-      searchControl: new FormControl(""),
-      searchResults: [],
-      items: [],
-      isExpanded: false,
-    },
-    {
-      type: "Ужин",
-      totalCalories: 0,
-      searchControl: new FormControl(""),
-      searchResults: [],
-      items: [],
-      isExpanded: false,
-    },
-    {
-      type: "Перекус",
-      totalCalories: 0,
-      searchControl: new FormControl(""),
-      searchResults: [],
-      items: [],
-      isExpanded: false,
-    },
-  ];
+  meals: Meal[] = initialMeals.map((meal) => ({
+    ...meal,
+    searchControl: new FormControl(meal.searchControl.value),
+    searchResults: [],
+    items: [],
+    isExpanded: false,
+    isLoading: false,
+  }));
 
   constructor() {
     this.meals.forEach((meal) => {
@@ -165,7 +122,7 @@ export class JournalPageComponent implements OnInit {
     this.loadUserDataByDay(this.userId, this.formattedDate);
   }
 
-  // Добавление продукта в прием пищи
+  //
   onAddFoodToMeal(meal: Meal, food: any) {
     const quantity = food.quantity || 100; // По умолчанию количество продукта - 100 грамм
     const item: MealItem = {
