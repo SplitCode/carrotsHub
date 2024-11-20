@@ -6,7 +6,7 @@ export enum GOAL {
 
 export enum GENDER {
   male = "Male",
-  female = "Femle",
+  female = "Female",
 }
 
 export enum LIFESTYLE {
