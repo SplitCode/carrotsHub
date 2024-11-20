@@ -1,7 +1,7 @@
 export enum MESSAGES {
   successTitle = "Ура!",
   errorTitle = "Oops!",
-  successLogin = "You have successfully logged in!",
+  successLogin = "You have successfully login!",
   successRegister = "You have successfully registered and logged in!",
   errorLogin = "Incorrect email or password!",
   errorNoInternet = "Network error!",

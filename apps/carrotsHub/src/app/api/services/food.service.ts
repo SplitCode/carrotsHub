@@ -23,10 +23,10 @@ export class FoodService {
           return [
             {
               label: food.label,
-              calories: food.nutrients.ENERC_KCAL || 0, // Калории
-              protein: food.nutrients.PROCNT || 0, // Белки
-              fat: food.nutrients.FAT || 0, // Жиры
-              carbs: food.nutrients.CHOCDF || 0, // Углеводы
+              calories: food.nutrients.ENERC_KCAL || 0,
+              protein: food.nutrients.PROCNT || 0,
+              fat: food.nutrients.FAT || 0,
+              carbs: food.nutrients.CHOCDF || 0,
             },
           ];
         }

@@ -12,8 +12,8 @@ export const environment = {
   },
   backendUrl: "http://localhost:3000",
   edamam: {
-    apiId: "5845ff81",
-    apiKey: "e594fb405e99c73e79d3c669a706858a",
+    apiId: "01ea880a",
+    apiKey: "daaed082eb9b2c1bba652577a2e3326e",
   },
   edamamFood: {
     apiId: "1d01b89c",
