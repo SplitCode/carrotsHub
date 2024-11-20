@@ -99,21 +99,19 @@
 
   <section class="calories-result">
     <h6 class="tui-text_h6">Ваша дневная норма составляет</h6>
-    <span class="calories-result__value"
-      >{{ calculatedCalories || "-" }} ккал</span
-    >
+    <span class="calories-result__value">{{ caloriesMax || "-" }} ккал</span>
     <div class="calories-result__macronutrients">
       <div class="macronutrients-item">
         <p>Углеводы:</p>
-        <p>{{ carbohydrates || "-" }}г</p>
+        <p>{{ carbsMax || "-" }}г</p>
       </div>
       <div class="macronutrients-item">
         <p>Белки:</p>
-        <p>{{ protein || "-" }}г</p>
+        <p>{{ proteinMax || "-" }}г</p>
       </div>
       <div class="macronutrients-item">
         <p>Жиры:</p>
-        <p>{{ fat || "-" }}г</p>
+        <p>{{ fatMax || "-" }}г</p>
       </div>
     </div>
     <div class="calories-result__target">

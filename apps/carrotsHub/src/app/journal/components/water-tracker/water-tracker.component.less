@@ -1,0 +1,65 @@
+.water-tracker {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 2rem 3rem 3rem;
+  max-width: 35rem;
+  border-radius: 0.5rem;
+  margin: 2rem auto 0;
+  background-color: var(--tui-base-01);
+  box-shadow: var(--tui-shadow-navigation);
+
+  &__header {
+    display: flex;
+    align-items: center;
+    width: 100%;
+  }
+
+  &__total {
+    flex: 0 0 auto;
+    min-width: 3rem;
+    color: var(--tui-primary);
+  }
+
+  &__title {
+    flex-grow: 1;
+    text-align: center;
+  }
+
+  &__glasses {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  &__glass {
+    width: 3rem;
+    height: 3rem;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+
+    &:hover {
+      transform: scale(1.1);
+    }
+
+    &-image {
+      width: 3rem;
+      height: 3rem;
+      object-fit: contain;
+    }
+  }
+}
+
+@media (max-width: 544px) {
+  .water-tracker {
+    padding: 1rem;
+    gap: 1rem;
+
+    &__glass {
+      width: 2.5rem;
+      height: 2.5rem;
+    }
+  }
+}

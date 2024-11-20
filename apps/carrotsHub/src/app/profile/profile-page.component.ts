@@ -82,10 +82,10 @@ export class ProfilePageComponent implements OnInit {
   readonly genders = Object.values(GENDER);
   readonly lifestyles = Object.values(LIFESTYLE);
 
-  calculatedCalories: number | null = null;
-  protein: number | null = null;
-  fat: number | null = null;
-  carbohydrates: number | null = null;
+  caloriesMax: number | null = null;
+  proteinMax: number | null = null;
+  fatMax: number | null = null;
+  carbsMax: number | null = null;
   optimalWeight: number | null = null;
 
   readonly dailyCaloriesForm: FormGroup = new FormGroup({
@@ -131,10 +131,10 @@ export class ProfilePageComponent implements OnInit {
     const normRSK = Math.round(baseMetabolicRate * activityMultiplier);
     const resultRSK = calculateCalories(goal, normRSK);
 
-    this.protein = Math.round((resultRSK * 0.2) / 4);
-    this.fat = Math.round((resultRSK * 0.3) / 9);
-    this.carbohydrates = Math.round((resultRSK * 0.5) / 4);
-    this.calculatedCalories = resultRSK;
+    this.proteinMax = Math.round((resultRSK * 0.2) / 4);
+    this.fatMax = Math.round((resultRSK * 0.3) / 9);
+    this.carbsMax = Math.round((resultRSK * 0.5) / 4);
+    this.caloriesMax = resultRSK;
     this.optimalWeight = calculateOptimalWeightByBrock(height, gender);
 
     this.user$
@@ -144,10 +144,10 @@ export class ProfilePageComponent implements OnInit {
         switchMap((user) =>
           this.userDataService.updateUserData(user.uid, {
             ...formValues,
-            calculatedCalories: this.calculatedCalories,
-            protein: this.protein,
-            fat: this.fat,
-            carbohydrates: this.carbohydrates,
+            caloriesMax: this.caloriesMax,
+            proteinMax: this.proteinMax,
+            fatMax: this.fatMax,
+            carbsMax: this.carbsMax,
             optimalWeight: this.optimalWeight,
           })
         ),
@@ -179,11 +179,11 @@ export class ProfilePageComponent implements OnInit {
       tap((userData) => {
         if (userData) {
           this.dailyCaloriesForm.patchValue(userData);
-          if (userData.calculatedCalories) {
-            this.calculatedCalories = userData.calculatedCalories;
-            this.protein = userData.protein ?? null;
-            this.fat = userData.fat ?? null;
-            this.carbohydrates = userData.carbohydrates ?? null;
+          if (userData.caloriesMax) {
+            this.caloriesMax = userData.caloriesMax;
+            this.proteinMax = userData.proteinMax ?? null;
+            this.fatMax = userData.fatMax ?? null;
+            this.carbsMax = userData.carbsMax ?? null;
             this.optimalWeight = userData.optimalWeight ?? null;
           }
         }

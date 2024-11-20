@@ -13,8 +13,20 @@ export interface UserData {
   gender?: GENDER;
   goal?: GOAL;
   lifestyle?: LIFESTYLE;
-  calculatedCalories?: number;
-  protein?: number;
-  fat?: number;
-  carbohydrates?: number;
+  caloriesMax?: number;
+  proteinMax?: number;
+  fatMax?: number;
+  carbsMax?: number;
+}
+
+export interface UserDataForDate {
+  date: string;
+  caloriesMax: number;
+  caloriesConsumed: number;
+  proteinCurrent: number;
+  fatCurrent: number;
+  carbsCurrent: number;
+  totalWater: number;
+  waterGlasses: Array<{ filled: boolean }>;
+  meals?: any;
 }
