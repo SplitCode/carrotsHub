@@ -11,7 +11,12 @@
           class="search__input"
         >
           Поиск рецепта...
-          <input tuiTextfield #searchInput tuiAutoFocus [disabled]="loading()" />
+          <input
+            tuiTextfield
+            #searchInput
+            tuiAutoFocus
+            [disabled]="loading()"
+          />
         </tui-input>
       </div>
     </form>
