@@ -38,6 +38,7 @@ import { AuthService } from "../../auth/services/auth.service";
 import type { UserData } from "../../profile/models/user-data.interface";
 import { WaterTrackerComponent } from "../components/water-tracker/water-tracker.component";
 import { formatDateForFirebase } from "../../shared/components/utils/date-formatter";
+import { NutritionalComponent } from "../components/nutritional/nutritional.component";
 
 export interface MealItem {
   label: string;
@@ -76,6 +77,7 @@ export interface Meal {
     TuiExpandModule,
     TuiInputModule,
     WaterTrackerComponent,
+    NutritionalComponent,
   ],
   templateUrl: "./journal-page.component.html",
   styleUrl: "./journal-page.component.less",
@@ -181,13 +183,11 @@ export class JournalPageComponent implements OnInit {
     meal.items.push(item);
     meal.totalCalories += item.calories;
 
-    // Обновляем текущие данные по нутриентам
     this.caloriesConsumed += item.calories;
     this.proteinCurrent += item.protein;
     this.fatCurrent += item.fat;
     this.carbsCurrent += item.carbs;
 
-    // Сохранение данных в базу данных
     this.saveDailyData();
   }
 
@@ -196,13 +196,11 @@ export class JournalPageComponent implements OnInit {
     meal.totalCalories -= removedItem.calories;
     meal.items.splice(index, 1);
 
-    // Обновляем текущие данные по нутриентам
     this.caloriesConsumed -= removedItem.calories;
     this.proteinCurrent -= removedItem.protein;
     this.fatCurrent -= removedItem.fat;
     this.carbsCurrent -= removedItem.carbs;
 
-    // Сохранение изменений
     this.saveDailyData();
   }
 
@@ -258,7 +256,6 @@ export class JournalPageComponent implements OnInit {
   }
 
   loadUserDataByDay(uid: string, date: string) {
-    // const dateString = date.toString();
     this.userDataService.getUserDataForDate(uid, date).subscribe((data) => {
       console.info("Загруженные данные из базы:", data);
       if (data) {
@@ -287,8 +284,6 @@ export class JournalPageComponent implements OnInit {
   }
 
   saveDailyData() {
-    // const dateString = formatDateForFirebase(this.selectedDate);
-    // const dateString = this.selectedDate.toLocalNativeDate().toISOString().split("T")[0];
     const mealsData: {
       [key: string]: { items: MealItem[]; totalCalories: number };
     } = {};

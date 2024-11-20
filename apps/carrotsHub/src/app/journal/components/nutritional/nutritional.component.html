@@ -1,12 +1,12 @@
-<div class="nutritional">
+<section class="nutritional">
   <div class="calories">
     <div class="calories__consumed">
-      <p class="calories__value">{{ caloriesConsumed() }}</p>
+      <p class="calories__value">{{ caloriesConsumed | number : "1.0-0" }}</p>
       <p class="calories__label">&nbsp;потребление</p>
     </div>
-    <tui-ring-chart [value]="[caloriesConsumed(), caloriesLeft]">
+    <tui-ring-chart [value]="[caloriesConsumed, caloriesLeft]">
       <div class="calories__left">
-        {{ caloriesLeft }} из {{ caloriesMax() }} ккал осталось
+        {{ caloriesLeft | number : "1.0-0" }} из {{ caloriesMax }} ккал осталось
       </div>
     </tui-ring-chart>
 
@@ -24,10 +24,10 @@
         new
         size="s"
         [value]="proteinCurrent"
-        [max]="proteinMax()"
+        [max]="proteinMax"
       ></progress>
       <span class="macronutrient__value"
-        >{{ proteinCurrent }} из {{ proteinMax() }}г</span
+        >{{ proteinCurrent | number : "1.0-0" }} из {{ proteinMax }}г</span
       >
     </div>
 
@@ -38,10 +38,10 @@
         new
         size="s"
         [value]="fatCurrent"
-        [max]="fatMax()"
+        [max]="fatMax"
       ></progress>
       <span class="macronutrient__value"
-        >{{ fatCurrent }} из {{ fatMax() }}г</span
+        >{{ fatCurrent | number : "1.0-0" }} из {{ fatMax }}г</span
       >
     </div>
 
@@ -52,11 +52,11 @@
         new
         size="s"
         [value]="carbsCurrent"
-        [max]="carbsMax()"
+        [max]="carbsMax"
       ></progress>
       <span class="macronutrient__value"
-        >{{ carbsCurrent }} из {{ carbsMax() }}г</span
+        >{{ carbsCurrent | number : "1.0-0" }} из {{ carbsMax }}г</span
       >
     </div>
   </div>
-</div>
+</section>
