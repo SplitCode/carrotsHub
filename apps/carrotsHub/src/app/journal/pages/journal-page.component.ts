@@ -6,24 +6,24 @@ import {
   signal,
 } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { TuiRingChartModule } from "@taiga-ui/addon-charts";
+// import { TuiRingChartModule } from "@taiga-ui/addon-charts";
 import {
   TuiAccordionModule,
   TuiInputDateModule,
   TuiInputModule,
-  TuiProgressModule,
+  // TuiProgressModule,
 } from "@taiga-ui/kit";
 import {
   TuiButtonModule,
   TuiCalendarModule,
-  TuiDialogModule,
+  // TuiDialogModule,
   TuiDropdownModule,
   TuiExpandModule,
   TuiTextfieldControllerModule,
 } from "@taiga-ui/core";
 import { TuiMobileCalendarModule } from "@taiga-ui/addon-mobile";
 import { TuiDay } from "@taiga-ui/cdk";
-import { FormControl, ReactiveFormsModule } from "@angular/forms";
+import { FormControl, FormsModule, ReactiveFormsModule } from "@angular/forms";
 import type { Observable } from "rxjs";
 import {
   debounceTime,
@@ -63,14 +63,15 @@ export interface Meal {
   standalone: true,
   imports: [
     CommonModule,
-    TuiRingChartModule,
-    TuiProgressModule,
+    // TuiRingChartModule,
+    // TuiProgressModule,
     TuiInputDateModule,
-    TuiDialogModule,
+    // TuiDialogModule,
     TuiMobileCalendarModule,
     TuiCalendarModule,
     TuiDropdownModule,
     TuiTextfieldControllerModule,
+    FormsModule,
     ReactiveFormsModule,
     TuiButtonModule,
     TuiAccordionModule,
@@ -170,7 +171,7 @@ export class JournalPageComponent implements OnInit {
 
   // Добавление продукта в прием пищи
   onAddFoodToMeal(meal: Meal, food: any) {
-    const quantity = 100; // По умолчанию количество продукта - 100 грамм
+    const quantity = food.quantity || 100; // По умолчанию количество продукта - 100 грамм
     const item: MealItem = {
       label: food.label,
       calories: (food.calories / 100) * quantity,
@@ -187,6 +188,9 @@ export class JournalPageComponent implements OnInit {
     this.proteinCurrent += item.protein;
     this.fatCurrent += item.fat;
     this.carbsCurrent += item.carbs;
+
+    meal.searchResults = meal.searchResults.filter((result) => result !== food);
+    meal.searchControl.setValue("");
 
     this.saveDailyData();
   }

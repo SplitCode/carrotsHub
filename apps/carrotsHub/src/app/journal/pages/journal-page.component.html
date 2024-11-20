@@ -9,7 +9,6 @@
   [carbsMax]="carbsMax()"
 ></app-nutritional>
 
-<!-- calendar -->
 <section class="calendar">
   <tui-input-date
     [formControl]="dateControl"
@@ -51,6 +50,16 @@
       <div *ngIf="meal.searchResults.length > 0" class="search-results">
         <div *ngFor="let result of meal.searchResults" class="search-result">
           <span>{{ result.label }}</span>
+          <div class="quantity-input">
+            <tui-input
+              [(ngModel)]="result.quantity"
+              [tuiTextfieldSize]="'s'"
+              type="number"
+              placeholder="Кол-во (г)"
+              min="1"
+              class="quantity-input__field"
+            ></tui-input>
+          </div>
           <button
             tuiButton
             size="xs"
@@ -82,7 +91,6 @@
   }
 </section>
 
-<!-- water-tracker -->
 <app-water-tracker
   [waterGlasses]="waterGlasses"
   [totalWater]="totalWater"
