@@ -28,4 +28,5 @@ export interface UserDataForDate {
   carbsCurrent: number;
   totalWater: number;
   waterGlasses: Array<{ filled: boolean }>;
+  meals?: any;
 }

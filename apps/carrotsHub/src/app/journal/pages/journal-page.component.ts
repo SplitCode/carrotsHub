@@ -38,7 +38,7 @@ import { AuthService } from "../../auth/services/auth.service";
 import type { UserData } from "../../profile/models/user-data.interface";
 import { WaterTrackerComponent } from "../components/water-tracker/water-tracker.component";
 
-interface MealItem {
+export interface MealItem {
   label: string;
   quantity: number;
   calories: number;
@@ -47,11 +47,11 @@ interface MealItem {
   fat: number;
 }
 
-interface Meal {
+export interface Meal {
   type: string;
   totalCalories: number;
   searchControl: FormControl;
-  searchResults: any[]; // Определите конкретный тип в зависимости от API
+  searchResults: any[];
   items: MealItem[];
   isExpanded: boolean;
 }
@@ -84,23 +84,23 @@ export class JournalPageComponent implements OnInit {
   userId!: string;
   selectedDate = TuiDay.currentLocal();
   dateControl = new FormControl(TuiDay.currentLocal());
+
   readonly caloriesMax = signal<number>(2000);
-  caloriesConsumed = 0;
   readonly proteinMax = signal(65);
   readonly fatMax = signal(44);
   readonly carbsMax = signal(160);
 
-  proteinCurrent = 10; // 0 по умолчанию
-  fatCurrent = 30; // 0 по умолчанию
-  carbsCurrent = 250; // 0 по умолчанию
+  caloriesConsumed = 0;
+  proteinCurrent = 0;
+  fatCurrent = 0;
+  carbsCurrent = 0;
+
+  waterGlasses: Array<{ filled: boolean }> = this.createEmptyWaterGlasses();
+  totalWater = 0;
 
   private readonly authService = inject(AuthService);
   private readonly userDataService = inject(UserDataService);
   private readonly foodService = inject(FoodService);
-
-  // Вода
-  waterGlasses: Array<{ filled: boolean }> = this.createEmptyWaterGlasses();
-  totalWater = 0;
 
   // аккордео
   meals: Meal[] = [
@@ -142,10 +142,10 @@ export class JournalPageComponent implements OnInit {
     this.meals.forEach((meal) => {
       meal.searchControl.valueChanges
         .pipe(
-          debounceTime(300), // Задержка на 300 мс после ввода
-          filter((query) => query && query.length >= 3), // Искать только если длина больше или равна 3 символам
+          debounceTime(300),
+          filter((query) => query && query.length >= 3),
           distinctUntilChanged(),
-          switchMap((query) => this.searchProduct(query)) // Поиск продуктов с API
+          switchMap((query) => this.searchProduct(query))
         )
         .subscribe((results) => {
           meal.searchResults = results;
@@ -155,13 +155,15 @@ export class JournalPageComponent implements OnInit {
 
   onWaterChange(totalWater: number) {
     this.totalWater = totalWater;
-    this.saveWaterData();
+    this.saveDailyData();
   }
 
   onDateChange(date: TuiDay) {
     this.selectedDate = date;
-    // this.loadUserData(this.userId, date);
-    this.loadUserDataByDay(this.userId, this.selectedDate);
+    console.info(this.selectedDate);
+    const formattedDate = this.formatDateForFirebase(date);
+    // перенести в хелперс
+    this.loadUserDataByDay(this.userId, formattedDate);
   }
 
   // Добавление продукта в прием пищи
@@ -186,7 +188,7 @@ export class JournalPageComponent implements OnInit {
     this.carbsCurrent += item.carbs;
 
     // Сохранение данных в базу данных
-    this.saveMealData(meal);
+    this.saveDailyData();
   }
 
   removeFoodFromMeal(meal: Meal, index: number) {
@@ -201,7 +203,7 @@ export class JournalPageComponent implements OnInit {
     this.carbsCurrent -= removedItem.carbs;
 
     // Сохранение изменений
-    this.saveMealData(meal);
+    this.saveDailyData();
   }
 
   searchProduct(query: string): Observable<any[]> {
@@ -240,25 +242,6 @@ export class JournalPageComponent implements OnInit {
     });
   }
 
-  loadUserDataByDay(uid: string, date: TuiDay) {
-    const dateString = date.toString();
-    this.userDataService
-      .getUserDataForDate(uid, dateString)
-      .subscribe((data) => {
-        if (data) {
-          this.caloriesConsumed = data.caloriesConsumed ?? 0;
-          this.proteinCurrent = data.proteinCurrent ?? 0;
-          this.fatCurrent = data.fatCurrent ?? 0;
-          this.carbsCurrent = data.carbsCurrent ?? 0;
-          this.waterGlasses =
-            data.waterGlasses ?? this.createEmptyWaterGlasses();
-          this.totalWater = data.totalWater ?? 0;
-        } else {
-          this.resetData();
-        }
-      });
-  }
-
   loadUserData(uid: string) {
     this.userDataService
       .getUserData(uid)
@@ -272,6 +255,49 @@ export class JournalPageComponent implements OnInit {
       });
   }
 
+  loadUserDataByDay(uid: string, date: string) {
+    // const dateString = date.toString();
+    this.userDataService.getUserDataForDate(uid, date).subscribe((data) => {
+      console.info("Загруженные данные из базы:", data);
+      if (data) {
+        console.info(data);
+        this.caloriesConsumed = data.caloriesConsumed ?? 0;
+        this.proteinCurrent = data.proteinCurrent ?? 0;
+        this.fatCurrent = data.fatCurrent ?? 0;
+        this.carbsCurrent = data.carbsCurrent ?? 0;
+        this.waterGlasses = data.waterGlasses ?? this.createEmptyWaterGlasses();
+        this.totalWater = data.totalWater ?? 0;
+
+        this.meals.forEach((meal) => {
+          const mealData = data.meals?.[meal.type];
+          if (mealData) {
+            meal.items = mealData.items || [];
+            meal.totalCalories = mealData.totalCalories || 0;
+          } else {
+            meal.items = [];
+            meal.totalCalories = 0;
+          }
+        });
+      }
+    });
+  }
+
+  saveDailyData() {
+    const dateString = this.formatDateForFirebase(this.selectedDate);
+    // const dateString = this.selectedDate.toLocalNativeDate().toISOString().split("T")[0];
+    this.userDataService
+      .updateUserDataForDate(this.userId, dateString, {
+        date: dateString,
+        caloriesConsumed: this.caloriesConsumed,
+        proteinCurrent: this.proteinCurrent,
+        fatCurrent: this.fatCurrent,
+        carbsCurrent: this.carbsCurrent,
+        totalWater: this.totalWater,
+        waterGlasses: this.waterGlasses,
+      })
+      .subscribe();
+  }
+
   createEmptyWaterGlasses() {
     return Array.from({ length: 8 }, () => ({ filled: false }));
   }
@@ -280,34 +306,46 @@ export class JournalPageComponent implements OnInit {
     return this.caloriesMax() - this.caloriesConsumed;
   }
 
-  saveWaterData() {
-    const dateString = this.selectedDate.toString();
-    this.userDataService.updateUserData(this.userId, {
-      [`waterData/${dateString}`]: {
-        waterGlasses: this.waterGlasses,
-        totalWater: this.totalWater,
-      },
-    });
-  }
+  // нужна ли?? не нужна
+  // resetData() {
+  //   this.caloriesConsumed = 0;
+  //   this.proteinCurrent = 0;
+  //   this.fatCurrent = 0;
+  //   this.carbsCurrent = 0;
+  //   this.waterGlasses = this.createEmptyWaterGlasses();
+  //   this.totalWater = 0;
+  // }
 
-  resetData() {
-    this.caloriesConsumed = 0;
-    this.proteinCurrent = 0;
-    this.fatCurrent = 0;
-    this.carbsCurrent = 0;
-    this.waterGlasses = this.createEmptyWaterGlasses();
-    this.totalWater = 0;
-  }
+  // вместо них saveDailyData
 
-  saveMealData(meal: Meal) {
-    const dateString = this.selectedDate.toString();
-    this.userDataService
-      .updateUserData(this.userId, {
-        [`meals/${dateString}/${meal.type}`]: {
-          items: meal.items,
-          totalCalories: meal.totalCalories,
-        },
-      })
-      .subscribe();
+  // saveWaterData() {
+  //   const dateString = this.selectedDate.toString();
+  //   this.userDataService.updateUserData(this.userId, {
+  //     [`waterData/${dateString}`]: {
+  //       waterGlasses: this.waterGlasses,
+  //       totalWater: this.totalWater,
+  //     },
+  //   });
+  // }
+
+  // saveMealData(meal: Meal) {
+  //   const dateString = this.selectedDate.toString();
+  //   this.userDataService
+  //     .updateUserData(this.userId, {
+  //       [`meals/${dateString}/${meal.type}`]: {
+  //         items: meal.items,
+  //         totalCalories: meal.totalCalories,
+  //       },
+  //     })
+  //     .subscribe();
+  // }
+
+  private formatDateForFirebase(date: TuiDay): string {
+    // Преобразуем дату в формат 'YYYY-MM-DD', который не содержит запрещенных символов
+    const year = date.year;
+    const month = (date.month + 1).toString().padStart(2, "0"); // Добавляем 1, так как TuiDay использует месяц от 0 до 11
+    const day = date.day.toString().padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
   }
 }
