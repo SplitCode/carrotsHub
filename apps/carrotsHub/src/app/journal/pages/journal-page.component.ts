@@ -36,6 +36,7 @@ import { FoodService } from "../../api/services/food.service";
 import { UserDataService } from "../../profile/services/user-data.service";
 import { AuthService } from "../../auth/services/auth.service";
 import type { UserData } from "../../profile/models/user-data.interface";
+import { WaterTrackerComponent } from "../components/water-tracker/water-tracker.component";
 
 interface MealItem {
   label: string;
@@ -73,6 +74,7 @@ interface Meal {
     TuiAccordionModule,
     TuiExpandModule,
     TuiInputModule,
+    WaterTrackerComponent,
   ],
   templateUrl: "./journal-page.component.html",
   styleUrl: "./journal-page.component.less",
@@ -97,10 +99,7 @@ export class JournalPageComponent implements OnInit {
   private readonly foodService = inject(FoodService);
 
   // Вода
-  waterGlasses: Array<{ filled: boolean }> = Array.from({ length: 8 }, () => ({
-    filled: false,
-  }));
-
+  waterGlasses: Array<{ filled: boolean }> = this.createEmptyWaterGlasses();
   totalWater = 0;
 
   // аккордео
@@ -152,6 +151,11 @@ export class JournalPageComponent implements OnInit {
           meal.searchResults = results;
         });
     });
+  }
+
+  onWaterChange(totalWater: number) {
+    this.totalWater = totalWater;
+    this.saveWaterData();
   }
 
   onToggleWater(index: number) {

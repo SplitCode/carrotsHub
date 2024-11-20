@@ -1,7 +1,11 @@
-import { ChangeDetectionStrategy, Component, inject } from "@angular/core";
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+} from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { UserDataService } from "../../../profile/services/user-data.service";
-import { AuthService } from "../../../auth/services/auth.service";
 
 @Component({
   selector: "app-water-tracker",
@@ -12,24 +16,9 @@ import { AuthService } from "../../../auth/services/auth.service";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WaterTrackerComponent {
-  private readonly authService = inject(AuthService);
-  private readonly userDataService = inject(UserDataService);
-
-  waterGlasses: Array<{ filled: boolean }> = Array.from({ length: 8 }, () => ({
-    filled: false,
-  }));
-
-  totalWater = 0;
-  userId!: string;
-
-  constructor() {
-    this.authService.currentUser$.subscribe((user) => {
-      if (user) {
-        this.userId = user.uid;
-        // this.loadWaterData();
-      }
-    });
-  }
+  @Input() waterGlasses: Array<{ filled: boolean }> = [];
+  @Input() totalWater = 0;
+  @Output() waterChange = new EventEmitter<number>();
 
   onToggleWater(index: number) {
     if (!this.waterGlasses[index].filled) {
@@ -47,32 +36,6 @@ export class WaterTrackerComponent {
       this.waterGlasses.filter((glass) => glass.filled).length * 0.25;
 
     console.info(this.totalWater);
-    // this.saveWaterData();
+    this.waterChange.emit(this.totalWater);
   }
-
-  // private saveWaterData() {
-  //   if (this.userId) {
-  //     this.db.object(`users/${this.userId}/waterTracker`).set({
-  //       waterGlasses: this.waterGlasses,
-  //       totalWater: this.totalWater,
-  //     });
-  //   }
-  // }
-
-  // private loadWaterData() {
-  //   if (this.userId) {
-  //     this.db
-  //       .object<{
-  //         waterGlasses: Array<{ filled: boolean }>;
-  //         totalWater: number;
-  //       }>(`users/${this.userId}/waterTracker`)
-  //       .valueChanges()
-  //       .subscribe((data) => {
-  //         if (data) {
-  //           this.waterGlasses = data.waterGlasses;
-  //           this.totalWater = data.totalWater;
-  //         }
-  //       });
-  //   }
-  // }
 }
