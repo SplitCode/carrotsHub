@@ -18,3 +18,14 @@ export interface UserData {
   fatMax?: number;
   carbsMax?: number;
 }
+
+export interface UserDataForDate {
+  date: string;
+  caloriesMax: number;
+  caloriesConsumed: number;
+  proteinCurrent: number;
+  fatCurrent: number;
+  carbsCurrent: number;
+  totalWater: number;
+  waterGlasses: Array<{ filled: boolean }>;
+}

@@ -1,18 +1,7 @@
 import { inject, Injectable } from "@angular/core";
 import { AngularFireDatabase } from "@angular/fire/compat/database";
 import { from, type Observable } from "rxjs";
-import type { UserData } from "../models/user-data.interface";
-
-export interface UserDataForDate {
-  date: string;
-  caloriesMax: number;
-  caloriesConsumed: number;
-  proteinCurrent: number;
-  fatCurrent: number;
-  carbsCurrent: number;
-  totalWater: number;
-  waterGlasses: Array<{ filled: boolean }>;
-}
+import type { UserData, UserDataForDate } from "../models/user-data.interface";
 
 @Injectable({
   providedIn: "root",
@@ -24,16 +13,8 @@ export class UserDataService {
     return this.db.object<UserData>(`users/${uid}`).valueChanges();
   }
 
-  setUserData(uid: string, userData: UserData): Observable<void> {
-    return from(this.db.object(`users/${uid}`).set(userData));
-  }
-
   updateUserData(uid: string, userData: Partial<UserData>): Observable<void> {
     return from(this.db.object(`users/${uid}`).update(userData));
-  }
-
-  deleteUserData(uid: string): Observable<void> {
-    return from(this.db.object(`users/${uid}`).remove());
   }
 
   getUserDataForDate(
@@ -48,13 +29,10 @@ export class UserDataService {
   updateUserDataForDate(
     uid: string,
     date: string,
-    userData: Partial<UserDataForDate>
+    userDataForDate: Partial<UserDataForDate>
   ): Observable<void> {
-    return from(this.db.object(`users/${uid}/dates/${date}`).update(userData));
+    return from(
+      this.db.object(`users/${uid}/dates/${date}`).update(userDataForDate)
+    );
   }
-
-  // getUserDataForDate(uid: string, date: string) {
-  //   return this.db.object<UserDataForDate>(`users/${uid}`).valueChanges();
-  //   console.info(uid, date);
-  // }
 }

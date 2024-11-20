@@ -158,25 +158,6 @@ export class JournalPageComponent implements OnInit {
     this.saveWaterData();
   }
 
-  onToggleWater(index: number) {
-    if (!this.waterGlasses[index].filled) {
-      if (index === 0 || this.waterGlasses[index - 1].filled) {
-        this.waterGlasses[index].filled = true;
-      }
-    } else if (
-      index === this.waterGlasses.length - 1 ||
-      !this.waterGlasses[index + 1].filled
-    ) {
-      this.waterGlasses[index].filled = false;
-    }
-
-    this.totalWater =
-      this.waterGlasses.filter((glass) => glass.filled).length * 0.25;
-
-    console.info(this.totalWater);
-    // this.saveWaterData();
-  }
-
   onDateChange(date: TuiDay) {
     this.selectedDate = date;
     // this.loadUserData(this.userId, date);
