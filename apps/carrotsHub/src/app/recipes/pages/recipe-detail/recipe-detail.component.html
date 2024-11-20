@@ -43,13 +43,6 @@
       <p>Жиры: {{ recipe.fat | number : "1.0-0" }}г</p>
       <p>Углеводы: {{ recipe.carbs | number : "1.0-0" }}г</p>
     </div>
-
-    <div class="recipe-detail__tags">
-      <h3>Тэги:</h3>
-      @for (label of recipe.healthLabels; track $index) {
-      <span>#{{ label }} </span>
-      }
-    </div>
   </div>
 
   } @else {
