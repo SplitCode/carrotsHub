@@ -2,12 +2,12 @@
 <section class="nutritional">
   <div class="calories">
     <div class="calories__consumed">
-      <p class="calories__value">{{ caloriesConsumed }}</p>
+      <p class="calories__value">{{ caloriesConsumed | number : "1.0-0" }}</p>
       <p class="calories__label">&nbsp;потребление</p>
     </div>
     <tui-ring-chart [value]="[caloriesConsumed, caloriesLeft]">
       <div class="calories__left">
-        {{ caloriesLeft }} из {{ caloriesMax() }} ккал осталось
+        {{ caloriesLeft | number : "1.0-0" }} из {{ caloriesMax() }} ккал осталось
       </div>
     </tui-ring-chart>
 

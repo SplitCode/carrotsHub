@@ -239,6 +239,8 @@ export class JournalPageComponent implements OnInit {
       if (user) {
         this.userId = user.uid;
         this.loadUserData(this.userId);
+        const formattedDate = this.formatDateForFirebase(this.selectedDate);
+        this.loadUserDataByDay(this.userId, formattedDate);
       }
     });
   }
@@ -279,6 +281,8 @@ export class JournalPageComponent implements OnInit {
             meal.totalCalories = 0;
           }
         });
+      } else {
+        this.resetData();
       }
     });
   }
@@ -286,6 +290,16 @@ export class JournalPageComponent implements OnInit {
   saveDailyData() {
     const dateString = this.formatDateForFirebase(this.selectedDate);
     // const dateString = this.selectedDate.toLocalNativeDate().toISOString().split("T")[0];
+    const mealsData: {
+      [key: string]: { items: MealItem[]; totalCalories: number };
+    } = {};
+    this.meals.forEach((meal) => {
+      mealsData[meal.type] = {
+        items: meal.items,
+        totalCalories: meal.totalCalories,
+      };
+    });
+
     this.userDataService
       .updateUserDataForDate(this.userId, dateString, {
         date: dateString,
@@ -295,6 +309,7 @@ export class JournalPageComponent implements OnInit {
         carbsCurrent: this.carbsCurrent,
         totalWater: this.totalWater,
         waterGlasses: this.waterGlasses,
+        meals: mealsData,
       })
       .subscribe();
   }
@@ -308,14 +323,14 @@ export class JournalPageComponent implements OnInit {
   }
 
   // нужна ли?? не нужна
-  // resetData() {
-  //   this.caloriesConsumed = 0;
-  //   this.proteinCurrent = 0;
-  //   this.fatCurrent = 0;
-  //   this.carbsCurrent = 0;
-  //   this.waterGlasses = this.createEmptyWaterGlasses();
-  //   this.totalWater = 0;
-  // }
+  resetData() {
+    this.caloriesConsumed = 0;
+    this.proteinCurrent = 0;
+    this.fatCurrent = 0;
+    this.carbsCurrent = 0;
+    this.waterGlasses = this.createEmptyWaterGlasses();
+    this.totalWater = 0;
+  }
 
   // вместо них saveDailyData
 
