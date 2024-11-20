@@ -22,7 +22,7 @@ import {
 import { TuiMobileCalendarModule } from "@taiga-ui/addon-mobile";
 import { TuiDay } from "@taiga-ui/cdk";
 import { FormControl, FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { debounceTime, distinctUntilChanged, switchMap } from "rxjs";
+import { catchError, finalize, of } from "rxjs";
 import { FoodService } from "../../api/services/food.service";
 import { UserDataService } from "../../profile/services/user-data.service";
 import { AuthService } from "../../auth/services/auth.service";
@@ -32,7 +32,6 @@ import { formatDateForFirebase } from "../../shared/components/utils/date-format
 import { NutritionalComponent } from "../components/nutritional/nutritional.component";
 import { initialMeals } from "../constants/initial-meals.const";
 import type { Meal, MealItem } from "../models/meals.interface";
-import { LoaderComponent } from "../../shared/components/loader/loader.component";
 
 @Component({
   selector: "app-journal-page",
@@ -53,7 +52,6 @@ import { LoaderComponent } from "../../shared/components/loader/loader.component
     WaterTrackerComponent,
     NutritionalComponent,
     TuiInputNumberModule,
-    LoaderComponent,
   ],
   templateUrl: "./journal-page.component.html",
   styleUrl: "./journal-page.component.less",
@@ -105,7 +103,7 @@ export class JournalPageComponent implements OnInit {
   }
 
   onAddFoodToMeal(meal: Meal, food: any) {
-    const quantity = food.quantity || 100; // По умолчанию количество продукта - 100 грамм
+    const quantity = food.quantity || 100;
     const item: MealItem = {
       label: food.label,
       calories: (food.calories / 100) * quantity,
@@ -129,6 +127,33 @@ export class JournalPageComponent implements OnInit {
     this.saveDailyData();
   }
 
+  onSearch(meal: Meal) {
+    const query = meal.searchControl.value;
+
+    if (!query || query.trim() === "") {
+      meal.isLoading = false;
+      meal.searchResults = [];
+      return;
+    }
+
+    meal.isLoading = true;
+
+    this.foodService
+      .searchProduct(query)
+      .pipe(
+        catchError(() => {
+          meal.searchResults = [];
+          return of([]);
+        }),
+        finalize(() => {
+          meal.isLoading = false;
+        })
+      )
+      .subscribe((results) => {
+        meal.searchResults = results;
+      });
+  }
+
   removeFoodFromMeal(meal: Meal, index: number) {
     const removedItem = meal.items[index];
     meal.totalCalories -= removedItem.calories;
@@ -143,33 +168,41 @@ export class JournalPageComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.initializeMealSearch();
+    // this.initializeMealSearch();
     this.setupDateControl();
     this.loadCurrentUser();
   }
 
-  private initializeMealSearch() {
-    this.meals.forEach((meal) => {
-      meal.searchControl.valueChanges
-        .pipe(
-          debounceTime(300),
-          distinctUntilChanged(),
-          switchMap((query) => {
-            if (!query || query.trim() === "") {
-              meal.searchResults = [];
-              meal.isLoading = false;
-              return [];
-            }
-            meal.isLoading = true;
-            return this.foodService.searchProduct(query);
-          })
-        )
-        .subscribe((results) => {
-          meal.searchResults = results;
-          meal.isLoading = false;
-        });
-    });
-  }
+  // private initializeMealSearch() {
+  //   this.meals.forEach((meal) => {
+  //     meal.searchControl.valueChanges
+  //       .pipe(
+  //         debounceTime(300),
+  //         distinctUntilChanged(),
+  //         switchMap((query) => {
+  //           if (!query || query.trim() === "") {
+  //             meal.isLoading = false;
+  //             meal.searchResults = [];
+  //             return of([]);
+  //           }
+  //           meal.isLoading = true;
+  //           return this.foodService.searchProduct(query).pipe(
+  //             catchError(() => {
+  //               meal.isLoading = false;
+  //               return of([]);
+  //             })
+  //           );
+  //         }),
+  //         finalize(() => {
+  //           meal.isLoading = false;
+  //         })
+  //       )
+  //       .subscribe((results) => {
+  //         meal.searchResults = results;
+  //         meal.isLoading = false;
+  //       });
+  //   });
+  // }
 
   private setupDateControl() {
     this.dateControl.valueChanges.subscribe((date: TuiDay | null) => {
@@ -204,9 +237,7 @@ export class JournalPageComponent implements OnInit {
 
   loadUserDataByDay(uid: string, date: string) {
     this.userDataService.getUserDataForDate(uid, date).subscribe((data) => {
-      console.info("Загруженные данные из базы:", data);
       if (data) {
-        console.info(data);
         this.caloriesConsumed = data.caloriesConsumed ?? 0;
         this.proteinCurrent = data.proteinCurrent ?? 0;
         this.fatCurrent = data.fatCurrent ?? 0;

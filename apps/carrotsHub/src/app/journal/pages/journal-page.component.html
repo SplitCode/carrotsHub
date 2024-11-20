@@ -18,8 +18,6 @@
   >
 </section>
 
-<!-- meals -->
-
 <section class="meals-accordion">
   @for (meal of meals; track $index) {
   <div class="meal-panel">
@@ -49,9 +47,14 @@
         >
           Food...
         </tui-input>
-        <div *ngIf="meal.isLoading">
-          <app-loader></app-loader>
-        </div>
+        <button
+          type="submit"
+          tuiIconButton
+          icon="tuiIconSearch"
+          appearance="primary"
+          (click)="onSearch(meal)"
+          [showLoader]="meal.isLoading"
+        ></button>
       </div>
 
       <div *ngIf="meal.searchResults.length > 0" class="search-results">
