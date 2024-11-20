@@ -80,7 +80,7 @@ export class RecipesPageComponent implements OnInit, AfterViewInit {
             params: { query, totalResults: data.hits.length },
           });
 
-          this.setFocus(); // Возвращаем фокус после поиска
+          this.setFocus();
 
           return data.hits.map((hit) => ({
             ...hit.recipe,
@@ -102,7 +102,7 @@ export class RecipesPageComponent implements OnInit, AfterViewInit {
           });
           this.isSearched = true;
 
-          this.setFocus(); // Возвращаем фокус даже при ошибке
+          this.setFocus();
 
           return of([]);
         })
@@ -110,7 +110,7 @@ export class RecipesPageComponent implements OnInit, AfterViewInit {
     } else {
       this.isSearched = false;
       this.recipes$ = of([]);
-      this.setFocus(); // Возвращаем фокус, если запрос пустой
+      this.setFocus();
     }
   }
 
@@ -139,14 +139,14 @@ export class RecipesPageComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.setFocus(); // Установить фокус после загрузки компонента
+    this.setFocus();
   }
 
   private setFocus() {
     if (this.searchInput && this.searchInput.nativeElement) {
       setTimeout(() => {
         this.searchInput.nativeElement.focus();
-      }, 0); // Используем `setTimeout` для гарантии, что элемент в DOM
+      }, 0);
     }
   }
 }
