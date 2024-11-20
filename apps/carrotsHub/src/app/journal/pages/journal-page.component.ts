@@ -32,6 +32,7 @@ import { formatDateForFirebase } from "../../shared/components/utils/date-format
 import { NutritionalComponent } from "../components/nutritional/nutritional.component";
 import { initialMeals } from "../constants/initial-meals.const";
 import type { Meal, MealItem } from "../models/meals.interface";
+import { LoaderComponent } from "../../shared/components/loader/loader.component";
 
 @Component({
   selector: "app-journal-page",
@@ -52,6 +53,7 @@ import type { Meal, MealItem } from "../models/meals.interface";
     WaterTrackerComponent,
     NutritionalComponent,
     TuiInputNumberModule,
+    LoaderComponent,
   ],
   templateUrl: "./journal-page.component.html",
   styleUrl: "./journal-page.component.less",

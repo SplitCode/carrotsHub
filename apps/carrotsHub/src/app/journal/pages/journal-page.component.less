@@ -7,24 +7,12 @@
   box-shadow: var(--tui-shadow-navigation);
 }
 
-//accordeon
-// .meals-accordion {
-//   max-width: 37rem;
-//   padding: 2rem;
-//   border-radius: 0.5rem;
-//   margin: 2rem auto 0;
-//   background-color: var(--tui-base-01);
-//   box-shadow: var(--tui-shadow-navigation);
-// }
-
 .meal-panel {
   max-width: 37rem;
-  margin-bottom: 1rem;
   padding: 2rem 2rem 3rem;
   margin: 2rem auto 0;
   border-radius: 0.5rem;
   background-color: var(--tui-base-01);
-  box-shadow: var(--card-shadow);
   box-shadow: var(--tui-shadow-navigation);
 }
 
@@ -55,11 +43,38 @@
     justify-content: space-between;
     align-items: center;
     padding: 0.5rem 0;
+    height: 1.5rem;
+    border-bottom: 0.063rem solid var(--tui-base-04);
 
     button {
       color: var(--tui-accent-hover);
     }
   }
+}
+
+.meal-item__content {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 10px; /* Отступ между колонками */
+}
+
+.meal-item__label {
+  flex: 3;
+  text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.meal-item__quantity,
+.meal-item__calories {
+  flex: 1;
+  text-align: center;
+}
+
+.meal-close {
+  flex: 0;
 }
 
 .search-results {
@@ -82,6 +97,11 @@
   display: flex;
 }
 
+.search-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
 .search-result:last-child {
   border-bottom: none;
 }
@@ -95,8 +115,20 @@
   width: 100%;
 }
 
-button[tuiButton] {
-  margin-left: 1rem;
-  padding: 0.25rem 0.75rem;
-  font-size: 0.9rem;
+@media (max-width: 520px) {
+  .search-controls {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .search-buttons {
+    justify-content: center;
+  }
+
+  .meal__text {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    justify-content: center;
+  }
 }
