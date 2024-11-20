@@ -15,7 +15,14 @@
             draggable="false"
           />
         </a>
-        <span class="header__title">Carrot's Hub</span>
+        <a
+          tuiLink
+          [routerLink]="[pageRoutes.Home]"
+          class="header__link header__title-link"
+          (click)="closeMenu()"
+        >
+          <span class="header__title">Carrot's Hub</span>
+        </a>
       </div>
 
       <button
