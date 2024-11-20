@@ -5,7 +5,7 @@ import { ActivatedRoute } from "@angular/router";
 import type { Observable } from "rxjs";
 import { map, of, switchMap } from "rxjs";
 import { Location } from "@angular/common";
-import { TuiLinkModule } from "@taiga-ui/core";
+import { TuiLinkModule, TuiSvgModule } from "@taiga-ui/core";
 import { EdamamService } from "../../../api/services/edamam.service";
 import type { RecipeDetail } from "../../models/recipe-detail.interface";
 import { LoaderComponent } from "../../../shared/components/loader/loader.component";
@@ -13,7 +13,7 @@ import { LoaderComponent } from "../../../shared/components/loader/loader.compon
 @Component({
   selector: "app-recipe-detail",
   standalone: true,
-  imports: [CommonModule, TuiLinkModule, LoaderComponent],
+  imports: [CommonModule, TuiLinkModule, LoaderComponent, TuiSvgModule],
   templateUrl: "./recipe-detail.component.html",
   styleUrl: "./recipe-detail.component.less",
   changeDetection: ChangeDetectionStrategy.OnPush,

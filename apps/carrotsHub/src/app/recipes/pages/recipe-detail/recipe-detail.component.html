@@ -2,9 +2,12 @@
   <a
     (click)="location.back()"
     mode="positive"
+    icon="tuiIconChevronLeft"
+    iconAlign="left"
     tuiLink
     class="recipe-detail__link"
-    >Назад</a
+    >
+    Назад</a
   >
 
   @if (recipe$ | async; as recipe) {
