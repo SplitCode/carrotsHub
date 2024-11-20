@@ -215,10 +215,11 @@ export class JournalPageComponent implements OnInit {
           return of([
             {
               label: product.product_name,
-              calories: product.nutriments["energy-kcal"] || 0,
-              carbs: product.nutriments.carbohydrates || 0,
-              protein: product.nutriments.proteins || 0,
-              fat: product.nutriments.fat || 0,
+              calories:
+                (product.nutriments["energy-kj_100g"] || 0) * 0.239005736,
+              carbs: product.nutriments.carbohydrates_100g || 0,
+              protein: product.nutriments.proteins_100g || 0,
+              fat: product.nutriments.fat_100g || 0,
             },
           ]);
         }

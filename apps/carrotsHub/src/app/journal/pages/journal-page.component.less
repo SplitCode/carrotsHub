@@ -172,77 +172,65 @@ progress[tuiProgressBar] {
 //accordeon
 .meals-accordion {
   max-width: 37rem;
-  margin: auto;
   padding: 2rem;
   border-radius: 0.5rem;
   margin: 2rem auto 0;
   background-color: var(--tui-base-01);
   box-shadow: var(--tui-shadow-navigation);
+}
 
-  .meal-panel {
-    margin-bottom: 1rem;
-    padding: 1rem;
-    border-radius: 4px;
-    box-shadow: var(--card-shadow);
+.meal-panel {
+  margin-bottom: 1rem;
+  padding: 1rem;
+  border-radius: 4px;
+  box-shadow: var(--card-shadow);
+}
+
+.meal-panel__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+
+  h3 {
+    margin: 0;
   }
+}
 
-  .meal-panel__header {
+.meal-search {
+  margin-top: 1rem;
+
+  tui-input {
+    width: 100%;
+  }
+}
+
+.search-results {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 0 1rem;
+  margin-top: 1rem;
+}
+
+.search-result {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  margin-top: 1rem;
+}
+
+.meal-items {
+  margin-top: 1rem;
+
+  .meal-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    cursor: pointer;
-
-    h3 {
-      margin: 0;
-    }
+    padding: 0.5rem 0;
 
     button {
-      background: none;
-      border: none;
-      outline: none;
-      cursor: pointer;
-    }
-  }
-
-  .meal-search {
-    margin-top: 1rem;
-
-    tui-input {
-      width: 100%;
-    }
-
-    .search-results {
-      border: 1px solid #ddd;
-      border-radius: 4px;
-      padding: 1rem;
-      margin-top: 1rem;
-
-      .search-result {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 0.5rem;
-
-        button {
-          background-color: #0e8599;
-          color: #fff;
-        }
-      }
-    }
-  }
-
-  .meal-items {
-    margin-top: 1rem;
-
-    .meal-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0.5rem 0;
-
-      button {
-        color: red;
-      }
+      color: var(--tui-accent-hover);
     }
   }
 }

@@ -4,7 +4,7 @@
     <h3 class="water-tracker__title">Вода</h3>
   </div>
   <div class="water-tracker__glasses">
-    @for (glass of waterGlasses; ; track $index) {
+    @for (glass of waterGlasses; track $index) {
     <div class="water-tracker__glass" (click)="onToggleWater($index)">
       <img
         [src]="
