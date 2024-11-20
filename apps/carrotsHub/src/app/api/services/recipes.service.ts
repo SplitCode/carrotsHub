@@ -9,7 +9,7 @@ import { API_URL } from "../constants/api.constants";
 @Injectable({
   providedIn: "root",
 })
-export class EdamamService {
+export class RecipesService {
   private readonly apiId = environment.edamam.apiId;
   private readonly apiKey = environment.edamam.apiKey;
   private readonly http = inject(HttpClient);

@@ -22,7 +22,7 @@ import { TuiButtonModule, TuiTextfieldControllerModule } from "@taiga-ui/core";
 import { TuiInputModule } from "@taiga-ui/kit";
 import { Router, ActivatedRoute } from "@angular/router";
 import { TuiAutoFocusModule } from "@taiga-ui/cdk";
-import { EdamamService } from "../../api/services/edamam.service";
+import { RecipesService } from "../../api/services/recipes.service";
 import type { Recipe } from "../models/recipe.interface";
 import { RecipeCardComponent } from "../components/recipe-card/recipe-card.component";
 import type { RecipeResponse } from "../../api/models/edamam.interface";
@@ -54,7 +54,7 @@ export class RecipesPageComponent implements OnInit, AfterViewInit {
 
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
-  private readonly edamamService = inject(EdamamService);
+  private readonly recipesService = inject(RecipesService);
   private readonly logger = inject(Logger);
 
   searchForm = new FormGroup({
@@ -72,7 +72,7 @@ export class RecipesPageComponent implements OnInit, AfterViewInit {
         queryParamsHandling: "merge",
       });
 
-      this.recipes$ = this.edamamService.searchRecipes(query).pipe(
+      this.recipes$ = this.recipesService.searchRecipes(query).pipe(
         map((data: RecipeResponse) => {
           this.loading.set(false);
           this.logger.logInfo({

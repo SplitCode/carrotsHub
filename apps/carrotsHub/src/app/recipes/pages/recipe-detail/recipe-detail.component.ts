@@ -6,7 +6,7 @@ import type { Observable } from "rxjs";
 import { map, of, switchMap } from "rxjs";
 import { Location } from "@angular/common";
 import { TuiLinkModule, TuiSvgModule } from "@taiga-ui/core";
-import { EdamamService } from "../../../api/services/edamam.service";
+import { RecipesService } from "../../../api/services/recipes.service";
 import type { RecipeDetail } from "../../models/recipe-detail.interface";
 import { LoaderComponent } from "../../../shared/components/loader/loader.component";
 
@@ -23,14 +23,14 @@ export class RecipeDetailComponent implements OnInit {
 
   readonly location = inject(Location);
   private readonly route = inject(ActivatedRoute);
-  private readonly edamamService = inject(EdamamService);
+  private readonly recipesService = inject(RecipesService);
 
   ngOnInit() {
     this.recipe$ = this.route.paramMap.pipe(
       switchMap((params) => {
         const recipeId = params.get("id");
         if (recipeId) {
-          return this.edamamService.getRecipeDetail(recipeId).pipe(
+          return this.recipesService.getRecipeDetail(recipeId).pipe(
             map((recipe) => ({
               ...recipe,
               fat: recipe.digest[0].total || 0,

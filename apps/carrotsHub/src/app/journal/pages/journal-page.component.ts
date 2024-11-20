@@ -89,21 +89,6 @@ export class JournalPageComponent implements OnInit {
     isLoading: false,
   }));
 
-  constructor() {
-    this.meals.forEach((meal) => {
-      meal.searchControl.valueChanges
-        .pipe(
-          debounceTime(300),
-          filter((query) => query && query.length >= 3),
-          distinctUntilChanged(),
-          switchMap((query) => this.foodService.searchProduct(query))
-        )
-        .subscribe((results) => {
-          meal.searchResults = results;
-        });
-    });
-  }
-
   onWaterChange(totalWater: number) {
     this.totalWater = totalWater;
     this.saveDailyData();
@@ -141,6 +126,27 @@ export class JournalPageComponent implements OnInit {
     this.saveDailyData();
   }
 
+  ngOnInit() {
+    this.initializeMealSearch();
+    this.setupDateControl();
+    this.loadCurrentUser();
+  }
+
+  private initializeMealSearch() {
+    this.meals.forEach((meal) => {
+      meal.searchControl.valueChanges
+        .pipe(
+          debounceTime(300),
+          filter((query) => query && query.length >= 3),
+          distinctUntilChanged(),
+          switchMap((query) => this.foodService.searchProduct(query))
+        )
+        .subscribe((results) => {
+          meal.searchResults = results;
+        });
+    });
+  }
+
   removeFoodFromMeal(meal: Meal, index: number) {
     const removedItem = meal.items[index];
     meal.totalCalories -= removedItem.calories;
@@ -154,13 +160,15 @@ export class JournalPageComponent implements OnInit {
     this.saveDailyData();
   }
 
-  ngOnInit() {
+  private setupDateControl() {
     this.dateControl.valueChanges.subscribe((date: TuiDay | null) => {
       if (date) {
         this.onDateChange(date);
       }
     });
+  }
 
+  private loadCurrentUser() {
     this.authService.currentUser$.subscribe((user) => {
       if (user) {
         this.userId = user.uid;
