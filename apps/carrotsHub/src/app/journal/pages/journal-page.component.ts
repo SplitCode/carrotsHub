@@ -330,6 +330,14 @@ export class JournalPageComponent implements OnInit {
     this.carbsCurrent = 0;
     this.waterGlasses = this.createEmptyWaterGlasses();
     this.totalWater = 0;
+
+    this.meals.forEach((meal) => {
+      meal.items = [];
+      meal.totalCalories = 0;
+      meal.searchResults = [];
+      meal.searchControl.setValue("");
+      meal.isExpanded = false;
+    });
   }
 
   // вместо них saveDailyData
