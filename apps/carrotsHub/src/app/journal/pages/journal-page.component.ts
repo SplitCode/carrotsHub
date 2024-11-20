@@ -22,14 +22,7 @@ import {
 import { TuiMobileCalendarModule } from "@taiga-ui/addon-mobile";
 import { TuiDay } from "@taiga-ui/cdk";
 import { FormControl, FormsModule, ReactiveFormsModule } from "@angular/forms";
-import type { Observable } from "rxjs";
-import {
-  debounceTime,
-  distinctUntilChanged,
-  filter,
-  of,
-  switchMap,
-} from "rxjs";
+import { debounceTime, distinctUntilChanged, filter, switchMap } from "rxjs";
 import { FoodService } from "../../api/services/food.service";
 import { UserDataService } from "../../profile/services/user-data.service";
 import { AuthService } from "../../auth/services/auth.service";
@@ -103,7 +96,7 @@ export class JournalPageComponent implements OnInit {
           debounceTime(300),
           filter((query) => query && query.length >= 3),
           distinctUntilChanged(),
-          switchMap((query) => this.searchProduct(query))
+          switchMap((query) => this.foodService.searchProduct(query))
         )
         .subscribe((results) => {
           meal.searchResults = results;
@@ -159,28 +152,6 @@ export class JournalPageComponent implements OnInit {
     this.carbsCurrent -= removedItem.carbs;
 
     this.saveDailyData();
-  }
-
-  searchProduct(query: string): Observable<any[]> {
-    const searchUrl = `https://world.openfoodfacts.org/api/v0/product/${query}.json`;
-    return this.foodService.getProductData(searchUrl).pipe(
-      switchMap((res: any) => {
-        if (res && res.product) {
-          const product = res.product;
-          return of([
-            {
-              label: product.product_name,
-              calories:
-                (product.nutriments["energy-kj_100g"] || 0) * 0.239005736,
-              carbs: product.nutriments.carbohydrates_100g || 0,
-              protein: product.nutriments.proteins_100g || 0,
-              fat: product.nutriments.fat_100g || 0,
-            },
-          ]);
-        }
-        return of([]);
-      })
-    );
   }
 
   ngOnInit() {
