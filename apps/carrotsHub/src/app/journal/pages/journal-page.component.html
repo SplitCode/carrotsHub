@@ -39,9 +39,7 @@
       ></button>
     </div>
 
-    <!-- аккордеон -->
     <tui-expand [expanded]="meal.isExpanded">
-      <!-- Поиск еды -->
       <div class="meal-search">
         <tui-input
           [formControl]="meal.searchControl"
@@ -56,7 +54,6 @@
         </div>
       </div>
 
-      <!-- Результаты поиска -->
       <div *ngIf="meal.searchResults.length > 0" class="search-results">
         <div *ngFor="let result of meal.searchResults" class="search-result">
           <span>{{ result.label }}</span>
@@ -69,7 +66,7 @@
                 placeholder="г"
                 [min]="1"
                 class="quantity-input__field"
-              ></tui-input-number>
+              >кол-во</tui-input-number>
             </div>
             <div class="search-buttons">
               <button
