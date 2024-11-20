@@ -4,13 +4,14 @@ import { from, type Observable } from "rxjs";
 import type { UserData } from "../models/user-data.interface";
 
 export interface UserDataForDate {
+  date: string;
   caloriesMax: number;
   caloriesConsumed: number;
   proteinCurrent: number;
   fatCurrent: number;
   carbsCurrent: number;
   totalWater: number;
-  waterGlasses: boolean[];
+  waterGlasses: Array<{ filled: boolean }>;
 }
 
 @Injectable({
@@ -35,8 +36,25 @@ export class UserDataService {
     return from(this.db.object(`users/${uid}`).remove());
   }
 
-  getUserDataForDate(uid: string, date: string) {
-    return this.db.object<UserDataForDate>(`users/${uid}`).valueChanges();
-    console.info(uid, date);
+  getUserDataForDate(
+    uid: string,
+    date: string
+  ): Observable<UserDataForDate | null> {
+    return this.db
+      .object<UserDataForDate>(`users/${uid}/dates/${date}`)
+      .valueChanges();
   }
+
+  updateUserDataForDate(
+    uid: string,
+    date: string,
+    userData: Partial<UserDataForDate>
+  ): Observable<void> {
+    return from(this.db.object(`users/${uid}/dates/${date}`).update(userData));
+  }
+
+  // getUserDataForDate(uid: string, date: string) {
+  //   return this.db.object<UserDataForDate>(`users/${uid}`).valueChanges();
+  //   console.info(uid, date);
+  // }
 }

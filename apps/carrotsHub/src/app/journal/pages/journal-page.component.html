@@ -4,10 +4,10 @@
 <section class="nutritional">
   <div class="calories">
     <div class="calories__consumed">
-      <p class="calories__value">{{ caloriesConsumed() }}</p>
+      <p class="calories__value">{{ caloriesConsumed }}</p>
       <p class="calories__label">&nbsp;потребление</p>
     </div>
-    <tui-ring-chart [value]="[caloriesConsumed(), caloriesLeft]">
+    <tui-ring-chart [value]="[caloriesConsumed, caloriesLeft]">
       <div class="calories__left">
         {{ caloriesLeft }} из {{ caloriesMax() }} ккал осталось
       </div>
@@ -74,15 +74,63 @@
   >
 </section>
 
-<!-- meals -->
-<!-- <p>meals works!</p>
-  <div class="meals">
-    <div *ngFor="let meal of meals" class="meal">
+<section class="meals-accordion">
+  <div *ngFor="let meal of meals" class="meal-panel">
+    <!-- Заголовок аккордеона -->
+    <div
+      class="meal-panel__header"
+      (click)="meal.isExpanded = !meal.isExpanded"
+    >
       <h3>{{ meal.type }}</h3>
       <span>{{ meal.totalCalories }} ккал</span>
-      <button (click)="onAddFood(meal.type)">+</button>
+      <button tuiIconButton icon="tuiIconPlus" appearance="secondary"></button>
     </div>
-  </div> -->
+
+    <!-- аккордеон -->
+    <tui-expand [expanded]="meal.isExpanded">
+      <!-- Поиск еды -->
+      <div class="meal-search">
+        <tui-input
+          [formControl]="meal.searchControl"
+          [tuiTextfieldCleaner]="true"
+          tuiTextfieldSize="m"
+          class="meal-search__input"
+        >
+          Введите штрихкод...
+        </tui-input>
+      </div>
+
+      <!-- Результаты поиска -->
+      <div *ngIf="meal.searchResults.length > 0" class="search-results">
+        <div *ngFor="let result of meal.searchResults" class="search-result">
+          <span>{{ result.label }}</span>
+          <button
+            tuiButton
+            appearance="outline"
+            (click)="onAddFoodToMeal(meal, result)"
+          >
+            Добавить
+          </button>
+        </div>
+      </div>
+
+      <!-- Список добавленных продуктов -->
+      <div class="meal-items">
+        <div *ngFor="let item of meal.items; let i = index" class="meal-item">
+          <span>{{ item.label }}</span>
+          <span>{{ item.quantity }} г</span>
+          <span>{{ item.calories }} ккал</span>
+          <button
+            tuiIconButton
+            icon="tuiIconClose"
+            appearance="error"
+            (click)="removeFoodFromMeal(meal, i)"
+          ></button>
+        </div>
+      </div>
+    </tui-expand>
+  </div>
+</section>
 
 <!-- water-tracker -->
 <div class="water-tracker">
