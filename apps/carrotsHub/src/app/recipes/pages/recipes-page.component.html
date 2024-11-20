@@ -3,15 +3,15 @@
     <form class="search__form" [formGroup]="searchForm">
       <div class="search__field">
         <tui-input
+          tuiAutoFocus
           formControlName="searchControl"
-          #searchInput
           [tuiTextfieldCleaner]="true"
           tuiTextfieldIcon="tuiIconSearchLarge"
           tuiTextfieldSize="m"
           class="search__input"
         >
           Поиск рецепта...
-          <input tuiTextfield autofocus [disabled]="loading()" />
+          <input tuiTextfield #searchInput tuiAutoFocus [disabled]="loading()" />
         </tui-input>
       </div>
     </form>

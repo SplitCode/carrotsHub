@@ -1,11 +1,11 @@
-import type { OnInit } from "@angular/core";
+import type { OnInit, AfterViewInit } from "@angular/core";
 import {
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
   inject,
   signal,
   ViewChild,
-  ElementRef,
 } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormControl, FormGroup, ReactiveFormsModule } from "@angular/forms";
@@ -21,6 +21,7 @@ import {
 import { TuiButtonModule, TuiTextfieldControllerModule } from "@taiga-ui/core";
 import { TuiInputModule } from "@taiga-ui/kit";
 import { Router, ActivatedRoute } from "@angular/router";
+import { TuiAutoFocusModule } from "@taiga-ui/cdk";
 import { EdamamService } from "../../api/services/edamam.service";
 import type { Recipe } from "../models/recipe.interface";
 import { RecipeCardComponent } from "../components/recipe-card/recipe-card.component";
@@ -39,14 +40,14 @@ import { LoaderComponent } from "../../shared/components/loader/loader.component
     TuiTextfieldControllerModule,
     RecipeCardComponent,
     LoaderComponent,
+    TuiAutoFocusModule,
   ],
   templateUrl: "./recipes-page.component.html",
   styleUrl: "./recipes-page.component.less",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RecipesPageComponent implements OnInit {
-  @ViewChild("searchInput") searchInput!: ElementRef<HTMLInputElement>;
-
+export class RecipesPageComponent implements OnInit, AfterViewInit {
+  @ViewChild("searchInput", { read: ElementRef }) searchInput!: ElementRef;
   recipes$: Observable<Recipe[]> = of([]);
   readonly loading = signal(false);
   isSearched = false;
@@ -79,7 +80,7 @@ export class RecipesPageComponent implements OnInit {
             params: { query, totalResults: data.hits.length },
           });
 
-          setTimeout(() => this.searchInput.nativeElement.focus(), 100);
+          this.setFocus(); // Возвращаем фокус после поиска
 
           return data.hits.map((hit) => ({
             ...hit.recipe,
@@ -101,15 +102,15 @@ export class RecipesPageComponent implements OnInit {
           });
           this.isSearched = true;
 
-          setTimeout(() => this.searchInput.nativeElement.focus(), 100);
+          this.setFocus(); // Возвращаем фокус даже при ошибке
+
           return of([]);
         })
       );
     } else {
       this.isSearched = false;
       this.recipes$ = of([]);
-
-      setTimeout(() => this.searchInput.nativeElement.focus(), 100);
+      this.setFocus(); // Возвращаем фокус, если запрос пустой
     }
   }
 
@@ -135,5 +136,17 @@ export class RecipesPageComponent implements OnInit {
         this.onSearch(query);
       }
     });
+  }
+
+  ngAfterViewInit() {
+    this.setFocus(); // Установить фокус после загрузки компонента
+  }
+
+  private setFocus() {
+    if (this.searchInput && this.searchInput.nativeElement) {
+      setTimeout(() => {
+        this.searchInput.nativeElement.focus();
+      }, 0); // Используем `setTimeout` для гарантии, что элемент в DOM
+    }
   }
 }
