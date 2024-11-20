@@ -9,6 +9,7 @@ export const initialMeals: Meal[] = [
     searchResults: [],
     items: [],
     isExpanded: false,
+    isLoading: false,
   },
   {
     type: "Обед",
@@ -17,6 +18,7 @@ export const initialMeals: Meal[] = [
     searchResults: [],
     items: [],
     isExpanded: false,
+    isLoading: false,
   },
   {
     type: "Ужин",
@@ -25,6 +27,7 @@ export const initialMeals: Meal[] = [
     searchResults: [],
     items: [],
     isExpanded: false,
+    isLoading: false,
   },
   {
     type: "Перекус",
@@ -33,5 +36,6 @@ export const initialMeals: Meal[] = [
     searchResults: [],
     items: [],
     isExpanded: false,
+    isLoading: false,
   },
 ];

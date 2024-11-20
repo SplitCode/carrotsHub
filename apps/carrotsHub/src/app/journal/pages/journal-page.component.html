@@ -44,6 +44,7 @@
         >
           Введите штрихкод...
         </tui-input>
+        <div *ngIf="meal.isLoading" class="loader">Идёт поиск...</div>
       </div>
 
       <!-- Результаты поиска -->
@@ -68,6 +69,14 @@
           >
             Добавить
           </button>
+          <button
+          tuiButton
+          size="m"
+          appearance="warning"
+          (click)="clearSearch(meal)"
+        >
+          Отмена
+        </button>
         </div>
       </div>
 

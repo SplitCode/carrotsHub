@@ -22,7 +22,7 @@ import {
 import { TuiMobileCalendarModule } from "@taiga-ui/addon-mobile";
 import { TuiDay } from "@taiga-ui/cdk";
 import { FormControl, FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { debounceTime, distinctUntilChanged, filter, switchMap } from "rxjs";
+import { debounceTime, distinctUntilChanged, switchMap } from "rxjs";
 import { FoodService } from "../../api/services/food.service";
 import { UserDataService } from "../../profile/services/user-data.service";
 import { AuthService } from "../../auth/services/auth.service";
@@ -89,6 +89,8 @@ export class JournalPageComponent implements OnInit {
     isLoading: false,
   }));
 
+  //
+
   onWaterChange(totalWater: number) {
     this.totalWater = totalWater;
     this.saveDailyData();
@@ -100,7 +102,6 @@ export class JournalPageComponent implements OnInit {
     this.loadUserDataByDay(this.userId, this.formattedDate);
   }
 
-  //
   onAddFoodToMeal(meal: Meal, food: any) {
     const quantity = food.quantity || 100; // По умолчанию количество продукта - 100 грамм
     const item: MealItem = {
@@ -120,8 +121,23 @@ export class JournalPageComponent implements OnInit {
     this.fatCurrent += item.fat;
     this.carbsCurrent += item.carbs;
 
-    meal.searchResults = meal.searchResults.filter((result) => result !== food);
+    // meal.searchResults = meal.searchResults.filter((result) => result !== food);
+    // meal.searchControl.setValue("");
+    meal.searchResults = [];
     meal.searchControl.setValue("");
+
+    this.saveDailyData();
+  }
+
+  removeFoodFromMeal(meal: Meal, index: number) {
+    const removedItem = meal.items[index];
+    meal.totalCalories -= removedItem.calories;
+    meal.items.splice(index, 1);
+
+    this.caloriesConsumed -= removedItem.calories;
+    this.proteinCurrent -= removedItem.protein;
+    this.fatCurrent -= removedItem.fat;
+    this.carbsCurrent -= removedItem.carbs;
 
     this.saveDailyData();
   }
@@ -137,27 +153,23 @@ export class JournalPageComponent implements OnInit {
       meal.searchControl.valueChanges
         .pipe(
           debounceTime(300),
-          filter((query) => query && query.length >= 3),
           distinctUntilChanged(),
-          switchMap((query) => this.foodService.searchProduct(query))
+          switchMap((query) => {
+            if (!query || query.trim() === "") {
+              // Скрыть результаты поиска и сбросить лоадер
+              meal.searchResults = [];
+              meal.isLoading = false;
+              return [];
+            }
+            meal.isLoading = true; // Показать лоадер
+            return this.foodService.searchProduct(query);
+          })
         )
         .subscribe((results) => {
           meal.searchResults = results;
+          meal.isLoading = false; // Скрыть лоадер
         });
     });
-  }
-
-  removeFoodFromMeal(meal: Meal, index: number) {
-    const removedItem = meal.items[index];
-    meal.totalCalories -= removedItem.calories;
-    meal.items.splice(index, 1);
-
-    this.caloriesConsumed -= removedItem.calories;
-    this.proteinCurrent -= removedItem.protein;
-    this.fatCurrent -= removedItem.fat;
-    this.carbsCurrent -= removedItem.carbs;
-
-    this.saveDailyData();
   }
 
   private setupDateControl() {
@@ -242,6 +254,11 @@ export class JournalPageComponent implements OnInit {
         meals: mealsData,
       })
       .subscribe();
+  }
+
+  clearSearch(meal: Meal) {
+    meal.searchResults = []; // Очистка результатов поиска
+    meal.searchControl.setValue(""); // Очистка значения поля ввода
   }
 
   createEmptyWaterGlasses() {

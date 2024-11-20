@@ -16,4 +16,5 @@ export interface Meal {
   searchResults: any[];
   items: MealItem[];
   isExpanded: boolean;
+  isLoading: boolean;
 }
