@@ -6,17 +6,15 @@ import {
   signal,
 } from "@angular/core";
 import { CommonModule } from "@angular/common";
-// import { TuiRingChartModule } from "@taiga-ui/addon-charts";
 import {
   TuiAccordionModule,
   TuiInputDateModule,
   TuiInputModule,
-  // TuiProgressModule,
+  TuiInputNumberModule,
 } from "@taiga-ui/kit";
 import {
   TuiButtonModule,
   TuiCalendarModule,
-  // TuiDialogModule,
   TuiDropdownModule,
   TuiExpandModule,
   TuiTextfieldControllerModule,
@@ -63,10 +61,7 @@ export interface Meal {
   standalone: true,
   imports: [
     CommonModule,
-    // TuiRingChartModule,
-    // TuiProgressModule,
     TuiInputDateModule,
-    // TuiDialogModule,
     TuiMobileCalendarModule,
     TuiCalendarModule,
     TuiDropdownModule,
@@ -79,6 +74,7 @@ export interface Meal {
     TuiInputModule,
     WaterTrackerComponent,
     NutritionalComponent,
+    TuiInputNumberModule,
   ],
   templateUrl: "./journal-page.component.html",
   styleUrl: "./journal-page.component.less",

@@ -29,7 +29,7 @@
     >
       <h3>{{ meal.type }}</h3>
       <span>{{ meal.totalCalories | number : "1.0-0" }} ккал</span>
-      <button tuiIconButton icon="tuiIconPlus" appearance="secondary"></button>
+      <button tuiIconButton icon="tuiIconPlus" appearance="primary"></button>
     </div>
 
     <!-- аккордеон -->
@@ -51,18 +51,18 @@
         <div *ngFor="let result of meal.searchResults" class="search-result">
           <span>{{ result.label }}</span>
           <div class="quantity-input">
-            <tui-input
+            <tui-input-number
               [(ngModel)]="result.quantity"
               [tuiTextfieldSize]="'s'"
               type="number"
               placeholder="Кол-во (г)"
-              min="1"
+              [min]="1"
               class="quantity-input__field"
-            ></tui-input>
+            ></tui-input-number>
           </div>
           <button
             tuiButton
-            size="xs"
+            size="m"
             appearance="outline"
             (click)="onAddFoodToMeal(meal, result)"
           >

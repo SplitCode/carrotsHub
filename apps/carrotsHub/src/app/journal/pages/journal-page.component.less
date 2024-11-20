@@ -43,20 +43,20 @@
   }
 }
 
-.search-results {
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  padding: 0 1rem;
-  margin-top: 1rem;
-}
+// .search-results {
+//   border: 1px solid #ddd;
+//   border-radius: 4px;
+//   padding: 0 1rem;
+//   margin-top: 1rem;
+// }
 
-.search-result {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 0.5rem;
-  margin-top: 1rem;
-}
+// .search-result {
+//   display: flex;
+//   justify-content: space-between;
+//   align-items: center;
+//   margin-bottom: 0.5rem;
+//   margin-top: 1rem;
+// }
 
 .meal-items {
   margin-top: 1rem;
@@ -72,3 +72,39 @@
     }
   }
 }
+
+.search-results {
+  border: 1px solid #ddd;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin-top: 1rem;
+  background-color: #f8f9fa;
+}
+
+.search-result {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.search-result:last-child {
+  border-bottom: none; /* Удаляем нижнюю границу у последнего элемента */
+}
+
+.quantity-input {
+  margin: 0 1rem;
+  width: 5rem;
+}
+
+.quantity-input__field {
+  width: 100%;
+}
+
+button[tuiButton] {
+  margin-left: 1rem;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.9rem;
+}
+
