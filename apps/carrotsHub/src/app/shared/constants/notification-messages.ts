@@ -1,5 +1,5 @@
 export enum MESSAGES {
-  successTitle = "Ура!",
+  successTitle = "Congratulations!",
   errorTitle = "Oops!",
   successLogin = "You have successfully login!",
   successRegister = "You have successfully registered and logged in!",

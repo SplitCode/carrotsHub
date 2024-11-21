@@ -5,14 +5,14 @@
     <div>
       <tui-input
         formControlName="email"
-        [tuiTextfieldCleaner]="true"
+        [tuiTextfieldCleaner]="!loading()"
         tuiTextfieldSize="m"
       >
         e-mail
         <span class="tui-required"></span>
         <input
           autocomplete="email"
-          placeholder="admin@admin.ru"
+          placeholder="admin2@test.ru"
           tuiTextfield
           autofocus
           type="email"
@@ -50,7 +50,7 @@
   </form>
 
   <div class="form__bottom">
-    <div class="form__divider">or</div>
+    <!-- <div class="form__divider">or</div>
 
     <button
       size="m"
@@ -67,7 +67,7 @@
         class="form__google-icon"
       />
       Login with Google
-    </button>
+    </button> -->
 
     <div class="form__links">
       <span>Don't have an account yet?</span>

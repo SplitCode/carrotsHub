@@ -5,7 +5,7 @@
     <div>
       <tui-input
         formControlName="name"
-        [tuiTextfieldCleaner]="true"
+        [tuiTextfieldCleaner]="!loading()"
         tuiTextfieldSize="m"
       >
         name
@@ -28,14 +28,14 @@
     <div>
       <tui-input
         formControlName="email"
-        [tuiTextfieldCleaner]="true"
+        [tuiTextfieldCleaner]="!loading()"
         tuiTextfieldSize="m"
       >
         e-mail
         <span class="tui-required"></span>
         <input
           autocomplete="email"
-          placeholder="admin@admin.ru"
+          placeholder="admin2@test.ru"
           tuiTextfield
           autofocus
           type="email"
