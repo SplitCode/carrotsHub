@@ -44,6 +44,7 @@
           [tuiTextfieldCleaner]="true"
           tuiTextfieldSize="m"
           class="meal-search__input"
+          (keydown.enter)="onSearch(meal)"
         >
           Food...
         </tui-input>
