@@ -66,6 +66,11 @@ export class RecipesPageComponent implements OnInit, AfterViewInit {
       this.isSearched = true;
       this.loading.set(true);
 
+      this.logger.logInfo({
+        name: "SearchStarted",
+        params: { query },
+      });
+
       this.router.navigate([], {
         relativeTo: this.route,
         queryParams: { search: query },
@@ -123,7 +128,14 @@ export class RecipesPageComponent implements OnInit, AfterViewInit {
         filter((query: string) => query.trim().length >= 3),
         distinctUntilChanged()
       )
-      .subscribe((query) => this.onSearch(query));
+      .subscribe((query) => {
+        this.logger.logInfo({
+          name: "SearchInputChanged",
+          params: { query },
+        });
+
+        this.onSearch(query);
+      });
 
     this.route.queryParams.subscribe((params) => {
       const { search: query = "" } = params;
@@ -133,6 +145,11 @@ export class RecipesPageComponent implements OnInit, AfterViewInit {
           { emitEvent: false }
         );
         this.isSearched = true;
+        this.logger.logInfo({
+          name: "PageLoadedWithSearchQuery",
+          params: { query },
+        });
+
         this.onSearch(query);
       }
     });

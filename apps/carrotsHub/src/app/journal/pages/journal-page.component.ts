@@ -33,6 +33,7 @@ import { formatDateForFirebase } from "../../shared/components/utils/date-format
 import { NutritionalComponent } from "../components/nutritional/nutritional.component";
 import { initialMeals } from "../constants/initial-meals.const";
 import type { Meal, MealItem } from "../models/meals.interface";
+import { Logger } from "../../core/logger/logger.models";
 
 @Component({
   selector: "app-journal-page",
@@ -81,6 +82,7 @@ export class JournalPageComponent implements OnInit {
   private readonly userDataService = inject(UserDataService);
   private readonly foodService = inject(FoodService);
   private readonly cdr = inject(ChangeDetectorRef);
+  private readonly logger = inject(Logger);
 
   meals: Meal[] = initialMeals.map((meal) => ({
     ...meal,
@@ -93,6 +95,10 @@ export class JournalPageComponent implements OnInit {
 
   onWaterChange(totalWater: number) {
     this.totalWater = totalWater;
+    this.logger.logInfo({
+      name: "TotalWater",
+      params: { totalWater, date: this.formattedDate },
+    });
     this.saveDailyData();
   }
 
@@ -121,6 +127,14 @@ export class JournalPageComponent implements OnInit {
     this.fatCurrent += item.fat;
     this.carbsCurrent += item.carbs;
 
+    this.logger.logInfo({
+      name: "FoodAddedToMeal",
+      params: {
+        mealType: meal.type,
+        calories: meal.totalCalories,
+      },
+    });
+
     meal.searchResults = [];
     meal.searchControl.setValue("");
 
@@ -139,10 +153,20 @@ export class JournalPageComponent implements OnInit {
 
     meal.isLoading = true;
 
+    this.logger.logInfo({
+      name: "FoodSearchStarted",
+      params: { query, mealType: meal.type },
+    });
+
     this.foodService
       .searchProduct(query)
       .pipe(
         catchError(() => {
+          this.logger.logError({
+            name: "FoodSearchFailed",
+            params: { query, mealType: meal.type },
+          });
+
           meal.searchResults = [];
           meal.isLoading = false;
           this.cdr.detectChanges();
