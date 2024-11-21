@@ -3,15 +3,20 @@
     <form class="search__form" [formGroup]="searchForm">
       <div class="search__field">
         <tui-input
+          tuiAutoFocus
           formControlName="searchControl"
-          #searchInput
           [tuiTextfieldCleaner]="true"
           tuiTextfieldIcon="tuiIconSearchLarge"
           tuiTextfieldSize="m"
           class="search__input"
         >
-          Поиск рецепта...
-          <input tuiTextfield autofocus [disabled]="loading()" />
+          Recipe search...
+          <input
+            tuiTextfield
+            #searchInput
+            tuiAutoFocus
+            [disabled]="loading()"
+          />
         </tui-input>
       </div>
     </form>
@@ -21,7 +26,8 @@
 @if (!isSearched && !loading()) {
 <section class="recipes__prompt-container">
   <p class="recipes__prompt">
-    Начните поиск, введя название рецепта или продукта в поле выше.
+    Start your search by entering the name of a recipe or product in the field
+    above.
   </p>
 </section>
 } @if (loading()) {
@@ -38,7 +44,7 @@
   <app-recipe-card [recipe]="recipe"></app-recipe-card>
   } } @else {
   <p class="recipes__not-found">
-    Извините, ничего не нашлось. Попробуйте найти другой рецепт.
+    Sorry, nothing was found. Please try searching for another recipe.
   </p>
   } }
 </section>

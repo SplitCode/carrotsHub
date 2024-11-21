@@ -116,6 +116,10 @@ export class ProfilePageComponent implements OnInit {
   });
 
   onCalculate() {
+    this.logger.logInfo({
+      name: "CalculationKcalStarted",
+    });
+
     this.loading.set(true);
 
     const formValues = this.dailyCaloriesForm.value;
@@ -136,6 +140,10 @@ export class ProfilePageComponent implements OnInit {
     this.carbsMax = Math.round((resultRSK * 0.5) / 4);
     this.caloriesMax = resultRSK;
     this.optimalWeight = calculateOptimalWeightByBrock(height, gender);
+
+    this.logger.logInfo({
+      name: "CalculationSuccess",
+    });
 
     this.user$
       .pipe(
@@ -166,18 +174,29 @@ export class ProfilePageComponent implements OnInit {
         error: (error) => {
           this.logger.logError({
             name: "UserDataUpdateFailed",
-            params: { error },
+            params: { error: error.message },
           });
         },
       });
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.userData$ = this.user$.pipe(
       filter((user) => !!user),
       switchMap((user) => this.userDataService.getUserData(user.uid)),
       tap((userData) => {
         if (userData) {
+          this.logger.logInfo({
+            name: "ProfileDataLoaded",
+            params: {
+              age: userData.age,
+              goal: userData.goal,
+              gender: userData.gender,
+              weight: userData.weight,
+              height: userData.height,
+            },
+          });
+
           this.dailyCaloriesForm.patchValue(userData);
           if (userData.caloriesMax) {
             this.caloriesMax = userData.caloriesMax;

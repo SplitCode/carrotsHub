@@ -1,14 +1,14 @@
 <div class="form-container">
   <form class="form" [formGroup]="registerForm" (ngSubmit)="onRegister()">
-    <h3 class="form__header tui-text_h3">Регистрация</h3>
+    <h3 class="form__header tui-text_h3">Registration</h3>
 
     <div>
       <tui-input
         formControlName="name"
-        [tuiTextfieldCleaner]="true"
+        [tuiTextfieldCleaner]="!loading()"
         tuiTextfieldSize="m"
       >
-        имя
+        name
         <span class="tui-required"></span>
         <input
           autocomplete="name"
@@ -28,14 +28,14 @@
     <div>
       <tui-input
         formControlName="email"
-        [tuiTextfieldCleaner]="true"
+        [tuiTextfieldCleaner]="!loading()"
         tuiTextfieldSize="m"
       >
         e-mail
         <span class="tui-required"></span>
         <input
           autocomplete="email"
-          placeholder="admin@admin.ru"
+          placeholder="admin2@test.ru"
           tuiTextfield
           autofocus
           type="email"
@@ -50,7 +50,7 @@
 
     <div>
       <tui-input-password formControlName="password" tuiTextfieldSize="m">
-        пароль
+        password
         <span class="tui-required"></span>
         <input placeholder="******" tuiTextfield [disabled]="loading()" />
       </tui-input-password>
@@ -65,7 +65,7 @@
         formControlName="confirmPassword"
         tuiTextfieldSize="m"
       >
-        подтверждение пароля
+        confirm password
         <span class="tui-required"></span>
         <input placeholder="******" tuiTextfield [disabled]="loading()" />
       </tui-input-password>
@@ -83,12 +83,12 @@
       [showLoader]="loading()"
       [disabled]="loading() || !registerForm.valid"
     >
-      Зарегистрироваться
+      Register
     </button>
   </form>
 
   <div class="form__links">
-    <span>Уже есть аккаунт?</span>
-    <a [routerLink]="['/', pageRoutes.Login]" mode="positive" tuiLink>Войти</a>
+    <span>Already have an account?</span>
+    <a [routerLink]="['/', pageRoutes.Login]" mode="positive" tuiLink>Login</a>
   </div>
 </div>

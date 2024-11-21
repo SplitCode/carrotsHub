@@ -1,11 +1,11 @@
-import type { OnInit } from "@angular/core";
+import type { OnInit, AfterViewInit } from "@angular/core";
 import {
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
   inject,
   signal,
   ViewChild,
-  ElementRef,
 } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormControl, FormGroup, ReactiveFormsModule } from "@angular/forms";
@@ -21,7 +21,8 @@ import {
 import { TuiButtonModule, TuiTextfieldControllerModule } from "@taiga-ui/core";
 import { TuiInputModule } from "@taiga-ui/kit";
 import { Router, ActivatedRoute } from "@angular/router";
-import { EdamamService } from "../../api/services/edamam.service";
+import { TuiAutoFocusModule } from "@taiga-ui/cdk";
+import { RecipesService } from "../../api/services/recipes.service";
 import type { Recipe } from "../models/recipe.interface";
 import { RecipeCardComponent } from "../components/recipe-card/recipe-card.component";
 import type { RecipeResponse } from "../../api/models/edamam.interface";
@@ -39,21 +40,21 @@ import { LoaderComponent } from "../../shared/components/loader/loader.component
     TuiTextfieldControllerModule,
     RecipeCardComponent,
     LoaderComponent,
+    TuiAutoFocusModule,
   ],
   templateUrl: "./recipes-page.component.html",
   styleUrl: "./recipes-page.component.less",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RecipesPageComponent implements OnInit {
-  @ViewChild("searchInput") searchInput!: ElementRef<HTMLInputElement>;
-
+export class RecipesPageComponent implements OnInit, AfterViewInit {
+  @ViewChild("searchInput", { read: ElementRef }) searchInput!: ElementRef;
   recipes$: Observable<Recipe[]> = of([]);
   readonly loading = signal(false);
   isSearched = false;
 
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
-  private readonly edamamService = inject(EdamamService);
+  private readonly recipesService = inject(RecipesService);
   private readonly logger = inject(Logger);
 
   searchForm = new FormGroup({
@@ -65,13 +66,18 @@ export class RecipesPageComponent implements OnInit {
       this.isSearched = true;
       this.loading.set(true);
 
+      this.logger.logInfo({
+        name: "SearchStarted",
+        params: { query },
+      });
+
       this.router.navigate([], {
         relativeTo: this.route,
         queryParams: { search: query },
         queryParamsHandling: "merge",
       });
 
-      this.recipes$ = this.edamamService.searchRecipes(query).pipe(
+      this.recipes$ = this.recipesService.searchRecipes(query).pipe(
         map((data: RecipeResponse) => {
           this.loading.set(false);
           this.logger.logInfo({
@@ -79,7 +85,7 @@ export class RecipesPageComponent implements OnInit {
             params: { query, totalResults: data.hits.length },
           });
 
-          setTimeout(() => this.searchInput.nativeElement.focus(), 100);
+          this.setFocus();
 
           return data.hits.map((hit) => ({
             ...hit.recipe,
@@ -101,15 +107,15 @@ export class RecipesPageComponent implements OnInit {
           });
           this.isSearched = true;
 
-          setTimeout(() => this.searchInput.nativeElement.focus(), 100);
+          this.setFocus();
+
           return of([]);
         })
       );
     } else {
       this.isSearched = false;
       this.recipes$ = of([]);
-
-      setTimeout(() => this.searchInput.nativeElement.focus(), 100);
+      this.setFocus();
     }
   }
 
@@ -122,7 +128,14 @@ export class RecipesPageComponent implements OnInit {
         filter((query: string) => query.trim().length >= 3),
         distinctUntilChanged()
       )
-      .subscribe((query) => this.onSearch(query));
+      .subscribe((query) => {
+        this.logger.logInfo({
+          name: "SearchInputChanged",
+          params: { query },
+        });
+
+        this.onSearch(query);
+      });
 
     this.route.queryParams.subscribe((params) => {
       const { search: query = "" } = params;
@@ -132,8 +145,25 @@ export class RecipesPageComponent implements OnInit {
           { emitEvent: false }
         );
         this.isSearched = true;
+        this.logger.logInfo({
+          name: "PageLoadedWithSearchQuery",
+          params: { query },
+        });
+
         this.onSearch(query);
       }
     });
+  }
+
+  ngAfterViewInit() {
+    this.setFocus();
+  }
+
+  private setFocus() {
+    if (this.searchInput && this.searchInput.nativeElement) {
+      setTimeout(() => {
+        this.searchInput.nativeElement.focus();
+      }, 0);
+    }
   }
 }

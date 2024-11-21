@@ -34,7 +34,7 @@
     min-width: 18.75rem;
     height: 15.625rem;
     border-radius: 0.5rem;
-    background-color: var(--tui-base-01);
+    background-color: color-mix(in srgb, var(--tui-base-01), transparent 10%);
     box-shadow: var(--card-shadow);
 
     &:hover {
@@ -54,11 +54,5 @@
       text-decoration: none;
       color: var(--tui-text-01);
     }
-  }
-}
-
-@media (max-width: 420px) {
-  .app__title {
-    font-size: 1.5rem;
   }
 }

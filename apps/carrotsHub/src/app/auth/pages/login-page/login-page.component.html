@@ -1,18 +1,18 @@
 <div class="form-container">
   <form class="form" [formGroup]="loginForm" (ngSubmit)="onLogin()">
-    <h3 class="form__header tui-text_h3">Вход</h3>
+    <h3 class="form__header tui-text_h3">Login</h3>
 
     <div>
       <tui-input
         formControlName="email"
-        [tuiTextfieldCleaner]="true"
+        [tuiTextfieldCleaner]="!loading()"
         tuiTextfieldSize="m"
       >
         e-mail
         <span class="tui-required"></span>
         <input
           autocomplete="email"
-          placeholder="admin@admin.ru"
+          placeholder="admin2@test.ru"
           tuiTextfield
           autofocus
           type="email"
@@ -27,7 +27,7 @@
 
     <div>
       <tui-input-password formControlName="password" tuiTextfieldSize="m">
-        пароль
+        password
         <span class="tui-required"></span>
         <input placeholder="******" tuiTextfield [disabled]="loading()" />
       </tui-input-password>
@@ -45,12 +45,12 @@
       [showLoader]="loading()"
       [disabled]="loading() || !loginForm.valid"
     >
-      Войти
+      Login
     </button>
   </form>
 
   <div class="form__bottom">
-    <div class="form__divider">или</div>
+    <!-- <div class="form__divider">or</div>
 
     <button
       size="m"
@@ -58,7 +58,7 @@
       appearance="outline"
       class="form__google-button"
       [showLoader]="loading()"
-      [disabled]="loading()"
+      [disabled]="true"
       (click)="onGoogleLogin()"
     >
       <img
@@ -66,13 +66,13 @@
         alt="Google Icon"
         class="form__google-icon"
       />
-      Войти с Google
-    </button>
+      Login with Google
+    </button> -->
 
     <div class="form__links">
-      <span>Нет аккаунта?</span>
+      <span>Don't have an account yet?</span>
       <a [routerLink]="['/', pageRoutes.Register]" mode="positive" tuiLink
-        >Регистрация</a
+        >Register</a
       >
     </div>
   </div>

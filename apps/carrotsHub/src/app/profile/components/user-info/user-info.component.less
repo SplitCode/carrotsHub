@@ -5,12 +5,15 @@
   align-items: center;
   gap: 1rem;
   max-width: 35rem;
-  // height: 15.625rem;
   margin: 4rem auto 0;
   padding: 2rem 3rem 3rem;
   border-radius: 0.5rem;
-  background-color: var(--tui-base-01);
+  background-color: color-mix(in srgb, var(--tui-base-01), transparent 10%);
   box-shadow: var(--tui-shadow-navigation);
+
+  p {
+    font-size: 1.2rem;
+  }
 
   &__avatar {
     position: absolute;
@@ -47,5 +50,13 @@
   &__parameters-details {
     display: flex;
     justify-content: space-between;
+  }
+}
+
+@media (max-width: 540px) {
+  .user-info {
+    p {
+      font-size: 0.8rem;
+    }
   }
 }

@@ -6,79 +6,46 @@ import {
   signal,
 } from "@angular/core";
 import { CommonModule } from "@angular/common";
-// import { TuiRingChartModule } from "@taiga-ui/addon-charts";
 import {
-  TuiAccordionModule,
   TuiInputDateModule,
   TuiInputModule,
-  // TuiProgressModule,
+  TuiInputNumberModule,
 } from "@taiga-ui/kit";
 import {
-  TuiButtonModule,
   TuiCalendarModule,
-  // TuiDialogModule,
   TuiDropdownModule,
-  TuiExpandModule,
   TuiTextfieldControllerModule,
 } from "@taiga-ui/core";
 import { TuiMobileCalendarModule } from "@taiga-ui/addon-mobile";
 import { TuiDay } from "@taiga-ui/cdk";
-import { FormControl, FormsModule, ReactiveFormsModule } from "@angular/forms";
-import type { Observable } from "rxjs";
-import {
-  debounceTime,
-  distinctUntilChanged,
-  filter,
-  of,
-  switchMap,
-} from "rxjs";
-import { FoodService } from "../../api/services/food.service";
+import { FormControl, ReactiveFormsModule } from "@angular/forms";
 import { UserDataService } from "../../profile/services/user-data.service";
 import { AuthService } from "../../auth/services/auth.service";
 import type { UserData } from "../../profile/models/user-data.interface";
 import { WaterTrackerComponent } from "../components/water-tracker/water-tracker.component";
 import { formatDateForFirebase } from "../../shared/components/utils/date-formatter";
 import { NutritionalComponent } from "../components/nutritional/nutritional.component";
-
-export interface MealItem {
-  label: string;
-  quantity: number;
-  calories: number;
-  carbs: number;
-  protein: number;
-  fat: number;
-}
-
-export interface Meal {
-  type: string;
-  totalCalories: number;
-  searchControl: FormControl;
-  searchResults: any[];
-  items: MealItem[];
-  isExpanded: boolean;
-}
+import { initialMeals } from "../constants/initial-meals.const";
+import type { Meal, MealItem } from "../models/meals.interface";
+import { Logger } from "../../core/logger/logger.models";
+import { MealsComponent } from "../components/meals/meals.component";
 
 @Component({
   selector: "app-journal-page",
   standalone: true,
   imports: [
     CommonModule,
-    // TuiRingChartModule,
-    // TuiProgressModule,
     TuiInputDateModule,
-    // TuiDialogModule,
     TuiMobileCalendarModule,
     TuiCalendarModule,
     TuiDropdownModule,
     TuiTextfieldControllerModule,
-    FormsModule,
     ReactiveFormsModule,
-    TuiButtonModule,
-    TuiAccordionModule,
-    TuiExpandModule,
     TuiInputModule,
     WaterTrackerComponent,
     NutritionalComponent,
+    TuiInputNumberModule,
+    MealsComponent,
   ],
   templateUrl: "./journal-page.component.html",
   styleUrl: "./journal-page.component.less",
@@ -105,61 +72,23 @@ export class JournalPageComponent implements OnInit {
 
   private readonly authService = inject(AuthService);
   private readonly userDataService = inject(UserDataService);
-  private readonly foodService = inject(FoodService);
+  private readonly logger = inject(Logger);
 
-  // аккордео
-  meals: Meal[] = [
-    {
-      type: "Завтрак",
-      totalCalories: 0,
-      searchControl: new FormControl(""),
-      searchResults: [],
-      items: [],
-      isExpanded: false,
-    },
-    {
-      type: "Обед",
-      totalCalories: 0,
-      searchControl: new FormControl(""),
-      searchResults: [],
-      items: [],
-      isExpanded: false,
-    },
-    {
-      type: "Ужин",
-      totalCalories: 0,
-      searchControl: new FormControl(""),
-      searchResults: [],
-      items: [],
-      isExpanded: false,
-    },
-    {
-      type: "Перекус",
-      totalCalories: 0,
-      searchControl: new FormControl(""),
-      searchResults: [],
-      items: [],
-      isExpanded: false,
-    },
-  ];
-
-  constructor() {
-    this.meals.forEach((meal) => {
-      meal.searchControl.valueChanges
-        .pipe(
-          debounceTime(300),
-          filter((query) => query && query.length >= 3),
-          distinctUntilChanged(),
-          switchMap((query) => this.searchProduct(query))
-        )
-        .subscribe((results) => {
-          meal.searchResults = results;
-        });
-    });
-  }
+  meals: Meal[] = initialMeals.map((meal) => ({
+    ...meal,
+    searchControl: new FormControl(meal.searchControl.value),
+    searchResults: [],
+    items: [],
+    isExpanded: false,
+    isLoading: false,
+  }));
 
   onWaterChange(totalWater: number) {
     this.totalWater = totalWater;
+    this.logger.logInfo({
+      name: "TotalWater",
+      params: { totalWater, date: this.formattedDate },
+    });
     this.saveDailyData();
   }
 
@@ -169,9 +98,8 @@ export class JournalPageComponent implements OnInit {
     this.loadUserDataByDay(this.userId, this.formattedDate);
   }
 
-  // Добавление продукта в прием пищи
   onAddFoodToMeal(meal: Meal, food: any) {
-    const quantity = food.quantity || 100; // По умолчанию количество продукта - 100 грамм
+    const quantity = food.quantity || 100;
     const item: MealItem = {
       label: food.label,
       calories: (food.calories / 100) * quantity,
@@ -189,7 +117,15 @@ export class JournalPageComponent implements OnInit {
     this.fatCurrent += item.fat;
     this.carbsCurrent += item.carbs;
 
-    meal.searchResults = meal.searchResults.filter((result) => result !== food);
+    this.logger.logInfo({
+      name: "FoodAddedToMeal",
+      params: {
+        mealType: meal.type,
+        calories: meal.totalCalories,
+      },
+    });
+
+    meal.searchResults = [];
     meal.searchControl.setValue("");
 
     this.saveDailyData();
@@ -208,35 +144,20 @@ export class JournalPageComponent implements OnInit {
     this.saveDailyData();
   }
 
-  searchProduct(query: string): Observable<any[]> {
-    const searchUrl = `https://world.openfoodfacts.org/api/v0/product/${query}.json`;
-    return this.foodService.getProductData(searchUrl).pipe(
-      switchMap((res: any) => {
-        if (res && res.product) {
-          const product = res.product;
-          return of([
-            {
-              label: product.product_name,
-              calories:
-                (product.nutriments["energy-kj_100g"] || 0) * 0.239005736,
-              carbs: product.nutriments.carbohydrates_100g || 0,
-              protein: product.nutriments.proteins_100g || 0,
-              fat: product.nutriments.fat_100g || 0,
-            },
-          ]);
-        }
-        return of([]);
-      })
-    );
+  ngOnInit() {
+    this.setupDateControl();
+    this.loadCurrentUser();
   }
 
-  ngOnInit() {
+  private setupDateControl() {
     this.dateControl.valueChanges.subscribe((date: TuiDay | null) => {
       if (date) {
         this.onDateChange(date);
       }
     });
+  }
 
+  private loadCurrentUser() {
     this.authService.currentUser$.subscribe((user) => {
       if (user) {
         this.userId = user.uid;
@@ -261,9 +182,7 @@ export class JournalPageComponent implements OnInit {
 
   loadUserDataByDay(uid: string, date: string) {
     this.userDataService.getUserDataForDate(uid, date).subscribe((data) => {
-      console.info("Загруженные данные из базы:", data);
       if (data) {
-        console.info(data);
         this.caloriesConsumed = data.caloriesConsumed ?? 0;
         this.proteinCurrent = data.proteinCurrent ?? 0;
         this.fatCurrent = data.fatCurrent ?? 0;
@@ -335,5 +254,17 @@ export class JournalPageComponent implements OnInit {
       meal.searchControl.setValue("");
       meal.isExpanded = false;
     });
+  }
+
+  getMealProtein(meal: Meal): number {
+    return meal.items.reduce((sum, item) => sum + item.protein, 0);
+  }
+
+  getMealFat(meal: Meal): number {
+    return meal.items.reduce((sum, item) => sum + item.fat, 0);
+  }
+
+  getMealCarbs(meal: Meal): number {
+    return meal.items.reduce((sum, item) => sum + item.carbs, 0);
   }
 }

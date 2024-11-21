@@ -4,12 +4,12 @@ import { map, type Observable } from "rxjs";
 import { environment } from "../../../environments/environment";
 import type { RecipeResponse } from "../models/edamam.interface";
 import type { RecipeDetail } from "../../recipes/models/recipe-detail.interface";
-import { API_URL } from "../constants/api.constants";
+import { EDAMAM_API_URL } from "../constants/api.constants";
 
 @Injectable({
   providedIn: "root",
 })
-export class EdamamService {
+export class RecipesService {
   private readonly apiId = environment.edamam.apiId;
   private readonly apiKey = environment.edamam.apiKey;
   private readonly http = inject(HttpClient);
@@ -25,11 +25,11 @@ export class EdamamService {
       "Edamam-Account-User": this.apiId,
     });
 
-    return this.http.get<RecipeResponse>(API_URL, { headers, params });
+    return this.http.get<RecipeResponse>(EDAMAM_API_URL, { headers, params });
   }
 
   getRecipeDetail(recipeId: string): Observable<RecipeDetail> {
-    const url = `${API_URL}/${recipeId}`;
+    const url = `${EDAMAM_API_URL}/${recipeId}`;
 
     const params = new HttpParams()
       .set("app_id", this.apiId)

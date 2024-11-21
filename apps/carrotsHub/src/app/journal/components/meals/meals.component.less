@@ -1,0 +1,111 @@
+.meal-panel {
+  max-width: 37rem;
+  padding: 2rem 2rem 3rem;
+  margin: 2rem auto 0;
+  border-radius: 0.5rem;
+  background-color: color-mix(in srgb, var(--tui-base-01), transparent 10%);
+  box-shadow: var(--tui-shadow-navigation);
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+
+    h3 {
+      margin: 0;
+    }
+  }
+}
+
+.meal-search {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1rem;
+
+  tui-input {
+    width: 100%;
+  }
+
+  &__results {
+    border: 1px solid #ddd;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    margin-top: 1rem;
+    background-color: #f8f9fa;
+  }
+
+  &__result {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid #e9ecef;
+  }
+
+  &__result:last-child {
+    border-bottom: none;
+  }
+
+  &__controls {
+    display: flex;
+  }
+}
+
+.quantity-input {
+  margin: 0 1rem;
+  width: 5rem;
+}
+
+.quantity-input__field {
+  width: 100%;
+}
+
+.meal-items {
+  margin-top: 1rem;
+}
+
+.meal-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+  height: 1.5rem;
+  border-bottom: 0.063rem solid var(--tui-base-04);
+
+  &__content {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    gap: 0.625rem;
+  }
+
+  &__label {
+    flex: 3;
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__quantity,
+  &__calories {
+    flex: 1;
+    text-align: center;
+  }
+
+  &__close {
+    flex: 0;
+    color: var(--tui-accent-hover);
+  }
+}
+
+@media (max-width: 520px) {
+  .meal-panel__text {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    justify-content: center;
+  }
+}

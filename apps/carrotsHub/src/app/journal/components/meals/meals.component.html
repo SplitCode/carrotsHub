@@ -1,8 +1,84 @@
-<p>meals works!</p>
-<div class="meals">
-  <div *ngFor="let meal of meals" class="meal">
-    <h3>{{ meal.type }}</h3>
-    <span>{{ meal.totalCalories }} ккал</span>
-    <button (click)="onAddFood(meal.type)">+</button>
+<section class="meals">
+  @for (meal of meals; track $index) {
+  <div class="meal-panel">
+    <div
+      class="meal-panel__header"
+      (click)="meal.isExpanded = !meal.isExpanded"
+    >
+      <div class="meal-panel__text">
+        <h3>{{ meal.type }}</h3>
+        <span>{{ meal.totalCalories | number : "1.0-0" }} kcal</span>
+      </div>
+      <button
+        сlass="meal-panel__button"
+        tuiIconButton
+        icon="tuiIconPlus"
+        appearance="primary"
+      ></button>
+    </div>
+
+    <tui-expand [expanded]="meal.isExpanded">
+      <div class="meal-search">
+        <tui-input
+          [formControl]="meal.searchControl"
+          [tuiTextfieldCleaner]="true"
+          tuiTextfieldSize="m"
+          class="meal-search__input"
+          [readOnly]="meal.isLoading"
+        >
+          Food...
+        </tui-input>
+      </div>
+
+      <div *ngIf="meal.searchResults.length > 0" class="meal-search__results">
+        <div
+          *ngFor="let result of meal.searchResults"
+          class="meal-search__result"
+        >
+          <span>{{ result.label }}</span>
+          <div class="meal-search__controls">
+            <div class="quantity-input">
+              <tui-input-number
+                [(ngModel)]="result.quantity"
+                [tuiTextfieldSize]="'s'"
+                type="number"
+                placeholder="g"
+                [min]="1"
+                class="quantity-input__field"
+                >g/ml</tui-input-number
+              >
+            </div>
+            <button
+              tuiIconButton
+              size="s"
+              icon="tuiIconCheck"
+              appearance="secondary"
+              aria-label="Add"
+              (click)="onAddFoodToMeal(meal, result)"
+            ></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="meal-items">
+        <div *ngFor="let item of meal.items; let i = index" class="meal-item">
+          <div class="meal-item__content">
+            <span class="meal-item__label">- {{ item.label }}</span>
+            <span class="meal-item__quantity">{{ item.quantity }}g</span>
+            <span class="meal-item__calories"
+              >{{ item.calories | number : "1.0-0" }}kcal</span
+            >
+            <button
+              tuiIconButton
+              icon="tuiIconClose"
+              appearance="error"
+              (click)="removeFoodFromMeal(meal, i)"
+              class="meal-item__close"
+            ></button>
+          </div>
+        </div>
+      </div>
+    </tui-expand>
   </div>
-</div>
+  }
+</section>
