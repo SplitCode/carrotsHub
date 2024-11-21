@@ -1,13 +1,6 @@
 import type { Route } from "@angular/router";
 import { AuthGuard } from "@angular/fire/auth-guard";
 import { HomeComponent } from "./home/home.component";
-import { LoginPageComponent } from "./auth/pages/login-page/login-page.component";
-import { RegisterPageComponent } from "./auth/pages/register-page/register-page.component";
-import { RecipesPageComponent } from "./recipes/pages/recipes-page.component";
-import { ProfilePageComponent } from "./profile/profile-page.component";
-import { JournalPageComponent } from "./journal/pages/journal-page.component";
-import { NotFoundPageComponent } from "./core/pages/not-found-page.component";
-import { RecipeDetailComponent } from "./recipes/pages/recipe-detail/recipe-detail.component";
 import { PageRoutes } from "./shared/constants/app.routes-path";
 import {
   redirectUnauthorizedToLogin,
@@ -21,38 +14,59 @@ export const appRoutes: Route[] = [
   },
   {
     path: PageRoutes.Login,
-    component: LoginPageComponent,
+    loadComponent: () =>
+      import("./auth/pages/login-page/login-page.component").then(
+        (m) => m.LoginPageComponent
+      ),
     canActivate: [AuthGuard],
     data: { authGuardPipe: redirectLoggedInToHome },
   },
   {
     path: PageRoutes.Register,
-    component: RegisterPageComponent,
+    loadComponent: () =>
+      import("./auth/pages/register-page/register-page.component").then(
+        (m) => m.RegisterPageComponent
+      ),
     canActivate: [AuthGuard],
     data: { authGuardPipe: redirectLoggedInToHome },
   },
   {
     path: PageRoutes.Recipes,
-    component: RecipesPageComponent,
+    loadComponent: () =>
+      import("./recipes/pages/recipes-page.component").then(
+        (m) => m.RecipesPageComponent
+      ),
   },
   {
     path: "recipes/:id",
-    component: RecipeDetailComponent,
+    loadComponent: () =>
+      import("./recipes/pages/recipe-detail/recipe-detail.component").then(
+        (m) => m.RecipeDetailComponent
+      ),
   },
   {
     path: PageRoutes.Profile,
-    component: ProfilePageComponent,
+    loadComponent: () =>
+      import("./profile/profile-page.component").then(
+        (m) => m.ProfilePageComponent
+      ),
     canActivate: [AuthGuard],
     data: { authGuardPipe: redirectUnauthorizedToLogin },
   },
   {
     path: PageRoutes.Journal,
-    component: JournalPageComponent,
+    loadComponent: () =>
+      import("./journal/pages/journal-page.component").then(
+        (m) => m.JournalPageComponent
+      ),
     canActivate: [AuthGuard],
     data: { authGuardPipe: redirectUnauthorizedToLogin },
   },
   {
     path: PageRoutes.NotFound,
-    component: NotFoundPageComponent,
+    loadComponent: () =>
+      import("./core/pages/not-found-page.component").then(
+        (m) => m.NotFoundPageComponent
+      ),
   },
 ];
