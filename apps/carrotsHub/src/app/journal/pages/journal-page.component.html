@@ -44,6 +44,7 @@
           [tuiTextfieldCleaner]="true"
           tuiTextfieldSize="m"
           class="meal-search__input"
+          [readOnly]="meal.isLoading"
           (keydown.enter)="onSearch(meal)"
         >
           Food...
@@ -54,6 +55,7 @@
           icon="tuiIconSearch"
           appearance="primary"
           (click)="onSearch(meal)"
+          [disabled]="meal.isLoading"
           [showLoader]="meal.isLoading"
         ></button>
       </div>
