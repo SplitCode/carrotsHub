@@ -7,24 +7,18 @@ import {
 } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import {
-  TuiAccordionModule,
   TuiInputDateModule,
   TuiInputModule,
   TuiInputNumberModule,
 } from "@taiga-ui/kit";
 import {
-  TuiButtonModule,
   TuiCalendarModule,
   TuiDropdownModule,
-  TuiExpandModule,
   TuiTextfieldControllerModule,
 } from "@taiga-ui/core";
 import { TuiMobileCalendarModule } from "@taiga-ui/addon-mobile";
 import { TuiDay } from "@taiga-ui/cdk";
-import { FormControl, FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { catchError, finalize, of } from "rxjs";
-import { ChangeDetectorRef } from "@angular/core";
-import { FoodService } from "../../api/services/food.service";
+import { FormControl, ReactiveFormsModule } from "@angular/forms";
 import { UserDataService } from "../../profile/services/user-data.service";
 import { AuthService } from "../../auth/services/auth.service";
 import type { UserData } from "../../profile/models/user-data.interface";
@@ -34,6 +28,7 @@ import { NutritionalComponent } from "../components/nutritional/nutritional.comp
 import { initialMeals } from "../constants/initial-meals.const";
 import type { Meal, MealItem } from "../models/meals.interface";
 import { Logger } from "../../core/logger/logger.models";
+import { MealsComponent } from "../components/meals/meals.component";
 
 @Component({
   selector: "app-journal-page",
@@ -45,15 +40,12 @@ import { Logger } from "../../core/logger/logger.models";
     TuiCalendarModule,
     TuiDropdownModule,
     TuiTextfieldControllerModule,
-    FormsModule,
     ReactiveFormsModule,
-    TuiButtonModule,
-    TuiAccordionModule,
-    TuiExpandModule,
     TuiInputModule,
     WaterTrackerComponent,
     NutritionalComponent,
     TuiInputNumberModule,
+    MealsComponent,
   ],
   templateUrl: "./journal-page.component.html",
   styleUrl: "./journal-page.component.less",
@@ -80,8 +72,6 @@ export class JournalPageComponent implements OnInit {
 
   private readonly authService = inject(AuthService);
   private readonly userDataService = inject(UserDataService);
-  private readonly foodService = inject(FoodService);
-  private readonly cdr = inject(ChangeDetectorRef);
   private readonly logger = inject(Logger);
 
   meals: Meal[] = initialMeals.map((meal) => ({
@@ -139,48 +129,6 @@ export class JournalPageComponent implements OnInit {
     meal.searchControl.setValue("");
 
     this.saveDailyData();
-  }
-
-  onSearch(meal: Meal) {
-    const query = meal.searchControl.value;
-
-    if (!query || query.trim() === "") {
-      meal.isLoading = false;
-      meal.searchResults = [];
-      this.cdr.detectChanges();
-      return;
-    }
-
-    meal.isLoading = true;
-
-    this.logger.logInfo({
-      name: "FoodSearchStarted",
-      params: { query, mealType: meal.type },
-    });
-
-    this.foodService
-      .searchProduct(query)
-      .pipe(
-        catchError(() => {
-          this.logger.logError({
-            name: "FoodSearchFailed",
-            params: { query, mealType: meal.type },
-          });
-
-          meal.searchResults = [];
-          meal.isLoading = false;
-          this.cdr.detectChanges();
-          return of([]);
-        }),
-        finalize(() => {
-          meal.isLoading = false;
-          this.cdr.detectChanges();
-        })
-      )
-      .subscribe((results) => {
-        meal.searchResults = results;
-        this.cdr.detectChanges();
-      });
   }
 
   removeFoodFromMeal(meal: Meal, index: number) {
@@ -281,11 +229,6 @@ export class JournalPageComponent implements OnInit {
         meals: mealsData,
       })
       .subscribe();
-  }
-
-  clearSearch(meal: Meal) {
-    meal.searchResults = [];
-    meal.searchControl.setValue("");
   }
 
   createEmptyWaterGlasses() {

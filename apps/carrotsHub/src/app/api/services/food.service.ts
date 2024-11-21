@@ -1,7 +1,8 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable, inject } from "@angular/core";
 import { catchError, map, of, type Observable } from "rxjs";
 import { environment } from "../../../environments/environment";
+import { EDAMAM_API_FOOD_URL } from "../constants/api.constants";
 
 @Injectable({
   providedIn: "root",
@@ -12,49 +13,30 @@ export class FoodService {
   private readonly http = inject(HttpClient);
 
   searchProduct(query: string): Observable<any[]> {
-    const url = `https://api.edamam.com/api/food-database/v2/parser?ingr=${encodeURIComponent(
-      query
-    )}&app_id=${this.apiId}&app_key=${this.apiKey}`;
+    const params = new HttpParams()
+      .set("ingr", query)
+      .set("app_id", this.apiId)
+      .set("app_key", this.apiKey);
 
-    return this.http.get<any>(url).pipe(
+    return this.http.get<any>(EDAMAM_API_FOOD_URL, { params }).pipe(
       map((response: any) => {
-        if (response.parsed && response.parsed.length > 0) {
-          const food = response.parsed[0].food;
-          return [
-            {
+        if (response.hints && response.hints.length > 0) {
+          return response.hints.map((hint: any) => {
+            const food = hint.food;
+            return {
               label: food.label,
+              image: food.image || null,
               calories: food.nutrients.ENERC_KCAL || 0,
               protein: food.nutrients.PROCNT || 0,
               fat: food.nutrients.FAT || 0,
               carbs: food.nutrients.CHOCDF || 0,
-            },
-          ];
+              category: food.category || "Unknown",
+            };
+          });
         }
         return [];
       }),
       catchError(() => of([]))
     );
   }
-
-  // searchProduct(query: string): Observable<any[]> {
-  //   const searchUrl = `https://world.openfoodfacts.org/api/v0/product/${query}.json`;
-  //   return this.http.get<any>(searchUrl).pipe(
-  //     switchMap((res: any) => {
-  //       if (res && res.product) {
-  //         const product = res.product;
-  //         return of([
-  //           {
-  //             label: product.product_name,
-  //             calories:
-  //               (product.nutriments["energy-kj_100g"] || 0) * 0.239005736,
-  //             carbs: product.nutriments.carbohydrates_100g || 0,
-  //             protein: product.nutriments.proteins_100g || 0,
-  //             fat: product.nutriments.fat_100g || 0,
-  //           },
-  //         ]);
-  //       }
-  //       return of([]);
-  //     })
-  //   );
-  // }
 }
