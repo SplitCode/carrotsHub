@@ -35,7 +35,6 @@ export class WaterTrackerComponent {
     this.totalWater =
       this.waterGlasses.filter((glass) => glass.filled).length * 0.25;
 
-    console.info(this.totalWater);
     this.waterChange.emit(this.totalWater);
   }
 }

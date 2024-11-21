@@ -23,6 +23,7 @@ import { TuiMobileCalendarModule } from "@taiga-ui/addon-mobile";
 import { TuiDay } from "@taiga-ui/cdk";
 import { FormControl, FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { catchError, finalize, of } from "rxjs";
+import { ChangeDetectorRef } from "@angular/core";
 import { FoodService } from "../../api/services/food.service";
 import { UserDataService } from "../../profile/services/user-data.service";
 import { AuthService } from "../../auth/services/auth.service";
@@ -79,6 +80,7 @@ export class JournalPageComponent implements OnInit {
   private readonly authService = inject(AuthService);
   private readonly userDataService = inject(UserDataService);
   private readonly foodService = inject(FoodService);
+  private readonly cdr = inject(ChangeDetectorRef);
 
   meals: Meal[] = initialMeals.map((meal) => ({
     ...meal,
@@ -88,8 +90,6 @@ export class JournalPageComponent implements OnInit {
     isExpanded: false,
     isLoading: false,
   }));
-
-  //
 
   onWaterChange(totalWater: number) {
     this.totalWater = totalWater;
@@ -133,6 +133,7 @@ export class JournalPageComponent implements OnInit {
     if (!query || query.trim() === "") {
       meal.isLoading = false;
       meal.searchResults = [];
+      this.cdr.detectChanges();
       return;
     }
 
@@ -143,14 +144,18 @@ export class JournalPageComponent implements OnInit {
       .pipe(
         catchError(() => {
           meal.searchResults = [];
+          meal.isLoading = false;
+          this.cdr.detectChanges();
           return of([]);
         }),
         finalize(() => {
           meal.isLoading = false;
+          this.cdr.detectChanges();
         })
       )
       .subscribe((results) => {
         meal.searchResults = results;
+        this.cdr.detectChanges();
       });
   }
 
@@ -168,41 +173,9 @@ export class JournalPageComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.initializeMealSearch();
     this.setupDateControl();
     this.loadCurrentUser();
   }
-
-  // private initializeMealSearch() {
-  //   this.meals.forEach((meal) => {
-  //     meal.searchControl.valueChanges
-  //       .pipe(
-  //         debounceTime(300),
-  //         distinctUntilChanged(),
-  //         switchMap((query) => {
-  //           if (!query || query.trim() === "") {
-  //             meal.isLoading = false;
-  //             meal.searchResults = [];
-  //             return of([]);
-  //           }
-  //           meal.isLoading = true;
-  //           return this.foodService.searchProduct(query).pipe(
-  //             catchError(() => {
-  //               meal.isLoading = false;
-  //               return of([]);
-  //             })
-  //           );
-  //         }),
-  //         finalize(() => {
-  //           meal.isLoading = false;
-  //         })
-  //       )
-  //       .subscribe((results) => {
-  //         meal.searchResults = results;
-  //         meal.isLoading = false;
-  //       });
-  //   });
-  // }
 
   private setupDateControl() {
     this.dateControl.valueChanges.subscribe((date: TuiDay | null) => {
@@ -314,5 +287,17 @@ export class JournalPageComponent implements OnInit {
       meal.searchControl.setValue("");
       meal.isExpanded = false;
     });
+  }
+
+  getMealProtein(meal: Meal): number {
+    return meal.items.reduce((sum, item) => sum + item.protein, 0);
+  }
+
+  getMealFat(meal: Meal): number {
+    return meal.items.reduce((sum, item) => sum + item.fat, 0);
+  }
+
+  getMealCarbs(meal: Meal): number {
+    return meal.items.reduce((sum, item) => sum + item.carbs, 0);
   }
 }

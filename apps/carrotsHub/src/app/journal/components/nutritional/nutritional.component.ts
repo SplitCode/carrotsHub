@@ -24,4 +24,15 @@ export class NutritionalComponent {
   get caloriesLeft(): number {
     return this.caloriesMax - this.caloriesConsumed;
   }
+
+  get ringChartValues(): number[] {
+    const maxValue = this.caloriesMax;
+    const caloriesConsumed = Math.min(
+      Math.max(this.caloriesConsumed, 0),
+      maxValue
+    );
+    const caloriesLeft = maxValue - caloriesConsumed;
+
+    return [caloriesConsumed, caloriesLeft];
+  }
 }
