@@ -45,7 +45,3 @@ password - admin2
 Таск трекер:
 
 - Jira
-
-## Создатели проекта
-
-[Бандурова Наталья Юрьевна ](https://github.com/SplitCode)
