@@ -135,6 +135,7 @@ export class ProfilePageComponent implements OnInit {
     const normRSK = Math.round(baseMetabolicRate * activityMultiplier);
     const resultRSK = calculateCalories(goal, normRSK);
 
+    // TODO: "get rid of magic numbers";
     this.proteinMax = Math.round((resultRSK * 0.2) / 4);
     this.fatMax = Math.round((resultRSK * 0.3) / 9);
     this.carbsMax = Math.round((resultRSK * 0.5) / 4);

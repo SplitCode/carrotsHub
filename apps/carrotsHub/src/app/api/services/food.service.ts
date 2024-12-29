@@ -18,6 +18,7 @@ export class FoodService {
       .set("app_id", this.apiId)
       .set("app_key", this.apiKey);
 
+    //  TODO: Add the type of the response
     return this.http.get<any>(EDAMAM_API_FOOD_URL, { params }).pipe(
       map((response: any) => {
         if (response.hints && response.hints.length > 0) {

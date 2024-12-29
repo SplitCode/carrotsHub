@@ -1,5 +1,6 @@
 import { GENDER, GOAL } from "../constants/profile";
 
+// TODO: "get rid of magic numbers";
 export function calculateBaseMetabolicRate(
   weight: number,
   height: number,
