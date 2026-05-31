@@ -41,28 +41,6 @@ The project is structured as an **Nx monorepo** with a single Angular applicatio
 - **Lazy loading** — all feature routes are lazily loaded to minimize initial bundle size
 - **Firebase as BaaS** — no custom backend; Firebase handles authentication, data persistence, and hosting
 - **Reactive forms + Signals** — forms use Angular's reactive approach; shared state is managed via Angular Signals
-
-
-
-raw
-Readme · MD
-# 🥕 Carrot's Hub
- 
-A comprehensive nutrition tracking web application that helps users monitor their diet and hydration, explore the nutritional value of foods, and build healthier eating habits through recipes and practical tools.
- 
-🔗 **Live app:** [morkovka.web.app](https://morkovka.web.app/)
- 
----
- 
-## ✨ Features
- 
-- **Calorie & nutrition tracking** — log daily meals and monitor macronutrients (calories, proteins, fats, carbohydrates)
-- **Water intake tracker** — set hydration goals and track daily water consumption
-- **Food database** — search foods and get detailed nutritional breakdowns powered by the Edamam API
-- **Recipe explorer** — browse healthy recipes with full nutritional information
-- **User authentication** — secure sign-up and login via Firebase Authentication
-- **Persistent data** — all logs stored in Firebase Realtime Database
----
  
 ## 🛠 Tech Stack
  
