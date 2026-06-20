@@ -14,6 +14,10 @@ A comprehensive nutrition tracking web application that helps users monitor thei
 - **Recipe explorer** — browse healthy recipes with full nutritional information
 - **User authentication** — secure sign-up and login via Firebase Authentication
 - **Persistent data** — all logs stored in Firebase Realtime Database
+
+- 
+<img width="1441" height="719" alt="Снимок экрана 2026-06-20 в 20 32 33" src="https://github.com/user-attachments/assets/e278453c-d8d6-41d0-841d-c9c367cc28a6" />
+
   
 ---
 
