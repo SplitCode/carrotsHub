@@ -1,4 +1,4 @@
-# Carrot's Hub 🥕
+Carrot's Hub 🥕
 
 A comprehensive nutrition tracking web application that helps users monitor their diet and hydration, explore the nutritional value of foods, and build healthier eating habits through recipes and practical tools.
  
@@ -14,9 +14,17 @@ A comprehensive nutrition tracking web application that helps users monitor thei
 - **Recipe explorer** — browse healthy recipes with full nutritional information
 - **User authentication** — secure sign-up and login via Firebase Authentication
 - **Persistent data** — all logs stored in Firebase Realtime Database
-
-- 
+ 
 <img width="1441" height="719" alt="Снимок экрана 2026-06-20 в 20 32 33" src="https://github.com/user-attachments/assets/e278453c-d8d6-41d0-841d-c9c367cc28a6" />
+
+<img width="620" height="774" alt="Снимок экрана 2026-06-20 в 20 39 04" src="https://github.com/user-attachments/assets/5662272d-1cca-410c-9a61-974eda958d74" />
+
+<img width="620" height="774" alt="Снимок экрана 2026-06-20 в 20 38 39" src="https://github.com/user-attachments/assets/f5fc92a3-7a39-400f-b7c0-c75b009bd97d" />
+
+
+<img width="620" height="774" alt="Снимок экрана 2026-06-20 в 20 38 44" src="https://github.com/user-attachments/assets/5909dc78-1b40-4aec-af32-ca8d822c890f" />
+
+
 
   
 ---
