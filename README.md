@@ -21,7 +21,6 @@ A comprehensive nutrition tracking web application that helps users monitor thei
 
 <img width="620" height="774" alt="Снимок экрана 2026-06-20 в 20 38 39" src="https://github.com/user-attachments/assets/f5fc92a3-7a39-400f-b7c0-c75b009bd97d" />
 
-
 <img width="620" height="774" alt="Снимок экрана 2026-06-20 в 20 38 44" src="https://github.com/user-attachments/assets/5909dc78-1b40-4aec-af32-ca8d822c890f" />
 
 
