@@ -65,8 +65,8 @@ carrotsHub/
  
 - Node.js 18+
 - npm 9+
-- 
-### Installation
+  
+### Installation & Run
  
 ```bash
 git clone https://github.com/SplitCode/carrotsHub.git
